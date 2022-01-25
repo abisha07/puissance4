@@ -16,13 +16,13 @@ public class JoueurHumain implements Joueur{
 	/**
 	 * La couleur des jetons du joueur
 	 */
-	private String couleurJeton;
+	private char couleurJeton;
 	
 	/**
 	 * Constructeur à partir de la couleur des jetons du joueur 
 	 * @param couleurJeton Couleur des jetons du joueur 
 	 */
-	public JoueurHumain(String couleurJeton) {
+	public JoueurHumain(char couleurJeton) {
 		this.couleurJeton = couleurJeton;
 		plateau = Plateau.getInstance();
 	}
@@ -30,7 +30,7 @@ public class JoueurHumain implements Joueur{
 	/**
 	 * Redéfinition du getteur renvoyant la couleur des jetons du joueur 
 	 */
-	public String getCouleur() {
+	public char getCouleur() {
 		return couleurJeton;
 	}
 

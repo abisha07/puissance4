@@ -10,13 +10,13 @@ public interface Joueur {
 	/**
 	 * Un joueur est défini par une couleur pour ses jetons
 	 */
-	String couleur = "";
+	char couleur=0;
 	
 	/**
 	 * Getteur renvoyant la couleur des jetons du joueur 
 	 * @return couleur des jetons du joueur 
 	 */
-	public String getCouleur();
+	public char getCouleur();
 	
 	/**
 	 * Renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 

@@ -69,12 +69,12 @@ public class Partie {
 		String choixJeton = sc.nextLine();
 		if(mode == 1) { //Si le joueur humain joue contre un autre joueur humain
 			if ((choixJeton == "Rouge") || (choixJeton == "rouge")) {
-				joueur1 = new JoueurHumain("r");
-				joueur2 = new JoueurHumain("j");
+				joueur1 = new JoueurHumain('r');
+				joueur2 = new JoueurHumain('j');
 			}
 			else { 
-				joueur1 = new JoueurHumain("j");
-				joueur2 = new JoueurHumain("r");
+				joueur1 = new JoueurHumain('j');
+				joueur2 = new JoueurHumain('r');
 			}
 		}
 //		else { // Cas joueur humain joue contre l'IA

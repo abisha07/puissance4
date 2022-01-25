@@ -1,5 +1,7 @@
 package projetIA.up.mi.jr;
 
+import java.util.ArrayList;
+
 /**
  * Représente le plateau de jeu du puissance 4
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
@@ -46,5 +48,20 @@ public class Plateau {
 			}
 			System.out.println(" | ");
 		}
+	}
+	
+	/**
+	 * Méthode pour placer un jeton dans le plateau
+	 * @param coordonnee du jeton
+	 * @param couleur du jeton
+	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
+	 */
+	public void placerJeton(ArrayList<Integer> coordonnee, char couleur) throws PuissanceException {
+		
+		if (grilleJeu[1][coordonnee.get(2)] != '.') {
+			throw new PuissanceException("la colonne est déja pleine");
+		}
+		grilleJeu[coordonnee.get(1)][coordonnee.get(2)] = couleur;
+		
 	}
 }
