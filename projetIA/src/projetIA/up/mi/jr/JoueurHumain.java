@@ -24,7 +24,7 @@ public class JoueurHumain implements Joueur{
 	 */
 	public JoueurHumain(String couleurJeton) {
 		this.couleurJeton = couleurJeton;
-		plateau = new Plateau();
+		plateau = Plateau.getInstance();
 	}
 	
 	/**
@@ -51,12 +51,12 @@ public class JoueurHumain implements Joueur{
 				
 				// indice [col-1][5] correspond à la dernière case partant du bas de la colonne col
 				// on verifie que cette case est bien libre
-				if (plateau.grilleJeu[col-1][5] != '.'){ 
+				if (plateau.grilleJeu[5][col-1] != '.'){ 
 					System.out.println("Colonne pleine, choisir une autre colonne");
 				}else {
 					place = true;
 					int rang = 0;
-					while(plateau.grilleJeu[col-1][rang] != '.' && rang < 6) { // pour placer le jeton au-dessus des autres jetons de la colonne col
+					while(plateau.grilleJeu[rang][col-1] != '.' && rang < 6) { // pour placer le jeton au-dessus des autres jetons de la colonne col
 						rang ++;
 					}
 					coordonnee.add(col);

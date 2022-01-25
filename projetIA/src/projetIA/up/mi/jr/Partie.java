@@ -19,11 +19,10 @@ public class Partie {
 	//private int nbTour;
 	
 	/**
-	 * Méthode pour définir le mode de Jeu
-	 * @param sc
+	 * Méthode pour définir le mode de Jeu (parmi 3)
+	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
 	 */
 	public static void modeJeu(Scanner sc) {
-
 		int choix;
 		do {
 		System.out.println("Vous avez 3 manière de lancer une partie de puissance 4");
@@ -56,21 +55,29 @@ public class Partie {
 			
 	}
 	
+	/**
+	 * Méthode pour définir les couleurs des jetons des joueurs 
+	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
+	 * @param mode Entier pour identifier les 2 types de modes 
+	 * mode = 1 joueur humain contre un autre joueur humain 
+	 * mode = 2 joueur humain contre une IA
+	 * @param niveau
+	 */
 	public static void choixPerso(Scanner sc, int mode, int niveau) {
 		System.out.println("Joueur1, quelle couleur de jeton voulez-vous choisir pour cette partie");
 		System.out.println("Saisir \"rouge\" ou \"jaune\"");
 		String choixJeton = sc.nextLine();
-		if(mode == 1) {
+		if(mode == 1) { //Si le joueur humain joue contre un autre joueur humain
 			if ((choixJeton == "Rouge") || (choixJeton == "rouge")) {
 				joueur1 = new JoueurHumain("r");
 				joueur2 = new JoueurHumain("j");
 			}
-			else {
+			else { 
 				joueur1 = new JoueurHumain("j");
 				joueur2 = new JoueurHumain("r");
 			}
 		}
-//		else {
+//		else { // Cas joueur humain joue contre l'IA
 //			if (niveau == 1) {
 //				IAbasique joueur2 = new IAbasique();
 //			}else if (niveau == 2) {
@@ -94,7 +101,7 @@ public class Partie {
 		String rep = sc.nextLine();
 		//plateau.creerPlateau();
 		//plateau.affichePlateau();
-		if (rep == "y") {
+		if (rep == "y") { // Cas où joueur 1 joue lors des tours impairs car il commence 
 			for(int i = 1; i <= 7*6; i++) {
 				System.out.println("Tour : " + i);
 				//if(detectionVictoireEgalite){ 
@@ -110,7 +117,7 @@ public class Partie {
 				}
 				//plateau.affichePlateau();
 			}
-		}else {
+		}else { //Cas où joueur 2 joue lors des tours impairs 
 			for(int i = 1; i <= 7*6; i++) {
 				//if(detectionVictoireEgalite){ 
 				// afficher msg de la situation
