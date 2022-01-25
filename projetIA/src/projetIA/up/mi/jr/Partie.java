@@ -132,6 +132,7 @@ public class Partie {
 				}
 			}
 		}
+	sc.close();
 	}
 	
 	
