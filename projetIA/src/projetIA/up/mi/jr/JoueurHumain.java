@@ -65,6 +65,7 @@ public class JoueurHumain implements Joueur{
 			}else {
 				System.out.println("Numéro de la colonne incorrect, réitérez");
 			}
+		sc.close();
 		}
 	}catch(Exception e) {
 		System.out.println("Numéro de la colonne incorrect, réitérez");
