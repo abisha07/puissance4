@@ -51,7 +51,7 @@ public class Partie {
 		case 3:
 			break;
 		}
-		}while(choix!=3);
+		}while((choix < 1) || (choix > 3));
 			
 	}
 	
@@ -71,12 +71,12 @@ public class Partie {
 			System.out.println("Saisir \"rouge\" ou \"jaune\"");
 			String choixJeton = sc.nextLine();
 			if (choixJeton.equalsIgnoreCase("rouge")){
-				joueur1 = new JoueurHumain('r');
-				joueur2 = new JoueurHumain('j');
+				joueur1 = new JoueurHumain('R',1);
+				joueur2 = new JoueurHumain('J', 2);
 			}
 			else { 
-				joueur1 = new JoueurHumain('j');
-				joueur2 = new JoueurHumain('r');
+				joueur1 = new JoueurHumain('J', 1);
+				joueur2 = new JoueurHumain('R', 2);
 			}
 		}
 //		else { // Cas joueur humain joue contre l'IA
@@ -103,14 +103,14 @@ public class Partie {
 		//Scanner sc = new Scanner(System.in);
 		//String rep = sc.nextLine();
 		Plateau plateau = new Plateau();
-		plateau.affichePlateau();
-		while(plateau.getGagnant() == ' ' && nbTour <= 6*7) {
-			System.out.println("Tour n°" + nbTour);
+		//plateau.affichePlateau();
+		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
+			System.out.println("Tour n°" + (nbTour+1));
 			plateau.affichePlateau();
-			System.out.println("Joueur 1 veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			System.out.println("Joueur" + (nbTour%2==0 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 			int col = scanner.nextInt();
 			try {
-				plateau.placerJeton(col, nbTour%2==1 ? joueur1.getCouleur() : joueur2.getCouleur());
+				plateau.placerJeton(col, nbTour%2==0 ? joueur1 : joueur2);
 			} catch (PuissanceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

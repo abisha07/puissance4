@@ -22,7 +22,7 @@ public class Plateau {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
-			for(int j = 0; j<7; i++) {
+			for(int j = 0; j<7; j++) {
 				grilleJeu[i][j] = '.';
 			}
 		}
@@ -49,7 +49,7 @@ public class Plateau {
 	public void affichePlateau() {
 		for(int i=0; i<6; i++) {
 			for(int j = 0; j<7; j++) {
-				System.out.println(" | " + grilleJeu[i][j]);
+				System.out.print(" | " + grilleJeu[i][j]);
 			}
 			System.out.println(" | ");
 		}
@@ -61,7 +61,7 @@ public class Plateau {
 	 * @param couleur du jeton
 	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
 	 */
-	public void placerJeton(int colonne, char couleur) throws PuissanceException {
+	public void placerJeton(int colonne, Joueur joueur) throws PuissanceException {
 		int rang = 6-1;
 		while (grilleJeu[rang][colonne-1] != '.') {
 			rang--;
@@ -70,14 +70,15 @@ public class Plateau {
 		if (grilleJeu[0][colonne -1] != '.') {
 			throw new PuissanceException("la colonne est déja pleine");
 		}
-		grilleJeu[rang][colonne-1] = couleur;
-		ArrayList<Integer> coordonnee = new ArrayList<Integer>(rang);
+		grilleJeu[rang][colonne-1] = joueur.getCouleur();
+		ArrayList<Integer> coordonnee = new ArrayList<Integer>();
+		coordonnee.add(rang);
 		coordonnee.add(colonne);
-		detectionVictoire(couleur, coordonnee);
+		detectionVictoire(joueur, coordonnee);
 		
 	}
 	
-	public void detectionVictoire(char couleur, ArrayList<Integer> coordonnee) {
+	public void detectionVictoire(Joueur joueur, ArrayList<Integer> coordonnee) {
 		//symbole en cours:
 		//char symbole = (i%2==1 ? 'X' : 'O');
 
@@ -87,16 +88,16 @@ public class Plateau {
 		
 		//-->  diagonale HG-BD
 		x = coordonnee.get(0); y = coordonnee.get(1)-1 ; somme=-1;
-		while(y >= 0 && x >= 0 && grilleJeu[x][y] == couleur){ y--; x--; somme++;}
+		while(y >= 0 && x >= 0 && grilleJeu[x][y] == joueur.getCouleur()){ y--; x--; somme++;}
 		y = coordonnee.get(1)-1; x = coordonnee.get(0);
-		while(x < 6 && y < 7 && grilleJeu[x][y] == couleur){ x++; y++; somme++;}
+		while(x < 6 && y < 7 && grilleJeu[x][y] == joueur.getCouleur()){ x++; y++; somme++;}
 		if(somme > max) max= somme;
 		
 		//-->  diagonale HD-BG
 		y = coordonnee.get(1)-1; x = coordonnee.get(0); somme=-1;
-		while(x >= 0 && y < 7 && grilleJeu[x][y] == couleur){ x--; y++; somme++;}
+		while(x >= 0 && y < 7 && grilleJeu[x][y] == joueur.getCouleur()){ x--; y++; somme++;}
 		y = coordonnee.get(1)-1; x = coordonnee.get(0);
-		while(x < 6 && y >= 0 && grilleJeu[x][y] == couleur){ x++; y--; somme++;}
+		while(x < 6 && y >= 0 && grilleJeu[x][y] == joueur.getCouleur()){ x++; y--; somme++;}
 		if(somme > max) max= somme;
 		
 		//-->  verticale:
@@ -105,19 +106,21 @@ public class Plateau {
 		// car dans puissance 4 qd on place jeton vericalement y'a rien au dessus
 		//while(x >= 0 && grilleJeu[x][y] == couleur){ x--; somme++;}// tant qu'on ne sort pas du tab, on remonte vers le haut
 		//x = coordonnee.get(0);
-		while(x < 6 && grilleJeu[x][y] == couleur){ x++; somme++;} //verif vers le bas pour pas sortir du tab
+		while(x < 6 && grilleJeu[x][y] == joueur.getCouleur()){ x++; somme++;} //verif vers le bas pour pas sortir du tab
 		if(somme > max) max= somme;
 		
 		//-->  horizontale:
 		y = coordonnee.get(1)-1; x = coordonnee.get(0); somme=-1;
-		while(y >= 0 && grilleJeu[x][y] == couleur){ y--; somme++;}
+		while(y >= 0 && grilleJeu[x][y] == joueur.getCouleur()){ y--; somme++;}
 		y = coordonnee.get(1)-1;
-		while(y < 7 && grilleJeu[x][y] == couleur){ y++; somme++;}
+		while(y < 7 && grilleJeu[x][y] == joueur.getCouleur()){ y++; somme++;}
 		if(somme > max) max= somme;
 		
 		
 		if(max >= 4){		
-			gagnant = couleur;
+			gagnant = joueur.getCouleur();
+			affichePlateau();
+			System.out.println(joueur.toString() + " a gagné la partie !");
 		}
 	}
 }

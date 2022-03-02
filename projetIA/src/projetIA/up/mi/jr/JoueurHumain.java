@@ -18,13 +18,16 @@ public class JoueurHumain implements Joueur{
 	 */
 	private char couleurJeton;
 	
+	private int numeroJoueur;
+	
 	/**
 	 * Constructeur à partir de la couleur des jetons du joueur 
 	 * @param couleurJeton Couleur des jetons du joueur 
 	 */
-	public JoueurHumain(char couleurJeton) {
+	public JoueurHumain(char couleurJeton, int numeroJoueur) {
 		this.couleurJeton = couleurJeton;
 		plateau = Plateau.getInstance();
+		this.numeroJoueur = numeroJoueur;
 	}
 	
 	/**
@@ -73,4 +76,7 @@ public class JoueurHumain implements Joueur{
 	return coordonnee;
 	}	
 		
+	public String toString() {
+		return "Le joueur " + numeroJoueur;
+	}
 }
