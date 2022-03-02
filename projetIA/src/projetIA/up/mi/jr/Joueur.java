@@ -6,23 +6,43 @@ import java.util.ArrayList;
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
  *
  */
-public interface Joueur {
+public abstract class Joueur {
 	/**
 	 * Un joueur est défini par une couleur pour ses jetons
 	 */
-	char couleur=0;
+	private char couleur;
 	
+	private int numJoueur;
+	
+	
+	public Joueur(char couleur, int numJoueur) {
+		this.couleur=couleur;
+		this.numJoueur = numJoueur;
+
+	}
 	/**
 	 * Getteur renvoyant la couleur des jetons du joueur 
 	 * @return couleur des jetons du joueur 
 	 */
-	public char getCouleur();
+	public char getCouleur() {
+		return couleur;
+	}
+	
+	
+	public int getNumJoueur() {
+		return numJoueur;
+	}
+
+	
+	
 	
 	/**
 	 * Renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
 	 * @return liste d'Interger représentant les coordonnées du jeton à placer 
 	 */
-	public ArrayList<Integer> trouverPlacement();
+	public abstract ArrayList<Integer> trouverPlacement(Plateau plateau);
+
+	
 	
 	
 	

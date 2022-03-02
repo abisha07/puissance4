@@ -8,41 +8,23 @@ import java.util.Scanner;
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
  *
  */
-public class JoueurHumain implements Joueur{
-	/**
-	 * Objet de type Plateau représentant le plateau de jeu du Puissance 4
-	 */
-	private Plateau plateau;
-	/**
-	 * La couleur des jetons du joueur
-	 */
-	private char couleurJeton;
-	
-	private int numeroJoueur;
+public class JoueurHumain extends Joueur{
 	
 	/**
 	 * Constructeur à partir de la couleur des jetons du joueur 
 	 * @param couleurJeton Couleur des jetons du joueur 
 	 */
 	public JoueurHumain(char couleurJeton, int numeroJoueur) {
-		this.couleurJeton = couleurJeton;
-		plateau = Plateau.getInstance();
-		this.numeroJoueur = numeroJoueur;
+		super(couleurJeton,numeroJoueur);
 	}
 	
-	/**
-	 * Redéfinition du getteur renvoyant la couleur des jetons du joueur 
-	 */
-	public char getCouleur() {
-		return couleurJeton;
-	}
 
 	/**
 	 * Redéfinition de la méthode trouverPlacement 
 	 * qui renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
 	 */
 	@Override
-	public ArrayList<Integer> trouverPlacement() {
+	public ArrayList<Integer> trouverPlacement(Plateau plateau) {
 		System.out.println("Entrez le numéro de la colonne entre 1 et 7");
 		boolean place = false; //boolean verifiant si le jeton du joueur a été placé
 		ArrayList<Integer> coordonnee = new ArrayList<>();
@@ -77,6 +59,7 @@ public class JoueurHumain implements Joueur{
 	}	
 		
 	public String toString() {
-		return "Le joueur " + numeroJoueur;
+		return "Le joueur " + this.getNumJoueur();
 	}
+
 }

@@ -102,7 +102,7 @@ public class Partie {
 		//System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
 		//Scanner sc = new Scanner(System.in);
 		//String rep = sc.nextLine();
-		Plateau plateau = new Plateau();
+		Plateau plateau = Plateau.getInstance() ;
 		//plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + (nbTour+1));
@@ -120,43 +120,5 @@ public class Partie {
 			
 		}
 			
-		}
-		
-		
-		
-//		if (rep == "y") { // Cas où joueur 1 joue lors des tours impairs car il commence 
-//			for(int i = 1; i <= 7*6; i++) {
-//				System.out.println("Tour : " + i);
-//				//if(detectionVictoireEgalite){ 
-//				// afficher msg de la situation
-//				//i = 47; //pour sortir de la boucle
-//				//}else{
-//				if(i%2 == 1) {
-//					joueur1.trouverPlacement();
-//					//plateau.placerJeton(joueur1.trouverPlacement());
-//				}else {
-//					joueur2.trouverPlacement();
-//					//plateau.placerJeton(joueur2.trouverPlacement());
-//				}
-//				//plateau.affichePlateau();
-//			}
-//		}else { //Cas où joueur 2 joue lors des tours impairs 
-//			for(int i = 1; i <= 7*6; i++) {
-//				//if(detectionVictoireEgalite){ 
-//				// afficher msg de la situation
-//				//i = 47; //pour sortir de la boucle
-//				//}else{
-//				if(i%2 == 1) {
-//					joueur2.trouverPlacement();
-//					//plateau.placerJeton(joueur1.trouverPlacement());
-//				}else {
-//					joueur1.trouverPlacement();
-//					//plateau.placerJeton(joueur2.trouverPlacement());
-//				}
-//			}
-//		}
-//	sc.close();
-//	}
-	
-	
+		}	
 }

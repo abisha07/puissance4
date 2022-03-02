@@ -18,7 +18,7 @@ public class Plateau {
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonne et 6 lignes 
 	 */
-	public Plateau() {
+	private Plateau() {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -74,6 +74,7 @@ public class Plateau {
 		ArrayList<Integer> coordonnee = new ArrayList<Integer>();
 		coordonnee.add(rang);
 		coordonnee.add(colonne);
+		
 		detectionVictoire(joueur, coordonnee);
 		
 	}
