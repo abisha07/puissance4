@@ -22,6 +22,8 @@ public class TestPuissance4 {
 			}
 		}
 		affichePlateau(grilleJeu);
+		
+		
 	}
 
 }

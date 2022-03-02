@@ -16,7 +16,7 @@ public class Partie {
 	 * Objet de type Joueur représentant le second joueur 
 	 */
 	private static Joueur joueur2;
-	//private int nbTour;
+	private static int nbTour=0;
 	
 	/**
 	 * Méthode pour définir le mode de Jeu (parmi 3)
@@ -38,11 +38,11 @@ public class Partie {
 		}		
 		switch (choix) {
 		case 1:
-			choixPerso(sc,1, 0);
+			choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
 			break;
 			
 		case 2:
-			System.out.println("Il existe 4 niveauw de difficulte, lequel voulez-vous ?");
+			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
 			System.out.println("1, 2, 3 ou 4 ? ");
 			int choixNiveau = sc.nextInt();
 			choixPerso(sc, 2, choixNiveau);
@@ -64,11 +64,13 @@ public class Partie {
 	 * @param niveau
 	 */
 	public static void choixPerso(Scanner sc, int mode, int niveau) {
-		System.out.println("Joueur1, quelle couleur de jeton voulez-vous choisir pour cette partie");
-		System.out.println("Saisir \"rouge\" ou \"jaune\"");
-		String choixJeton = sc.nextLine();
+		
+		
 		if(mode == 1) { //Si le joueur humain joue contre un autre joueur humain
-			if ((choixJeton == "Rouge") || (choixJeton == "rouge")) {
+			System.out.println("Joueur1, quelle couleur de jeton voulez-vous choisir pour cette partie");
+			System.out.println("Saisir \"rouge\" ou \"jaune\"");
+			String choixJeton = sc.nextLine();
+			if (choixJeton.equalsIgnoreCase("rouge")){
 				joueur1 = new JoueurHumain('r');
 				joueur2 = new JoueurHumain('j');
 			}
@@ -92,48 +94,69 @@ public class Partie {
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
 	}
 
-	public static void main(String [] args) {
+	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("Quel mode voulez-vous choisir ?");
 		modeJeu(scanner);
-		System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
-		Scanner sc = new Scanner(System.in);
-		String rep = sc.nextLine();
-		//plateau.creerPlateau();
-		//plateau.affichePlateau();
-		if (rep == "y") { // Cas où joueur 1 joue lors des tours impairs car il commence 
-			for(int i = 1; i <= 7*6; i++) {
-				System.out.println("Tour : " + i);
-				//if(detectionVictoireEgalite){ 
-				// afficher msg de la situation
-				//i = 47; //pour sortir de la boucle
-				//}else{
-				if(i%2 == 1) {
-					joueur1.trouverPlacement();
-					//plateau.placerJeton(joueur1.trouverPlacement());
-				}else {
-					joueur2.trouverPlacement();
-					//plateau.placerJeton(joueur2.trouverPlacement());
-				}
-				//plateau.affichePlateau();
+		//System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
+		//Scanner sc = new Scanner(System.in);
+		//String rep = sc.nextLine();
+		Plateau plateau = new Plateau();
+		plateau.affichePlateau();
+		while(plateau.getGagnant() == ' ' && nbTour <= 6*7) {
+			System.out.println("Tour n°" + nbTour);
+			plateau.affichePlateau();
+			System.out.println("Joueur 1 veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			int col = scanner.nextInt();
+			try {
+				plateau.placerJeton(col, nbTour%2==1 ? joueur1.getCouleur() : joueur2.getCouleur());
+			} catch (PuissanceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}else { //Cas où joueur 2 joue lors des tours impairs 
-			for(int i = 1; i <= 7*6; i++) {
-				//if(detectionVictoireEgalite){ 
-				// afficher msg de la situation
-				//i = 47; //pour sortir de la boucle
-				//}else{
-				if(i%2 == 1) {
-					joueur2.trouverPlacement();
-					//plateau.placerJeton(joueur1.trouverPlacement());
-				}else {
-					joueur1.trouverPlacement();
-					//plateau.placerJeton(joueur2.trouverPlacement());
-				}
-			}
+			
+			nbTour++;
+			
 		}
-	sc.close();
-	}
+			
+		}
+		
+		
+		
+//		if (rep == "y") { // Cas où joueur 1 joue lors des tours impairs car il commence 
+//			for(int i = 1; i <= 7*6; i++) {
+//				System.out.println("Tour : " + i);
+//				//if(detectionVictoireEgalite){ 
+//				// afficher msg de la situation
+//				//i = 47; //pour sortir de la boucle
+//				//}else{
+//				if(i%2 == 1) {
+//					joueur1.trouverPlacement();
+//					//plateau.placerJeton(joueur1.trouverPlacement());
+//				}else {
+//					joueur2.trouverPlacement();
+//					//plateau.placerJeton(joueur2.trouverPlacement());
+//				}
+//				//plateau.affichePlateau();
+//			}
+//		}else { //Cas où joueur 2 joue lors des tours impairs 
+//			for(int i = 1; i <= 7*6; i++) {
+//				//if(detectionVictoireEgalite){ 
+//				// afficher msg de la situation
+//				//i = 47; //pour sortir de la boucle
+//				//}else{
+//				if(i%2 == 1) {
+//					joueur2.trouverPlacement();
+//					//plateau.placerJeton(joueur1.trouverPlacement());
+//				}else {
+//					joueur1.trouverPlacement();
+//					//plateau.placerJeton(joueur2.trouverPlacement());
+//				}
+//			}
+//		}
+//	sc.close();
+//	}
 	
 	
 }

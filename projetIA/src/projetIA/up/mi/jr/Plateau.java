@@ -13,11 +13,12 @@ public class Plateau {
 	 */
 	char [][] grilleJeu;
 	public static Plateau instance = null;
+	private char gagnant= ' ';
 	
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonne et 6 lignes 
 	 */
-	private Plateau() {
+	public Plateau() {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -38,6 +39,10 @@ public class Plateau {
 		return instance;
 	}
 	
+	public char getGagnant() {
+		return gagnant;
+	}
+	
 	/**
 	 * Méthode pour créer un plateau de jeu vide (graphiquement)
 	 */
@@ -56,12 +61,63 @@ public class Plateau {
 	 * @param couleur du jeton
 	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
 	 */
-	public void placerJeton(ArrayList<Integer> coordonnee, char couleur) throws PuissanceException {
+	public void placerJeton(int colonne, char couleur) throws PuissanceException {
+		int rang = 6-1;
+		while (grilleJeu[rang][colonne-1] != '.') {
+			rang--;
+		}
 		
-		if (grilleJeu[1][coordonnee.get(2)] != '.') {
+		if (grilleJeu[0][colonne -1] != '.') {
 			throw new PuissanceException("la colonne est déja pleine");
 		}
-		grilleJeu[coordonnee.get(1)][coordonnee.get(2)] = couleur;
+		grilleJeu[rang][colonne-1] = couleur;
+		ArrayList<Integer> coordonnee = new ArrayList<Integer>(rang);
+		coordonnee.add(colonne);
+		detectionVictoire(couleur, coordonnee);
 		
+	}
+	
+	public void detectionVictoire(char couleur, ArrayList<Integer> coordonnee) {
+		//symbole en cours:
+		//char symbole = (i%2==1 ? 'X' : 'O');
+
+		int max = 0; //alignement maximale victoire si max >= 4
+		int x; int y;
+		int somme;
+		
+		//-->  diagonale HG-BD
+		x = coordonnee.get(0); y = coordonnee.get(1)-1 ; somme=-1;
+		while(y >= 0 && x >= 0 && grilleJeu[x][y] == couleur){ y--; x--; somme++;}
+		y = coordonnee.get(1)-1; x = coordonnee.get(0);
+		while(x < 6 && y < 7 && grilleJeu[x][y] == couleur){ x++; y++; somme++;}
+		if(somme > max) max= somme;
+		
+		//-->  diagonale HD-BG
+		y = coordonnee.get(1)-1; x = coordonnee.get(0); somme=-1;
+		while(x >= 0 && y < 7 && grilleJeu[x][y] == couleur){ x--; y++; somme++;}
+		y = coordonnee.get(1)-1; x = coordonnee.get(0);
+		while(x < 6 && y >= 0 && grilleJeu[x][y] == couleur){ x++; y--; somme++;}
+		if(somme > max) max= somme;
+		
+		//-->  verticale:
+		y = coordonnee.get(1)-1; x = coordonnee.get(0); somme=0; //pour y -1 car tableau en prog commence à 0
+		//somme nb de symboles identiques et d'affilés
+		// car dans puissance 4 qd on place jeton vericalement y'a rien au dessus
+		//while(x >= 0 && grilleJeu[x][y] == couleur){ x--; somme++;}// tant qu'on ne sort pas du tab, on remonte vers le haut
+		//x = coordonnee.get(0);
+		while(x < 6 && grilleJeu[x][y] == couleur){ x++; somme++;} //verif vers le bas pour pas sortir du tab
+		if(somme > max) max= somme;
+		
+		//-->  horizontale:
+		y = coordonnee.get(1)-1; x = coordonnee.get(0); somme=-1;
+		while(y >= 0 && grilleJeu[x][y] == couleur){ y--; somme++;}
+		y = coordonnee.get(1)-1;
+		while(y < 7 && grilleJeu[x][y] == couleur){ y++; somme++;}
+		if(somme > max) max= somme;
+		
+		
+		if(max >= 4){		
+			gagnant = couleur;
+		}
 	}
 }
