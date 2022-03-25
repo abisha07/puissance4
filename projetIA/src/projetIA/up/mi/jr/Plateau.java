@@ -18,7 +18,7 @@ public class Plateau {
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonne et 6 lignes 
 	 */
-	private Plateau() {
+	public Plateau() {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -28,19 +28,35 @@ public class Plateau {
 		}
 	}
 	
+	public Plateau(char[][] grille) {
+		grilleJeu = grille;
+	}
+	
 	/**
 	 * Getteur pour récupérer le plateau du Puissance 4 qui est un singleton
 	 * @return Plateau 
-	 */
-	public static Plateau getInstance() {
+	 * public static Plateau getInstance() {
 		if(instance == null) {
 			instance = new Plateau();		
 		}
 		return instance;
 	}
+	 */
+	
 	
 	public char getGagnant() {
 		return gagnant;
+	}
+	
+	public char[][] copieGrille(){
+		char[][] copie = new char[6][7];
+		for(int i = 0; i<6; i++) {
+			for(int j=0; j<7; j++) {
+				copie[i][j] =grilleJeu[i][j];
+			}
+			
+		}
+		return copie;
 	}
 	
 	/**

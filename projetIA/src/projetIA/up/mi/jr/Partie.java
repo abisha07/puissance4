@@ -22,7 +22,7 @@ public class Partie {
 	 * Méthode pour définir le mode de Jeu (parmi 3)
 	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
 	 */
-	public static void modeJeu(Scanner sc) {
+	public static int modeJeu(Scanner sc) {
 		int choix;
 		do {
 		System.out.println("Vous avez 3 manière de lancer une partie de puissance 4");
@@ -38,20 +38,25 @@ public class Partie {
 		}		
 		switch (choix) {
 		case 1:
-			choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
+			//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
+			joueur1 = new JoueurHumain('R',1);
+			joueur2 = new JoueurHumain('J', 2);
 			break;
 			
 		case 2:
 			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
 			System.out.println("1, 2, 3 ou 4 ? ");
 			int choixNiveau = sc.nextInt();
-			choixPerso(sc, 2, choixNiveau);
+			//choixPerso(sc, 2, choixNiveau);
+			joueur1 = new JoueurHumain('R',1);
+			joueur2 = new IAMinimax('J', 2, 3);
 			break;
 			
 		case 3:
 			break;
 		}
 		}while((choix < 1) || (choix > 3));
+		return choix;
 			
 	}
 	
@@ -62,14 +67,13 @@ public class Partie {
 	 * mode = 1 joueur humain contre un autre joueur humain 
 	 * mode = 2 joueur humain contre une IA
 	 * @param niveau
-	 */
-	public static void choixPerso(Scanner sc, int mode, int niveau) {
+	 * public static void choixPerso(Scanner sc, int mode, int niveau) {
 		
 		
 		if(mode == 1) { //Si le joueur humain joue contre un autre joueur humain
 			System.out.println("Joueur1, quelle couleur de jeton voulez-vous choisir pour cette partie");
 			System.out.println("Saisir \"rouge\" ou \"jaune\"");
-			String choixJeton = sc.nextLine();
+			String choixJeton = sc.next();
 			if (choixJeton.equalsIgnoreCase("rouge")){
 				joueur1 = new JoueurHumain('R',1);
 				joueur2 = new JoueurHumain('J', 2);
@@ -79,9 +83,9 @@ public class Partie {
 				joueur2 = new JoueurHumain('R', 2);
 			}
 		}
-//		else { // Cas joueur humain joue contre l'IA
-//			if (niveau == 1) {
-//				IAbasique joueur2 = new IAbasique();
+		else { // Cas joueur humain joue contre l'IA MiniMax
+			if (niveau == 1) {
+				IAMiniMax joueur2 = new IAMiniMax();
 //			}else if (niveau == 2) {
 //				IAMonteCarlo joueur2 = new IAMonteCarlo();
 //			}else if (niveau == 3) {
@@ -93,16 +97,20 @@ public class Partie {
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
 	}
+	 */
+	
 
 	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Quel mode voulez-vous choisir ?");
-		modeJeu(scanner);
+		int mode = modeJeu(scanner);
 		//System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
 		//Scanner sc = new Scanner(System.in);
 		//String rep = sc.nextLine();
-		Plateau plateau = Plateau.getInstance() ;
+		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
+		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
+		Plateau plateau = new Plateau() ;
 		//plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + (nbTour+1));
@@ -110,7 +118,21 @@ public class Partie {
 			System.out.println("Joueur" + (nbTour%2==0 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 			int col = scanner.nextInt();
 			try {
-				plateau.placerJeton(col, nbTour%2==0 ? joueur1 : joueur2);
+				switch (mode) {
+				case 1:
+					//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
+					
+					plateau.placerJeton(col, nbTour%2==0 ? joueur1 : joueur2);
+					break;
+					
+				case 2:
+					plateau.placerJeton(col, joueur1);
+					plateau.placerJeton(joueur2.trouverPlacement(plateau), joueur2);
+					break;
+					
+				}
+				
+				
 			} catch (PuissanceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

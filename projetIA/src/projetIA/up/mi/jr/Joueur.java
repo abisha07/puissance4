@@ -40,7 +40,7 @@ public abstract class Joueur {
 	 * Renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
 	 * @return liste d'Interger représentant les coordonnées du jeton à placer 
 	 */
-	public abstract ArrayList<Integer> trouverPlacement(Plateau plateau);
+	public abstract int trouverPlacement(Plateau plateau);
 
 	
 	

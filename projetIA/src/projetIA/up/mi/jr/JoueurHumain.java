@@ -24,10 +24,10 @@ public class JoueurHumain extends Joueur{
 	 * qui renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
 	 */
 	@Override
-	public ArrayList<Integer> trouverPlacement(Plateau plateau) {
+	public int trouverPlacement(Plateau plateau) {
 		System.out.println("Entrez le numéro de la colonne entre 1 et 7");
 		boolean place = false; //boolean verifiant si le jeton du joueur a été placé
-		ArrayList<Integer> coordonnee = new ArrayList<>();
+		int colonnePlacer = 0;
 		try {
 			Scanner sc = new Scanner(System.in);
 			int col = sc.nextInt(); //numéro de la colonne saisi par l'utilisateur via clavier
@@ -44,8 +44,8 @@ public class JoueurHumain extends Joueur{
 					while(plateau.grilleJeu[rang][col-1] != '.' && rang < 6) { // pour placer le jeton au-dessus des autres jetons de la colonne col
 						rang ++;
 					}
-					coordonnee.add(col);
-					coordonnee.add(rang);
+					colonnePlacer =col;
+			
 				}
 			}else {
 				System.out.println("Numéro de la colonne incorrect, réitérez");
@@ -55,7 +55,7 @@ public class JoueurHumain extends Joueur{
 	}catch(Exception e) {
 		System.out.println("Numéro de la colonne incorrect, réitérez");
 	}
-	return coordonnee;
+	return colonnePlacer;
 	}	
 		
 	public String toString() {
