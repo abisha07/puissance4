@@ -142,6 +142,7 @@ public class Partie {
 					}
 					break;	
 					
+					
 //				case 3:
 //					if  (nbTour%2==0) { 
 //						System.out.println("Joueur 1 est entrain de jouer" );
