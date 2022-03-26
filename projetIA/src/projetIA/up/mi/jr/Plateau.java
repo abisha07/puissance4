@@ -93,9 +93,9 @@ public class Plateau {
 		coordonnee.add(rang);
 		coordonnee.add(colonne);
 		
-		//detectionVictoire(joueur, coordonnee);
+		detectionVictoire(joueur, coordonnee);
 		
-		System.out.println("HHHHH");
+		//System.out.println("HHHHH");
 		
 	}
 	
