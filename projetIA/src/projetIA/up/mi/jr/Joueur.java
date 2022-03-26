@@ -1,6 +1,6 @@
 package projetIA.up.mi.jr;
 
-import java.util.ArrayList;
+
 /**
  * Représente un type de joueur (humain ou IA)
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 

@@ -1,10 +1,10 @@
 package projetIA.up.mi.jr;
 
-import java.util.ArrayList;
+
 
 public class IAMinimax extends Joueur{
 	
-	private int niveau = 1;
+	//private int niveau = 1;
 	private int profondeur;
 	//private char couleurJeton;
 	

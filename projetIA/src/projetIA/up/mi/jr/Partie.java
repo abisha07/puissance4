@@ -49,7 +49,7 @@ public class Partie {
 			int choixNiveau = sc.nextInt();
 			//choixPerso(sc, 2, choixNiveau);
 			joueur1 = new JoueurHumain('R',1);
-			joueur2 = new IAMinimax('J', 2, 3);
+			joueur2 = new IAMinimax('J', 2, choixNiveau);
 			break;
 			
 		case 3:

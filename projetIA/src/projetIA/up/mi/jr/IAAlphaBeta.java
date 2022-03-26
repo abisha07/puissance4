@@ -1,9 +1,9 @@
 package projetIA.up.mi.jr;
 
-import java.util.ArrayList;
+
 
 public class IAAlphaBeta extends Joueur{
-	private int niveau = 2;
+	//private int niveau = 2;
 	
 	
 	public IAAlphaBeta(char couleurJeton, int numJoueur) {
@@ -19,9 +19,9 @@ public class IAAlphaBeta extends Joueur{
 
 
 	@Override
-	public ArrayList<Integer> trouverPlacement(Plateau plateau) {
+	public int trouverPlacement(Plateau plateau) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 }
