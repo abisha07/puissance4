@@ -9,6 +9,7 @@ public class IAMinimax extends Joueur{
 	//private char couleurJeton;
 	
 	private Heuristique heuristique;
+	
 	public IAMinimax(char couleurJeton, int numJoueur, int profondeur) {
 		super(couleurJeton, numJoueur);
 		this.profondeur = profondeur;
