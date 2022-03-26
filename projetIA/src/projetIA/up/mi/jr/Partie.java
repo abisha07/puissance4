@@ -53,6 +53,8 @@ public class Partie {
 			break;
 			
 		case 3:
+			joueur1 = new IAMinimax('R', 2, 3);
+			joueur2 = new IAMinimax('J', 2, 3);
 			break;
 		}
 		}while((choix < 1) || (choix > 3));
@@ -115,23 +117,42 @@ public class Partie {
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + (nbTour+1));
 			plateau.affichePlateau();
-			System.out.println("Joueur" + (nbTour%2==0 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-			int col = scanner.nextInt();
 			try {
 				switch (mode) {
-				case 1:
+				case 1:	
+					
 					//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
 					
+					System.out.println("Joueur" + (nbTour%2==0 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+				    int col = scanner.nextInt();
 					plateau.placerJeton(col, nbTour%2==0 ? joueur1 : joueur2);
 					break;
 					
 				case 2:
-					plateau.placerJeton(col, joueur1);
-					plateau.placerJeton(joueur2.trouverPlacement(plateau), joueur2);
-					break;
 					
-				}
-				
+					if  (nbTour%2==0) { 
+					System.out.println("Joueur" + (nbTour%2==0 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+					col = scanner.nextInt();
+					plateau.placerJeton(col, joueur1 );
+					
+					}
+						else {
+					plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
+					
+					}
+					break;	
+					
+//				case 3:
+//					if  (nbTour%2==0) { 
+//						System.out.println("Joueur 1 est entrain de jouer" );
+//						//plateau.placerJeton(joueur1.trouverPlacement(plateau)+1,joueur1);
+//					}else {
+//						System.out.println("Joueur 2 est entrain de jouer" );
+//						plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
+//						
+//						}
+//					break;	
+			}
 				
 			} catch (PuissanceException e) {
 				// TODO Auto-generated catch block
@@ -139,8 +160,9 @@ public class Partie {
 			}
 			
 			nbTour++;
+
 			
 		}
 			
-		}	
+	}	
 }

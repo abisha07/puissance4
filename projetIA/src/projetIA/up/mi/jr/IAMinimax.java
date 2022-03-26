@@ -1,6 +1,6 @@
 package projetIA.up.mi.jr;
 
-
+import java.util.Arrays;
 
 public class IAMinimax extends Joueur{
 	
@@ -25,12 +25,18 @@ public class IAMinimax extends Joueur{
 
 		for(int i=1; i<= 6; i++) {
 			if(plateau.grilleJeu[0][i -1] == '.'){
+				//DEEP COPY
+				char [][] copieGrille = new char[6][7];
+				for (int t=0;t<copieGrille.length;t++) {
+					copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+				} 
 				
-				char [][] copieGrille = plateau.grilleJeu;	
 				Plateau copieJeu = new Plateau(copieGrille);
 				try {
+					//System.out.println("GGGGG");
 					copieJeu.placerJeton(i, this);
-					double valeurDeJeuCourante = minmax( plateau,  this, profondeur);
+					//System.out.println("LLLLL");
+					double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
 					if (valeurDeJeuCourante >= valeurDeJeu) {
 						valeurDeJeu = valeurDeJeuCourante;
 						colonneAJouer = i;
@@ -92,5 +98,9 @@ public class IAMinimax extends Joueur{
 	public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
 		return min(plateau, joueur, profondeur);
 		
+	}
+	
+	public String toString() {
+		return "Le joueur " + this.getNumJoueur();
 	}
 }

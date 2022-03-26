@@ -87,11 +87,15 @@ public class Plateau {
 			throw new PuissanceException("la colonne est déja pleine");
 		}
 		grilleJeu[rang][colonne-1] = joueur.getCouleur();
+		
+		
 		ArrayList<Integer> coordonnee = new ArrayList<Integer>();
 		coordonnee.add(rang);
 		coordonnee.add(colonne);
 		
-		detectionVictoire(joueur, coordonnee);
+		//detectionVictoire(joueur, coordonnee);
+		
+		System.out.println("HHHHH");
 		
 	}
 	
