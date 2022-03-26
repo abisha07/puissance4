@@ -61,7 +61,12 @@ public class IAMinimax extends Joueur{
 			for(int i=1; i <= 6; i++){
 				
 					if(plateau.grilleJeu[0][i -1] == '.'){
-						char [][] copieGrille = plateau.grilleJeu;	
+						//DEEP COPY
+						char [][] copieGrille = new char[6][7];
+						for (int t=0;t<copieGrille.length;t++) {
+							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+						} 
+							
 						Plateau copieJeu = new Plateau(copieGrille);
 						copieJeu.placerJeton(i, joueur);
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1));
@@ -83,7 +88,12 @@ public class IAMinimax extends Joueur{
 			for(int i=1; i <= 6; i++){
 				
 					if(plateau.grilleJeu[0][i -1] == '.'){
-						char [][] copieGrille = plateau.grilleJeu;	
+						//DEEP COPY
+						char [][] copieGrille = new char[6][7];
+						for (int t=0;t<copieGrille.length;t++) {
+							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+						} 
+							
 						Plateau copieJeu = new Plateau(copieGrille);
 						copieJeu.placerJeton(i, joueur);
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1));
