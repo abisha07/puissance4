@@ -140,8 +140,9 @@ public class Plateau {
 		
 		if(max >= 4){		
 			gagnant = joueur.getCouleur();
-			affichePlateau();
-			System.out.println(joueur.toString() + " a gagné la partie !");
+			//affichePlateau();
+			//System.out.println(joueur.toString() + " a gagné la partie !");
 		}
+		//return gagnant;
 	}
 }

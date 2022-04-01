@@ -14,6 +14,7 @@ public class Heuristique {
 		return Math.random();
 	}
 	
+	
 	public int getMaxScore() {
 		return MAX_SCORE;
 	}
