@@ -145,4 +145,82 @@ public class Plateau {
 		}
 		//return gagnant;
 	}
+	
+	
+	private boolean chercheAlignementDeJeton(char joueurCouleur,int ligne, int colonne, int declinaisonHorizontale, int declinaisonVerticale){
+		boolean alignementPreserve = true;
+		int tailleAlignement = 4;
+		//double resultat = 1;
+		while(tailleAlignement != 0 && alignementPreserve){
+			// On cherche l'alignement de la taille demandé
+			char jetonCouleur = 0 ;
+			// On récupère le jeton correspondant à i j pour vérifier sa couleur
+			//jetonCouleur = joueur.getCouleur();
+			jetonCouleur = grilleJeu[ligne][colonne];
+			// On teste la couleur du jeton
+			if(jetonCouleur == 0 || jetonCouleur == joueurCouleur) {
+				//resultat *= 0.5;
+				alignementPreserve = false;
+//			}else if( jetonCouleur == joueur.getCouleur()){
+//				resultat *= 1.0;
+//			}else{
+//				resultat *= 0;
+//			}
+			// On cherche sur la prochaine et on réduit le nombre de cases à chercher et donc l'alignement
+			ligne+=declinaisonHorizontale;
+			colonne+=declinaisonVerticale;
+			tailleAlignement--;
+			}
+		}
+		//return resultat;
+		return alignementPreserve;
+	}
+	
+	
+	public double resultatAlignementDeJeton(char joueurCouleur, int ligne , int colonne, int declinaisonHorizontale, int declinaisonVerticale){
+		
+		int tailleAlignement = 4;
+		double resultat = 1;
+		while(tailleAlignement != 0 && resultat != 0){
+			// On cherche l'alignement de la taille demandé
+			char jetonCouleur = 0 ;
+			// On récupère le jeton correspondant à i j pour vérifier sa couleur
+			jetonCouleur = grilleJeu[ligne][colonne];
+			// On teste la couleur du jeton
+			if(jetonCouleur == 0) {
+				resultat *= 0.5;
+			}else if(jetonCouleur == joueurCouleur){
+				resultat *= 1.0;
+			}else{
+				resultat *= 0;
+			}
+			// On cherche sur la prochaine et on réduit le nombre de cases à chercher et donc l'alignement
+			ligne+=declinaisonHorizontale;
+			colonne+=declinaisonVerticale;
+			tailleAlignement--;
+		}
+		return resultat;
+	}
+	
+	
+	public boolean chercheAlignement(char joueurCouleur){
+			
+			boolean alignementTrouve = false;
+			// On fait une recherche horizontale sur toute les cases possibles
+			for(int j = 1; j <= 7 && !alignementTrouve; j++){
+				for (int i = 1; i <= 6 && !alignementTrouve; i++){
+					alignementTrouve = this.chercheAlignementDeJeton(joueurCouleur, i, j,0, 1) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 1) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 0) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, -1) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, 0, -1) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, -1, -1) ||
+							this.chercheAlignementDeJeton(joueurCouleur, i, j, -1, 0) || 
+							this.chercheAlignementDeJeton(joueurCouleur, i, j,-1, 1);
+	
+				}
+			}
+			
+			return alignementTrouve;
+		}
 }

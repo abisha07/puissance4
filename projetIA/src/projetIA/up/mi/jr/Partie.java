@@ -25,8 +25,8 @@ public class Partie {
 	public static int modeJeu(Scanner sc) {
 		int choix;
 		do {
-		System.out.println("Vous avez 3 manière de lancer une partie de puissance 4");
-		System.out.println("Quelle mode de jeu voulez-vous choisir ? ");
+		System.out.println("Vous avez 3 manières de lancer une partie de puissance 4");
+		System.out.println("Quel mode de jeu voulez-vous choisir ? ");
 		System.out.println("1 Joueur Humain contre Joueur Humain");
 		System.out.println("2 Joueur Humain contre une IA");
 		System.out.println("3 IA contre une IA");
@@ -128,7 +128,7 @@ public class Partie {
 	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Quel mode voulez-vous choisir ?");
+		//System.out.println("Quel mode voulez-vous choisir ?");
 		int mode = modeJeu(scanner);
 		//System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
 		//Scanner sc = new Scanner(System.in);

@@ -14,7 +14,17 @@ public class Heuristique {
 		return Math.random();
 	}
 	
+//	public double nbAlignementsPossible() {
+//		
+//	}
 	
+//	public boolean chercheAlignementJeton(Joueur joueur) {
+//		boolean alignementPreserve = true;
+//		while(alignementPreserve){
+//			
+//		}
+//	}
+//	
 	public int getMaxScore() {
 		return MAX_SCORE;
 	}
