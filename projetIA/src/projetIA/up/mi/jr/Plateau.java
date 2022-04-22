@@ -84,6 +84,7 @@ public class Plateau {
 		}
 		
 		if (grilleJeu[0][colonne -1] != '.') {
+			System.out.println("exception");
 			throw new PuissanceException("la colonne est déja pleine");
 		}
 		grilleJeu[rang][colonne-1] = joueur.getCouleur();
@@ -156,9 +157,17 @@ public class Plateau {
 			char jetonCouleur = 0 ;
 			// On récupère le jeton correspondant à i j pour vérifier sa couleur
 			//jetonCouleur = joueur.getCouleur();
+			System.out.println("numligne");
+			System.out.println(ligne);
+			System.out.println("numColonne");
+			System.out.println(colonne);
 			jetonCouleur = grilleJeu[ligne][colonne];
+			System.out.println(joueurCouleur);
+			System.out.println("JetonCouleur");
+			System.out.println(jetonCouleur);
 			// On teste la couleur du jeton
-			if(jetonCouleur == 0 || jetonCouleur == joueurCouleur) {
+			
+			if(jetonCouleur == '.' || jetonCouleur != joueurCouleur) {
 				//resultat *= 0.5;
 				alignementPreserve = false;
 //			}else if( jetonCouleur == joueur.getCouleur()){
@@ -167,12 +176,16 @@ public class Plateau {
 //				resultat *= 0;
 //			}
 			// On cherche sur la prochaine et on réduit le nombre de cases à chercher et donc l'alignement
+			
 			ligne+=declinaisonHorizontale;
 			colonne+=declinaisonVerticale;
+			System.out.println(tailleAlignement);
 			tailleAlignement--;
 			}
 		}
 		//return resultat;
+		System.out.println("PB");
+		System.out.println(alignementPreserve);
 		return alignementPreserve;
 	}
 	
@@ -207,8 +220,8 @@ public class Plateau {
 			
 			boolean alignementTrouve = false;
 			// On fait une recherche horizontale sur toute les cases possibles
-			for(int j = 1; j <= 7 && !alignementTrouve; j++){
-				for (int i = 1; i <= 6 && !alignementTrouve; i++){
+			for(int j = 0; j < 7 && !alignementTrouve; j++){
+				for (int i = 0; i < 6 && !alignementTrouve; i++){
 					alignementTrouve = this.chercheAlignementDeJeton(joueurCouleur, i, j,0, 1) ||
 							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 1) ||
 							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 0) ||
@@ -220,7 +233,7 @@ public class Plateau {
 	
 				}
 			}
-			
+			System.out.println(alignementTrouve);
 			return alignementTrouve;
 		}
 }

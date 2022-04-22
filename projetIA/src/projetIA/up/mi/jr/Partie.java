@@ -46,10 +46,10 @@ public class Partie {
 		case 2:
 			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
 			System.out.println("1, 2, 3 ou 4 ? ");
-			int choixNiveau = sc.nextInt();
+			int choixNiveauIAH = sc.nextInt();
 			//choixPerso(sc, 2, choixNiveau);
 			
-			switch(choixNiveau) {
+			switch(choixNiveauIAH) {
 			case 1:
 				joueur1 = new JoueurHumain('R',1);
 				joueur2 = new IAMinimax('J', 2, 3);
@@ -58,17 +58,23 @@ public class Partie {
 			case 2:
 				joueur1 = new JoueurHumain('R',1);
 				joueur2 = new IAAlphaBeta('J', 2, 3);
+				break;
+				
+			case 3:
+				joueur1 = new JoueurHumain('R',1);
+				joueur2 = new IAMinimax2('J', 2, 3);
+				break;
 			}
-			
+			break;
 			
 			
 		case 3:
 			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
 			System.out.println("1, 2, 3 ou 4 ? ");
-			choixNiveau = sc.nextInt();
+			int choixNiveauIAIA = sc.nextInt();
 			//choixPerso(sc, 2, choixNiveau);
 			
-			switch(choixNiveau) {
+			switch(choixNiveauIAIA) {
 			case 1:
 				joueur1 = new IAMinimax('R',1, 3);
 				joueur2 = new IAMinimax('J', 2, 3);
@@ -79,6 +85,7 @@ public class Partie {
 				joueur2 = new IAAlphaBeta('J', 2, 3);
 				break;
 			}
+			break;
 		}
 		}while((choix < 1) || (choix > 3));
 		return choix;
@@ -139,12 +146,14 @@ public class Partie {
 		//plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + nbTour);
+			System.out.println(mode);
 			
 			try {
 				switch (mode) {
 				case 1:	
 					
 					//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
+					
 					plateau.affichePlateau();
 					System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 				    int col = scanner.nextInt();
@@ -160,7 +169,9 @@ public class Partie {
 					
 					}
 						else {
+							System.out.println("hello");
 					plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
+					System.out.println("hel");
 					
 					}
 					break;	
@@ -183,10 +194,7 @@ public class Partie {
 				e.printStackTrace();
 			}
 			plateau.affichePlateau();
-			nbTour++;
-			
-
-			
+			nbTour++;			
 		}
 			
 		if(nbTour%2==0) {

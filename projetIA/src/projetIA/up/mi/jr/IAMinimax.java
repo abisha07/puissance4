@@ -52,6 +52,8 @@ public class IAMinimax extends Joueur{
 		return colonneAJouer;
 	}
 	
+	
+	
 
 //	public int trouverPlacement2(Plateau plateau) {
 //		
@@ -109,7 +111,8 @@ public class IAMinimax extends Joueur{
 			return heuristique.randomHeuristique();  
 		}
 	}
-
+	
+	
 	
 	public double max(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
 		
@@ -136,6 +139,7 @@ public class IAMinimax extends Joueur{
 			return heuristique.randomHeuristique();  
 		}
 	}
+
 	
 	public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
 		return min(plateau, joueur, profondeur);
@@ -147,47 +151,6 @@ public class IAMinimax extends Joueur{
 	}
 	
 	//BROUILLON
-	
-	
-	
-	
-	public double noteGrille(Plateau plateau,  Joueur joueur) {
-		
-		char couleurJoueurSuivant;
-		if (joueur.getCouleur() == 'R') {
-			couleurJoueurSuivant = 'J';
-		}else {
-			couleurJoueurSuivant = 'R';
-		}
-		
-
-		if(plateau.chercheAlignement(couleurJoueurSuivant)){
-			return heuristique.getMinScore();
-		}
-
-		if(plateau.chercheAlignement(joueur.getCouleur())){
-			return heuristique.getMaxScore();
-		}
-		
-		double resultat = 0;
-		
-		for(int i = 1; i <= 6; i++){
-			for(int j = 1; j <= 7; j++){
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j,0, 1) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, 1) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, 0) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, -1) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 0, -1) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, -1, -1) ;
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, -1, 0) ; 
-				resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j,-1, 1) ;
-				
-			}
-		}
-
-		return resultat;
-	}
-	
 	
 	
 	public ArrayList poids_cases() {
