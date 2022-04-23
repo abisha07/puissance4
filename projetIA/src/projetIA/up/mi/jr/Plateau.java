@@ -148,23 +148,28 @@ public class Plateau {
 	}
 	
 	
-	private boolean chercheAlignementDeJeton(char joueurCouleur,int ligne, int colonne, int declinaisonHorizontale, int declinaisonVerticale){
+	public boolean chercheAlignementDeJeton(char joueurCouleur,int ligne, int colonne, int declinaisonHorizontale, int declinaisonVerticale){
 		boolean alignementPreserve = true;
 		int tailleAlignement = 4;
+		System.out.println("numlignedep");
+		System.out.println(ligne);
+		System.out.println("numColonnedep");
+		System.out.println(colonne);
 		//double resultat = 1;
 		while(tailleAlignement != 0 && alignementPreserve){
 			// On cherche l'alignement de la taille demandé
 			char jetonCouleur = 0 ;
 			// On récupère le jeton correspondant à i j pour vérifier sa couleur
 			//jetonCouleur = joueur.getCouleur();
-			System.out.println("numligne");
-			System.out.println(ligne);
-			System.out.println("numColonne");
-			System.out.println(colonne);
-			jetonCouleur = grilleJeu[ligne][colonne];
-			System.out.println(joueurCouleur);
-			System.out.println("JetonCouleur");
-			System.out.println(jetonCouleur);
+//			System.out.println("numligne");
+//			System.out.println(ligne);
+//			System.out.println("numColonne");
+//			System.out.println(colonne);
+			//this.affichePlateau();
+			jetonCouleur = grilleJeu[ligne-1][colonne-1];
+			//System.out.println(joueurCouleur);
+			//System.out.println("JetonCouleur");
+			//System.out.println(jetonCouleur);
 			// On teste la couleur du jeton
 			
 			if(jetonCouleur == '.' || jetonCouleur != joueurCouleur) {
@@ -199,8 +204,9 @@ public class Plateau {
 			char jetonCouleur = 0 ;
 			// On récupère le jeton correspondant à i j pour vérifier sa couleur
 			jetonCouleur = grilleJeu[ligne][colonne];
+			System.out.println(jetonCouleur);
 			// On teste la couleur du jeton
-			if(jetonCouleur == 0) {
+			if(jetonCouleur == '.') {
 				resultat *= 0.5;
 			}else if(jetonCouleur == joueurCouleur){
 				resultat *= 1.0;
@@ -220,9 +226,13 @@ public class Plateau {
 			
 			boolean alignementTrouve = false;
 			// On fait une recherche horizontale sur toute les cases possibles
-			for(int j = 0; j < 7 && !alignementTrouve; j++){
-				for (int i = 0; i < 6 && !alignementTrouve; i++){
-					alignementTrouve = this.chercheAlignementDeJeton(joueurCouleur, i, j,0, 1) ||
+			for(int j = 1; j <= 6 && !alignementTrouve; j++){
+				for (int i = 1; i <= 7 && !alignementTrouve; i++){
+					System.out.println("indice I");
+					System.out.println(i);
+					System.out.println("indice J");
+					System.out.println(j);
+					alignementTrouve = this.chercheAlignementDeJeton(joueurCouleur, i, j,0, 1)||				
 							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 1) ||
 							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, 0) ||
 							this.chercheAlignementDeJeton(joueurCouleur, i, j, 1, -1) ||
@@ -233,6 +243,7 @@ public class Plateau {
 	
 				}
 			}
+			System.out.println("chercheALIgnement");
 			System.out.println(alignementTrouve);
 			return alignementTrouve;
 		}

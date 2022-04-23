@@ -21,10 +21,23 @@ public class TestPuissance4 {
 				grilleJeu[j][i] = '.';
 			}
 		}
+		affichePlateau(grilleJeu);	
+		grilleJeu[1][0] = 'J';
+		grilleJeu[2][0] = 'J';
+		grilleJeu[3][0] = 'J';
+		grilleJeu[4][0] = 'J';
+		grilleJeu[4][1] = 'R';
+		grilleJeu[5][0] = 'R';
+		grilleJeu[5][1] = 'R';
+		System.out.println("***********");
 		affichePlateau(grilleJeu);
 		
-		
+		Plateau plateau = new Plateau(grilleJeu);
+		System.out.println(plateau.resultatAlignementDeJeton('J', 1 ,0, 0,1));
+		System.out.println(plateau.chercheAlignementDeJeton('J',2, 1, 0, 1));
 	}
+	
+	
 
 }
 
