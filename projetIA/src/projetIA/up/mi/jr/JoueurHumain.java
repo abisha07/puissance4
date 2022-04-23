@@ -23,8 +23,8 @@ public class JoueurHumain extends Joueur{
 	 * Redéfinition de la méthode trouverPlacement 
 	 * qui renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
 	 */
-	@Override
-	public int trouverPlacement(Plateau plateau) {
+	//@Override
+	public int trouverPlacementV1(Plateau plateau) {
 		System.out.println("Entrez le numéro de la colonne entre 1 et 7");
 		boolean place = false; //boolean verifiant si le jeton du joueur a été placé
 		int colonnePlacer = 0;
@@ -57,6 +57,32 @@ public class JoueurHumain extends Joueur{
 	}
 	return colonnePlacer;
 	}	
+	
+	/**
+	 * Redéfinition de la méthode trouverPlacement 
+	 * qui renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
+	 * @throws PuissanceException 
+	 */
+	@Override
+	public int trouverPlacement(Plateau plateau) throws PuissanceException {
+		boolean place = false; //boolean verifiant si le jeton du joueur a été placé
+		int colonnePlacer = 0;
+		while(!place) {
+			System.out.println("Entrez le numéro de la colonne entre 0 et 6");
+			Scanner sc = new Scanner(System.in);
+			int col = sc.nextInt(); //numéro de la colonne saisi par l'utilisateur via clavier
+			
+			if (plateau.isCoupValid(col)) {
+				place = true;
+				sc.close();
+				colonnePlacer =col;
+			
+			
+			}
+		}
+		return colonnePlacer;
+	}
+	
 		
 	public String toString() {
 		return "Le joueur " + this.getNumJoueur();
