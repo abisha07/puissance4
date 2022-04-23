@@ -101,7 +101,9 @@ public class IAMinimax extends Joueur{
 						} 
 							
 						Plateau copieJeu = new Plateau(copieGrille);
-						copieJeu.placerJeton(i, joueur);
+						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+							copieJeu.placerJeton(i, joueur);
+						}
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1));
 					}
 			
@@ -129,7 +131,9 @@ public class IAMinimax extends Joueur{
 						} 
 							
 						Plateau copieJeu = new Plateau(copieGrille);
-						copieJeu.placerJeton(i, joueur);
+						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+							copieJeu.placerJeton(i, joueur);
+						}
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1));
 					}
 			

@@ -147,30 +147,67 @@ public class Partie {
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + nbTour);
 			System.out.println(mode);
+			int col;
 			
 			try {
 				switch (mode) {
 				case 1:	
 					
 					//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
-					
 					plateau.affichePlateau();
-					System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-				    int col = scanner.nextInt();
-					plateau.placerJeton(col, nbTour%2==1 ? joueur1 : joueur2);
+					boolean place = false;
+					while(!place) {
+						System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+						col = scanner.nextInt();
+						if((col > 0 && col <= 7) && plateau.isCoupValid(col-1)) {
+							place=true;
+							plateau.placerJeton(col-1, nbTour%2==1 ? joueur1 : joueur2);
+							
+						}else {
+							System.out.println("Numéro de la colonne incorrect, réitérez");
+						}
+					
+					}
+					System.out.println(plateau.getGagnant());
 					break;
 					
 				case 2:
 					
 					if  (nbTour%2==0) { 
-					System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-					col = scanner.nextInt();
-					plateau.placerJeton(col, joueur1 );
+//					System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+//					col = scanner.nextInt();
+//					plateau.placerJeton(col, joueur1 );
+					boolean place2 = false;
+					while(!place2) {
+						System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+						col = scanner.nextInt();
+						if((col > 0 && col <= 7) && plateau.isCoupValid(col-1)) {
+							place2=true;
+							plateau.placerJeton(col-1, joueur1 );
+							
+						}else {
+							System.out.println("Numéro de la colonne incorrect, réitérez");
+						}
+					
+					}
 					
 					}
 						else {
 							System.out.println("hello");
-					plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
+							boolean place2 = false;
+							while(!place2) {
+								//System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+								col = joueur2.trouverPlacement(plateau);
+								if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
+									place2=true;
+									plateau.placerJeton(col, joueur2 );
+									
+								}
+							
+							}
+							
+							
+					//plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
 					System.out.println("hel");
 					
 					}
@@ -179,11 +216,35 @@ public class Partie {
 					
 				case 3:
 					if  (nbTour%2==1) { 
-						System.out.println("Joueur 1 est entrain de jouer" );
-						plateau.placerJeton(joueur1.trouverPlacement(plateau)+1,joueur1);
+						boolean place3 = false;
+						while(!place3) {
+							System.out.println("Joueur 1 est entrain de jouer" );
+							col = joueur1.trouverPlacement(plateau);
+							System.out.println(col);
+							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
+								place3=true;
+								System.out.println(place3);
+								plateau.placerJeton(col, joueur1 );
+								
+							}
+						
+						}
+						//System.out.println("Joueur 1 est entrain de jouer" );
+						//plateau.placerJeton(joueur1.trouverPlacement(plateau)+1,joueur1);
 					}else {
-						System.out.println("Joueur 2 est entrain de jouer" );
-						plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
+						boolean place4 = false;
+						while(!place4) {
+							System.out.println("Joueur 1 est entrain de jouer" );
+							col = joueur2.trouverPlacement(plateau);
+							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
+								place4=true;
+								plateau.placerJeton(col, joueur2 );
+								
+							}
+						
+						}
+						//System.out.println("Joueur 2 est entrain de jouer" );
+						//plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
 						
 						}
 					break;	
@@ -191,7 +252,8 @@ public class Partie {
 				
 			} catch (PuissanceException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 			plateau.affichePlateau();
 			nbTour++;			

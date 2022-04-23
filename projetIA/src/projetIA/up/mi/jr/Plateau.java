@@ -32,16 +32,7 @@ public class Plateau {
 		grilleJeu = grille;
 	}
 	
-	/**
-	 * Getteur pour récupérer le plateau du Puissance 4 qui est un singleton
-	 * @return Plateau 
-	 * public static Plateau getInstance() {
-		if(instance == null) {
-			instance = new Plateau();		
-		}
-		return instance;
-	}
-	 */
+
 	
 	
 	public char getGagnant() {
@@ -71,13 +62,177 @@ public class Plateau {
 		}
 	}
 	
+	/** Retourne vrai si la cellule pointee n'est pas en dehors du plateau */
+	public boolean valid(int line, int column) {
+		return (line >= 0 && line < 6 && column >= 0 && column < 7);
+	}
+	
+	/** Retourne la couleur de la cellule pointee */
+	public int getColor(int line, int column) {
+		return grilleJeu[line][column];
+	}
+	
+	/** 
+	 * Retourne vrai si le coup passe en parametre est jouable 
+	 * @throws PuissanceException 
+	 */
+	public boolean isCoupValid(int column) throws PuissanceException {
+		if(!(column >= 0 && column < 7)) {
+			throw new PuissanceException("la colonne choisie est en dehors du plateau");
+		}
+		return (grilleJeu[0][column] == '.');
+	}
+	
+	/** 
+	 * Retourne la derniere ligne vide la colonne, -1 si la colonne est pleinne 
+	 * @throws PuissanceException 
+	 */
+	public int getLineValid(int column) throws PuissanceException {
+		if (!isCoupValid(column)) {
+			//System.out.println("exception");
+			//throw new PuissanceException("la colonne est déja pleine");
+			return -1;
+		}
+		int line = 5;
+		while (line >= 0 && getColor(line,column) != '.') {
+			line--;
+		}
+		return line;
+	}
+	
+	/** Retourne vrai si le plateau de jeu est complet */
+	public boolean isFull() {
+		boolean flag = true;
+		int column = 0;
+		while (flag && column <= 6) {
+			flag &= (grilleJeu[0][column] != 0);
+			column++;
+		}
+		return flag;
+	}
+	
+	
+	/** Set la couleur de la cellule pointee */
+	public void setColor(int line, int column, char color) {
+		grilleJeu[line][column] = color;
+	}
+
+	/** Nettoie le plateau de jeu */
+	public void clear() {
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				setColor(i, j, '.');
+			}
+		}
+	}
+	
+	
+	/** Joue sur le plateau le coup passe en parametre  
+	 * @throws PuissanceException */
+	public int placerJeton(int column, Joueur joueur) throws PuissanceException {
+		int line;
+
+			line = getLineValid(column);
+			if(line != -1) {
+				setColor(line, column, joueur.getCouleur());
+			}
+			if(hasWon(joueur)){		
+				gagnant = joueur.getCouleur();
+				//affichePlateau();
+				//System.out.println(joueur.toString() + " a gagné la partie !");
+			}
+			return line;
+		
+	}
+	
 	/**
 	 * Méthode pour placer un jeton dans le plateau
 	 * @param coordonnee du jeton
 	 * @param couleur du jeton
 	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
 	 */
-	public void placerJeton(int colonne, Joueur joueur) throws PuissanceException {
+	public void placerJetonV2(int colonne, Joueur joueur) throws PuissanceException {
+		
+		if (!isCoupValid(colonne)) {
+			System.out.println("exception");
+			throw new PuissanceException("la colonne est déja pleine");
+		}
+		else {
+			//System.out.println(jouerCoup(colonne,joueur));
+			//jouerCoup(colonne,joueur);
+		}
+	
+		if(hasWon(joueur)){		
+			gagnant = joueur.getCouleur();
+			//affichePlateau();
+			//System.out.println(joueur.toString() + " a gagné la partie !");
+		}
+	
+		
+	}
+	
+	
+
+	/** Retourne vrai si le joueur passe en parametre a gagner */
+	public boolean hasWon(Joueur joueur) {
+		boolean res = false;
+		for (int line = 0; line < 6 && !res; line++) {
+			for (int column = 0; column < 7 && !res; column++) {
+				if (getColor(line, column) == joueur.getCouleur()) {
+					res = (chaine_max(line, column) >= 4);
+				}
+			}
+		}
+		return res;
+	}
+	
+	/** methode qui renvoie la chaine maximum du jeton donne en parametre */
+	public int chaine_max(int line, int column) {
+   		// Recupere le joueur qui a joue le dernier jeton
+   		int joueur_jeton = getColor(line, column);
+   		if (joueur_jeton == '.') {
+   			return 0;
+   		}
+   		
+   		boolean loop;
+   		int chaineMax = 0;
+   		int chaine = 1;
+   		for (int dy : new int[] {-1, 0, 1}) {
+   			for (int dx : new int[] {-1, 0, 1}) {
+   				chaine = 1;
+   				if (dy != 0 || dx != 0) {
+   					for (int sign : new int[] {-1, 1}) {
+   						int i = line;
+   						int j = column;
+   						do {
+   							loop = false;
+   							i += sign * dy;
+   							j += sign * dx;
+   							if (valid(i, j) && getColor(i, j) == joueur_jeton) {
+   								chaine++;
+   								loop = true;
+   							}
+   						} while (loop);
+   						if (chaine > chaineMax) {
+   							chaineMax = chaine;
+   						}
+   					}
+   				}
+   			}
+   		}
+   		
+   		return chaineMax;
+   	}
+	
+	
+	
+	/**
+	 * Méthode pour placer un jeton dans le plateau
+	 * @param coordonnee du jeton
+	 * @param couleur du jeton
+	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
+	 */
+	public void placerJetonV1(int colonne, Joueur joueur) throws PuissanceException {
 		int rang = 6-1;
 		while (grilleJeu[rang][colonne-1] != '.') {
 			rang--;
