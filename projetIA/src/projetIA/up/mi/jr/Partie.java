@@ -84,6 +84,10 @@ public class Partie {
 				joueur1 = new IAAlphaBeta('R',1, 3);
 				joueur2 = new IAAlphaBeta('J', 2, 3);
 				break;
+			case 3:
+				joueur1 = new IAMinimax2('R',1, 3);
+				joueur2 = new IAMinimax2('J', 2, 3);
+				break;
 			}
 			break;
 		}
@@ -142,11 +146,11 @@ public class Partie {
 		//String rep = sc.nextLine();
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
-		Plateau plateau = new Plateau() ;
+		Plateau plateau = new Plateau(joueur1, joueur2) ;
 		//plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
 			System.out.println("Tour n°" + nbTour);
-			System.out.println(mode);
+			//System.out.println(mode);
 			int col;
 			
 			try {
@@ -219,11 +223,13 @@ public class Partie {
 						boolean place3 = false;
 						while(!place3) {
 							System.out.println("Joueur 1 est entrain de jouer" );
+							System.out.println("hello1");
 							col = joueur1.trouverPlacement(plateau);
-							System.out.println(col);
+							System.out.println("hello2");
+							//System.out.println(col);
 							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
 								place3=true;
-								System.out.println(place3);
+								//System.out.println(place3);
 								plateau.placerJeton(col, joueur1 );
 								
 							}
@@ -234,11 +240,14 @@ public class Partie {
 					}else {
 						boolean place4 = false;
 						while(!place4) {
-							System.out.println("Joueur 1 est entrain de jouer" );
+							System.out.println("Joueur 2 est entrain de jouer" );
 							col = joueur2.trouverPlacement(plateau);
+							System.out.println(col);
 							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
 								place4=true;
+								System.out.println("hello2");
 								plateau.placerJeton(col, joueur2 );
+								System.out.println("hello4");
 								
 							}
 						
@@ -260,10 +269,10 @@ public class Partie {
 		}
 			
 		if(nbTour%2==0) {
-			System.out.println("Joueur1 a gagné la partie !");
+			System.out.println("Joueur1 ayant la couleur " + joueur1.getCouleur() + " a gagné la partie !");
 		}
 		else {
-			System.out.println("Joueur2 a gagné la partie !");
+			System.out.println("Joueur2 ayant la couleur " + joueur2.getCouleur() + " a gagné la partie !");
 		}
 		
 	}	

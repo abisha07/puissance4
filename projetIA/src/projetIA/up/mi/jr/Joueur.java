@@ -14,6 +14,8 @@ public abstract class Joueur {
 	
 	private int numJoueur;
 	
+	public int derniereColonne;
+	
 	
 	public Joueur(char couleur, int numJoueur) {
 		this.couleur=couleur;

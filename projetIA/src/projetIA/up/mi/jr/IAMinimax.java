@@ -33,7 +33,7 @@ public class IAMinimax extends Joueur{
 					copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 				} 
 				
-				Plateau copieJeu = new Plateau(copieGrille);
+				Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 				try {
 					copieJeu.placerJeton(i, this);
 					double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
@@ -86,7 +86,7 @@ public class IAMinimax extends Joueur{
 //		return colonneAJouer;
 //	}
 	
-	public double min(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
+	public double min(Plateau plateau, int profondeur) throws PuissanceException {
 
 		if(profondeur != 0){
 			
@@ -100,11 +100,11 @@ public class IAMinimax extends Joueur{
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
 							
-						Plateau copieJeu = new Plateau(copieGrille);
+						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
-							copieJeu.placerJeton(i, joueur);
+							copieJeu.placerJeton(i, copieJeu.joueur);
 						}
-						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1));
+						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
 					}
 			
 			}
@@ -116,7 +116,7 @@ public class IAMinimax extends Joueur{
 	
 	
 	
-	public double max(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
+	public double max(Plateau plateau, int profondeur) throws PuissanceException {
 		
 		if(profondeur != 0){
 			
@@ -130,11 +130,11 @@ public class IAMinimax extends Joueur{
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
 							
-						Plateau copieJeu = new Plateau(copieGrille);
+						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
-							copieJeu.placerJeton(i, joueur);
+							copieJeu.placerJeton(i, copieJeu.joueur);
 						}
-						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1));
+						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
 					}
 			
 			}
@@ -146,7 +146,7 @@ public class IAMinimax extends Joueur{
 
 	
 	public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
-		return min(plateau, joueur, profondeur);
+		return min(plateau, profondeur);
 		
 	}
 	

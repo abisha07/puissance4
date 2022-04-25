@@ -14,11 +14,12 @@ public class Plateau {
 	char [][] grilleJeu;
 	public static Plateau instance = null;
 	private char gagnant= ' ';
-	
+	public Joueur joueur;
+	public Joueur joueurSuivant;
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonne et 6 lignes 
 	 */
-	public Plateau() {
+	public Plateau(Joueur joueur, Joueur joueurSuivant) {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -26,10 +27,15 @@ public class Plateau {
 				grilleJeu[i][j] = '.';
 			}
 		}
+		this.joueur = joueur;
+		this.joueurSuivant = joueurSuivant;
+		
 	}
 	
-	public Plateau(char[][] grille) {
+	public Plateau(char[][] grille, Joueur joueur, Joueur joueurSuivant) {
 		grilleJeu = grille;
+		this.joueur = joueur;
+		this.joueurSuivant = joueurSuivant;
 	}
 	
 
@@ -84,7 +90,7 @@ public class Plateau {
 	}
 	
 	/** 
-	 * Retourne la derniere ligne vide la colonne, -1 si la colonne est pleinne 
+	 * Retourne la derniere ligne vide la colonne, -1 si la colonne est pleine 
 	 * @throws PuissanceException 
 	 */
 	public int getLineValid(int column) throws PuissanceException {
@@ -130,11 +136,14 @@ public class Plateau {
 	/** Joue sur le plateau le coup passe en parametre  
 	 * @throws PuissanceException */
 	public int placerJeton(int column, Joueur joueur) throws PuissanceException {
+		
 		int line;
+		
 
 			line = getLineValid(column);
 			if(line != -1) {
 				setColor(line, column, joueur.getCouleur());
+				joueur.derniereColonne = column;
 			}
 			if(hasWon(joueur)){		
 				gagnant = joueur.getCouleur();
@@ -145,31 +154,7 @@ public class Plateau {
 		
 	}
 	
-	/**
-	 * Méthode pour placer un jeton dans le plateau
-	 * @param coordonnee du jeton
-	 * @param couleur du jeton
-	 * @throws PuissanceException  exception levé si on veut placer un jeton dans une colonne déjà pleine
-	 */
-	public void placerJetonV2(int colonne, Joueur joueur) throws PuissanceException {
-		
-		if (!isCoupValid(colonne)) {
-			System.out.println("exception");
-			throw new PuissanceException("la colonne est déja pleine");
-		}
-		else {
-			//System.out.println(jouerCoup(colonne,joueur));
-			//jouerCoup(colonne,joueur);
-		}
 	
-		if(hasWon(joueur)){		
-			gagnant = joueur.getCouleur();
-			//affichePlateau();
-			//System.out.println(joueur.toString() + " a gagné la partie !");
-		}
-	
-		
-	}
 	
 	
 
@@ -179,7 +164,7 @@ public class Plateau {
 		for (int line = 0; line < 6 && !res; line++) {
 			for (int column = 0; column < 7 && !res; column++) {
 				if (getColor(line, column) == joueur.getCouleur()) {
-					res = (chaine_max(line, column) >= 4);
+					res = (chaine_max(line, column, joueur.getCouleur()) >= 4);
 				}
 			}
 		}
@@ -187,9 +172,9 @@ public class Plateau {
 	}
 	
 	/** methode qui renvoie la chaine maximum du jeton donne en parametre */
-	public int chaine_max(int line, int column) {
+	public int chaine_max(int line, int column, char joueur_jeton) {
    		// Recupere le joueur qui a joue le dernier jeton
-   		int joueur_jeton = getColor(line, column);
+   		//int joueur_jeton = getColor(line, column);
    		if (joueur_jeton == '.') {
    			return 0;
    		}
@@ -402,4 +387,5 @@ public class Plateau {
 			System.out.println(alignementTrouve);
 			return alignementTrouve;
 		}
+	
 }

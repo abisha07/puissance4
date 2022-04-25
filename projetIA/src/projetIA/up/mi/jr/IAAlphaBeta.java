@@ -38,7 +38,7 @@ public class IAAlphaBeta extends Joueur{
 					for (int t=0;t<copieGrille.length;t++) {
 						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 					} 
-					Plateau copieJeu = new Plateau(copieGrille);
+					Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 					copieJeu.placerJeton(i, this);
 					
 					double valeurDeJeuCourante = alphabeta(copieJeu, this, profondeur);
@@ -80,7 +80,7 @@ public class IAAlphaBeta extends Joueur{
 						for (int t=0;t<copieGrille.length;t++) {
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
-						Plateau copieJeu = new Plateau(copieGrille);
+						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 						copieJeu.placerJeton(i, this);
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1, alpha, beta));
 						
@@ -112,7 +112,7 @@ public class IAAlphaBeta extends Joueur{
 						for (int t=0;t<copieGrille.length;t++) {
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
-						Plateau copieJeu = new Plateau(copieGrille);
+						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
 						copieJeu.placerJeton(i, this);
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1, alpha, beta));
 		

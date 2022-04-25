@@ -32,9 +32,9 @@ public class TestPuissance4 {
 		System.out.println("***********");
 		affichePlateau(grilleJeu);
 		
-		Plateau plateau = new Plateau(grilleJeu);
-		System.out.println(plateau.resultatAlignementDeJeton('J', 1 ,0, 0,1));
-		System.out.println(plateau.chercheAlignementDeJeton('J',2, 1, 0, 1));
+		//Plateau plateau = new Plateau(grilleJeu);
+		//System.out.println(plateau.resultatAlignementDeJeton('J', 1 ,0, 0,1));
+		//System.out.println(plateau.chercheAlignementDeJeton('J',2, 1, 0, 1));
 	}
 	
 	

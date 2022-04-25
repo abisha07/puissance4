@@ -1,6 +1,7 @@
 package projetIA.up.mi.jr;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class IAMinimax2 extends Joueur{
 	//private int niveau = 1;
@@ -18,49 +19,55 @@ public class IAMinimax2 extends Joueur{
 		
 
 		@Override
-		public int trouverPlacement(Plateau plateau) {
+		public int trouverPlacement(Plateau plateau) throws PuissanceException {
+			ArrayList<Integer> listCoup = new ArrayList<Integer>();
+			for(int i = 0; i < 7; i++){
+				if (plateau.isCoupValid(i)) {
+					listCoup.add(i);
+				}
+			}
+			Collections.shuffle(listCoup);
 			int colonneAJouer = 1;
 
 			double valeurDeJeu = heuristique.getMinScore();
-			System.out.println(valeurDeJeu);
-			for(int i=1; i<= 6; i++) {
-				if(plateau.grilleJeu[0][i -1] == '.'){
+			//System.out.println(valeurDeJeu);
+			for(int i=1; i<=6; i++) {
+				if (listCoup.contains(i)) {
+				if(plateau.grilleJeu[0][i-1] == '.'){
 					//DEEP COPY
 					char [][] copieGrille = new char[6][7];
 					for (int t=0;t<copieGrille.length;t++) {
 						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 					} 
 					
-					Plateau copieJeu = new Plateau(copieGrille);
-					try {
-						System.out.println("hh");
+					Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+					
+						//System.out.println("hh");
 						copieJeu.placerJeton(i, this);
-						System.out.println("hio");
+						
+						//System.out.println("hio");
 						double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
 						System.out.println(valeurDeJeuCourante);
 						if (valeurDeJeuCourante >= valeurDeJeu) {
 							valeurDeJeu = valeurDeJeuCourante;
 							colonneAJouer = i;
 						}
-					} catch (PuissanceException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-					
-					}
-				}
-			System.out.println(colonneAJouer);
+			}	
+			}	
 			return colonneAJouer;
+			
 		}
+			
+			//System.out.println(colonneAJouer);
+			
 		
 		
-		public double min(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
+		public double min(Plateau plateau, int profondeur) throws PuissanceException {
 
 			if(profondeur != 0){
 				
 				double valeurDeJeu = heuristique.getMaxScore();
-				System.out.println(valeurDeJeu);
-				
 				for(int i=1; i <= 6; i++){
 					
 						if(plateau.grilleJeu[0][i -1] == '.'){
@@ -70,57 +77,53 @@ public class IAMinimax2 extends Joueur{
 								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 							} 
 								
-							Plateau copieJeu = new Plateau(copieGrille);
-							System.out.println("ok");
-							copieJeu.placerJeton(i, joueur);
-							System.out.println("oki");
-							valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1));
-							System.out.println(valeurDeJeu);
+							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+								copieJeu.placerJeton(i, copieJeu.joueur);
+							}
+							valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
 						}
 				
 				}
 				return valeurDeJeu;
 			}else{
-				return heuristique.noteGrille(plateau, joueur);  
+				return heuristique.noteGrille(plateau);  
 			}
 		}
 		
-		public double max(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
+		public double max(Plateau plateau, int profondeur) throws PuissanceException {
+			
+			if(profondeur != 0){
 				
-				if(profondeur != 0){
+				double valeurDeJeu = heuristique.getMinScore();
+				for(int i=1; i <= 6; i++){
 					
-					double valeurDeJeu = heuristique.getMinScore();
-					System.out.println("max");
-					System.out.println(valeurDeJeu);
-					for(int i=1; i <= 6; i++){
-						
-							if(plateau.grilleJeu[0][i -1] == '.'){
-								//DEEP COPY
-								char [][] copieGrille = new char[6][7];
-								for (int t=0;t<copieGrille.length;t++) {
-									copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-								} 
-									
-								Plateau copieJeu = new Plateau(copieGrille);
-								System.out.println("maxJ");
-								copieJeu.placerJeton(i, joueur);
-								System.out.println("maxK");
-								valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1));
-								System.out.println("maxJZU");
-								System.out.println(valeurDeJeu);
+						if(plateau.grilleJeu[0][i -1] == '.'){
+							//DEEP COPY
+							char [][] copieGrille = new char[6][7];
+							for (int t=0;t<copieGrille.length;t++) {
+								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+							} 
+								
+							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+								copieJeu.placerJeton(i, copieJeu.joueur);
 							}
-					
-					}
-					return valeurDeJeu;
-				}else{
-					return heuristique.noteGrille(plateau, joueur);  
+							valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
+						}
+				
 				}
+				return valeurDeJeu;
+			}else{
+				return heuristique.noteGrille(plateau);  
 			}
+		}
+
 		
 		
 		public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
-			System.out.println(min(plateau, joueur, profondeur));
-			return min(plateau, joueur, profondeur);
+			//System.out.println(min(plateau, profondeur));
+			return min(plateau, profondeur);
 			
 		}
 
