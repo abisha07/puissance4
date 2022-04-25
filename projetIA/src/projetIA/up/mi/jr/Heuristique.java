@@ -22,38 +22,43 @@ public class Heuristique {
 		return MIN_SCORE;
 	}
 	
-	public double noteGrille2(Plateau plateau,  Joueur joueur) {
+	public double noteGrille2(Plateau plateau) throws PuissanceException {
 			
-			char couleurJoueurSuivant;
-			if (joueur.getCouleur() == 'R') {
-				couleurJoueurSuivant = 'J';
-			}else {
-				couleurJoueurSuivant = 'R';
-			}
+			
 			
 	
-			if(plateau.chercheAlignement(couleurJoueurSuivant)){
-				System.out.println("arrive MinScore");
-				return MIN_SCORE;
-			}
-	
-			if(plateau.chercheAlignement(joueur.getCouleur())){
-				System.out.println("arrive MaxScore");
-				return MAX_SCORE;
-			}
+		int colonne = plateau.joueur.derniereColonne;
+		int ligne = plateau.getLineValid(colonne)+1;
+		
+		int colonneS = plateau.joueurSuivant.derniereColonne;
+		int ligneS = plateau.getLineValid(colonneS)+1;
+//		char couleurJoueurSuivant;
+//		if (joueur.getCouleur() == 'R') {
+//			couleurJoueurSuivant = 'J';
+//		}else {
+//			couleurJoueurSuivant = 'R';
+//		}
+		
+		if(plateau.chaine_max(ligneS, colonneS, plateau.joueurSuivant.getCouleur()) >= 4){
+			return MIN_SCORE;
+		}
+		
+		if(plateau.chaine_max(ligne, colonne, plateau.joueur.getCouleur()) >= 4){
+			return MAX_SCORE;
+		}
 			
 			double resultat = 0;
 			
 			for(int i = 1; i <= 6; i++){
 				for(int j = 1; j <= 7; j++){
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j,0, 1) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, 1) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, 0) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 1, -1) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, 0, -1) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, -1, -1) ;
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j, -1, 0) ; 
-					resultat +=plateau.resultatAlignementDeJeton(joueur.getCouleur(), i, j,-1, 1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j,0, 1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, 1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, 0) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, -1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 0, -1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, -1, -1) ;
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, -1, 0) ; 
+					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j,-1, 1) ;
 					
 				}
 			}
@@ -74,11 +79,11 @@ public class Heuristique {
 //				couleurJoueurSuivant = 'R';
 //			}
 			
-			if(plateau.chaine_max(ligneS, colonneS, plateau.joueurSuivant.getCouleur()) == 4){
+			if(plateau.chaine_max(ligneS, colonneS, plateau.joueurSuivant.getCouleur()) >= 4){
 				return MIN_SCORE;
 			}
 			
-			if(plateau.chaine_max(ligne, colonne, plateau.joueur.getCouleur()) == 4){
+			if(plateau.chaine_max(ligne, colonne, plateau.joueur.getCouleur()) >= 4){
 				return MAX_SCORE;
 			}
 			

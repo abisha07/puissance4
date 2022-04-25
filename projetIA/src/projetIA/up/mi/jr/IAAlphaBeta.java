@@ -81,7 +81,9 @@ public class IAAlphaBeta extends Joueur{
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
 						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-						copieJeu.placerJeton(i, this);
+						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+							copieJeu.placerJeton(i, copieJeu.joueur);
+						}
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1, alpha, beta));
 						
 						if(alpha >= valeurDeJeu){
@@ -113,7 +115,9 @@ public class IAAlphaBeta extends Joueur{
 							copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 						} 
 						Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-						copieJeu.placerJeton(i, this);
+						if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+							copieJeu.placerJeton(i, copieJeu.joueur);
+						}
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1, alpha, beta));
 		
 						if(valeurDeJeu >= beta){

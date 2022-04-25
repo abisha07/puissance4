@@ -74,7 +74,7 @@ public class Plateau {
 	}
 	
 	/** Retourne la couleur de la cellule pointee */
-	public int getColor(int line, int column) {
+	public char getColor(int line, int column) {
 		return grilleJeu[line][column];
 	}
 	
@@ -111,7 +111,18 @@ public class Plateau {
 		boolean flag = true;
 		int column = 0;
 		while (flag && column <= 6) {
-			flag &= (grilleJeu[0][column] != 0);
+			flag &= (grilleJeu[0][column] != '.');
+			column++;
+		}
+		return flag;
+	}
+	
+	/** Retourne vrai si le plateau de jeu est vide */
+	public boolean isEmpty() {
+		boolean flag = true;
+		int column = 0;
+		while (flag && column <= 6) {
+			flag &= (grilleJeu[0][column] == '.');
 			column++;
 		}
 		return flag;
@@ -306,7 +317,7 @@ public class Plateau {
 //			System.out.println("numColonne");
 //			System.out.println(colonne);
 			//this.affichePlateau();
-			jetonCouleur = grilleJeu[ligne-1][colonne-1];
+			jetonCouleur = this.getColor(ligne, colonne);
 			//System.out.println(joueurCouleur);
 			//System.out.println("JetonCouleur");
 			//System.out.println(jetonCouleur);
@@ -339,12 +350,14 @@ public class Plateau {
 		
 		int tailleAlignement = 4;
 		double resultat = 1;
-		while(tailleAlignement != 0 && resultat != 0){
+		while(tailleAlignement != 0 && resultat != 0 && this.valid(ligne, colonne) ){
 			// On cherche l'alignement de la taille demandé
 			char jetonCouleur = 0 ;
 			// On récupère le jeton correspondant à i j pour vérifier sa couleur
+			//System.out.println("ligne" + ligne+1);
+			//System.out.println("colonne" + colonne+1);
 			jetonCouleur = grilleJeu[ligne][colonne];
-			System.out.println(jetonCouleur);
+			//System.out.println(jetonCouleur);
 			// On teste la couleur du jeton
 			if(jetonCouleur == '.') {
 				resultat *= 0.5;

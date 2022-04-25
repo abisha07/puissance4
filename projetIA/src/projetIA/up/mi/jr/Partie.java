@@ -52,17 +52,17 @@ public class Partie {
 			switch(choixNiveauIAH) {
 			case 1:
 				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAMinimax('J', 2, 3);
+				joueur2 = new IAMinimax('J', 2, 5);
 				break;
 				
 			case 2:
 				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAAlphaBeta('J', 2, 3);
+				joueur2 = new IAAlphaBeta('J', 2, 8);
 				break;
 				
 			case 3:
 				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAMinimax2('J', 2, 3);
+				joueur2 = new IAMinimax2('J', 2, 5);
 				break;
 			}
 			break;
@@ -267,13 +267,13 @@ public class Partie {
 			plateau.affichePlateau();
 			nbTour++;			
 		}
-			
-		if(nbTour%2==0) {
-			System.out.println("Joueur1 ayant la couleur " + joueur1.getCouleur() + " a gagné la partie !");
-		}
-		else {
-			System.out.println("Joueur2 ayant la couleur " + joueur2.getCouleur() + " a gagné la partie !");
-		}
-		
+		System.out.println("Le joueur ayant la couleur " + plateau.getGagnant() + " a gagné la partie !");	
+//		if(nbTour%2==0) {
+//			System.out.println("Joueur1 ayant la couleur " + joueur1.getCouleur() + " a gagné la partie !");
+//		}
+//		else {
+//			System.out.println("Joueur2 ayant la couleur " + joueur2.getCouleur() + " a gagné la partie !");
+//		}
+//		
 	}	
 }

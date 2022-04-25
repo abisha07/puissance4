@@ -20,9 +20,14 @@ public class IAMinimax extends Joueur{
 	
 
 	@Override
-	public int trouverPlacement(Plateau plateau) {
-		int colonneAJouer = 1;
-
+	public int trouverPlacement(Plateau plateau) throws PuissanceException {
+		
+		int colonneAJouer;
+		if (plateau.isCoupValid(4)) {
+			colonneAJouer = 4;
+		}else {
+			colonneAJouer = 1;
+		}
 		double valeurDeJeu = heuristique.getMinScore();
 
 		for(int i=1; i<= 6; i++) {
