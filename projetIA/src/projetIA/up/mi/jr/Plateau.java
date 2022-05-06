@@ -121,8 +121,8 @@ public class Plateau {
 	public boolean isEmpty() {
 		boolean flag = true;
 		int column = 0;
-		while (flag && column <= 6) {
-			flag &= (grilleJeu[0][column] == '.');
+		while (flag && column < 7) {
+			flag &= (grilleJeu[5][column] == '.');
 			column++;
 		}
 		return flag;
@@ -400,5 +400,10 @@ public class Plateau {
 			System.out.println(alignementTrouve);
 			return alignementTrouve;
 		}
+	
+	public void supprimePlacement(int colonne) throws PuissanceException {
+		int ligne = getLineValid(colonne);
+		grilleJeu[ligne+1][colonne] = '.';	
+	}
 	
 }

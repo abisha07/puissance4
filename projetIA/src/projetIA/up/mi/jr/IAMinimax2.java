@@ -18,6 +18,53 @@ public class IAMinimax2 extends Joueur{
 		}
 		
 
+		
+//		public int trouverPlacement3(Plateau plateau) throws PuissanceException {
+//			int colonneAJouer;
+//			if (plateau.isEmpty()) {
+//				return 3;
+//			}else {
+//				colonneAJouer = 1;
+//			}
+//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
+//			for(int i = 0; i < 7; i++){
+//				if (plateau.isCoupValid(i)) {
+//					listCoup.add(i);
+//				}
+//			}
+//			
+//			Collections.shuffle(listCoup);
+//
+//			double valeurDeJeu = heuristique.getMinScore();
+//
+//			for(int i=1; i<=6; i++) {
+//				if (listCoup.contains(i)) {
+//				if(plateau.grilleJeu[0][i-1] == '.'){
+//					//DEEP COPY
+//					char [][] copieGrille = new char[6][7];
+//					for (int t=0;t<copieGrille.length;t++) {
+//						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+//					} 
+//					
+//					Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+//					
+//
+//						copieJeu.placerJeton(i, this);
+//						
+//
+//						double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
+//						if (valeurDeJeuCourante >= valeurDeJeu) {
+//							valeurDeJeu = valeurDeJeuCourante;
+//							colonneAJouer = i;
+//						}
+//					}
+//			}	
+//			}	
+//			return colonneAJouer;
+//			
+//		}
+			
+		
 		@Override
 		public int trouverPlacement(Plateau plateau) throws PuissanceException {
 			int colonneAJouer;
@@ -26,36 +73,59 @@ public class IAMinimax2 extends Joueur{
 			}else {
 				colonneAJouer = 1;
 			}
+
 			ArrayList<Integer> listCoup = new ArrayList<Integer>();
 			for(int i = 0; i < 7; i++){
 				if (plateau.isCoupValid(i)) {
 					listCoup.add(i);
 				}
 			}
-			
-			Collections.shuffle(listCoup);
-			
-			//int colonneAJouer = 1;
 
+			int colonneS = plateau.joueur.derniereColonne;
+			int ligneS = plateau.getLineValid(colonneS)+1;
+			
+			char [][] copieGrille = new char[6][7];
+			for (int t=0;t<copieGrille.length;t++) {
+				copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+			} 
+		
+			Plateau copieJeu = new Plateau(copieGrille, plateau.joueurSuivant, plateau.joueur);
+
+			if(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()) == 3 ) {
+
+				boolean trouveContreAttaque = false;
+				int colonne = 0;
+				int ligne = copieJeu.getLineValid(colonne);
+
+				while(! trouveContreAttaque && colonne < 7) {
+					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+
+					if (copieJeu.chaine_max(ligne, colonne, copieJeu.joueurSuivant.getCouleur()) == 4) {
+						trouveContreAttaque = true;
+						return colonne;
+					}					
+					copieJeu.supprimePlacement(colonne);
+					colonne++;
+					
+				}
+
+			}
+
+			Collections.shuffle(listCoup);
+		
 			double valeurDeJeu = heuristique.getMinScore();
-			//System.out.println(valeurDeJeu);
-			for(int i=1; i<=6; i++) {
+			for(int i=1; i<=7; i++) { // Attention g modif indice 
 				if (listCoup.contains(i)) {
+					
+					
 				if(plateau.grilleJeu[0][i-1] == '.'){
-					//DEEP COPY
-					char [][] copieGrille = new char[6][7];
 					for (int t=0;t<copieGrille.length;t++) {
 						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
 					} 
 					
-					Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-					
-						//System.out.println("hh");
 						copieJeu.placerJeton(i, this);
-						
-						//System.out.println("hio");
+
 						double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
-						System.out.println(valeurDeJeuCourante);
 						if (valeurDeJeuCourante >= valeurDeJeu) {
 							valeurDeJeu = valeurDeJeuCourante;
 							colonneAJouer = i;
@@ -66,10 +136,7 @@ public class IAMinimax2 extends Joueur{
 			return colonneAJouer;
 			
 		}
-			
-			//System.out.println(colonneAJouer);
-			
-		
+
 		
 		public double min(Plateau plateau, int profondeur) throws PuissanceException {
 
@@ -130,7 +197,6 @@ public class IAMinimax2 extends Joueur{
 		
 		
 		public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
-			//System.out.println(min(plateau, profondeur));
 			return min(plateau, profondeur);
 			
 		}
