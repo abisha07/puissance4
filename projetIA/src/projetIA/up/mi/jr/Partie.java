@@ -1,5 +1,6 @@
 package projetIA.up.mi.jr;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -19,6 +20,28 @@ public class Partie {
 	private static int nbTour=1;
 	
 	/**
+	 * Lit un entier au clavier
+	 * 
+	 * @param sc      le scanner dans lequel lire l'entier
+	 * @param message le message a afficher avant la lecture
+	 * @return l'entier lu
+	 */
+	private static int lireEntierAuClavier(Scanner sc) {
+		boolean lectureOK = false;
+		int nb = 0;
+		while (!lectureOK) {
+			try {
+				nb = sc.nextInt();
+				lectureOK = true ;
+			} catch (InputMismatchException e) {
+				System.out.println("Il faut taper un nombre entier");
+				sc.nextLine();
+			}
+		}
+		return nb;
+	}
+	
+	/**
 	 * Méthode pour définir le mode de Jeu (parmi 3)
 	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
 	 */
@@ -30,8 +53,7 @@ public class Partie {
 		System.out.println("1 Joueur Humain contre Joueur Humain");
 		System.out.println("2 Joueur Humain contre une IA");
 		System.out.println("3 IA contre une IA");
-
-		choix = sc.nextInt();
+		choix = lireEntierAuClavier(sc);
 		if ((choix < 1) || (choix > 3)) {
 			System.err.println("Le choix " + choix + " n'est pas valide.");
 			System.exit(1);
@@ -44,51 +66,12 @@ public class Partie {
 			break;
 			
 		case 2:
-			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
-			System.out.println("1, 2, 3 ou 4 ? ");
-			int choixNiveauIAH = sc.nextInt();
-			//choixPerso(sc, 2, choixNiveau);
-			
-			switch(choixNiveauIAH) {
-			case 1:
-				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAMinimax('J', 2, 5);
-				break;
-				
-			case 2:
-				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAAlphaBeta('J', 2, 8);
-				break;
-				
-			case 3:
-				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new IAMinimax2('J', 2, 5);
-				break;
-			}
+			choixNiveauIAHumain(sc);
 			break;
 			
 			
 		case 3:
-			System.out.println("Il existe 4 niveaux de difficulté, lequel voulez-vous ?");
-			System.out.println("1, 2, 3 ou 4 ? ");
-			int choixNiveauIAIA = sc.nextInt();
-			//choixPerso(sc, 2, choixNiveau);
-			
-			switch(choixNiveauIAIA) {
-			case 1:
-				joueur1 = new IAMinimax('R',1, 3);
-				joueur2 = new IAMinimax('J', 2, 3);
-				break;
-				
-			case 2:
-				joueur1 = new IAAlphaBeta('R',1, 3);
-				joueur2 = new IAAlphaBeta('J', 2, 3);
-				break;
-			case 3:
-				joueur1 = new IAMinimax2('R',1, 3);
-				joueur2 = new IAMinimax2('J', 2, 3);
-				break;
-			}
+			choixNiveauIAIA(sc);
 			break;
 		}
 		}while((choix < 1) || (choix > 3));
@@ -96,188 +79,161 @@ public class Partie {
 			
 	}
 	
-//	public void choixNiveauIAHumain(int choixNiveau) {
-//		
-//	}
-	
-	/**
-	 * Méthode pour définir les couleurs des jetons des joueurs 
-	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
-	 * @param mode Entier pour identifier les 2 types de modes 
-	 * mode = 1 joueur humain contre un autre joueur humain 
-	 * mode = 2 joueur humain contre une IA
-	 * @param niveau
-	 * public static void choixPerso(Scanner sc, int mode, int niveau) {
-		
-		
-		if(mode == 1) { //Si le joueur humain joue contre un autre joueur humain
-			System.out.println("Joueur1, quelle couleur de jeton voulez-vous choisir pour cette partie");
-			System.out.println("Saisir \"rouge\" ou \"jaune\"");
-			String choixJeton = sc.next();
-			if (choixJeton.equalsIgnoreCase("rouge")){
-				joueur1 = new JoueurHumain('R',1);
-				joueur2 = new JoueurHumain('J', 2);
-			}
-			else { 
-				joueur1 = new JoueurHumain('J', 1);
-				joueur2 = new JoueurHumain('R', 2);
-			}
+	public static void choixNiveauIAHumain(Scanner sc) {
+		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
+		System.out.println("1, 2, ou 3 ? ");
+		joueur1 = new JoueurHumain('R',1);
+		int choixNiveauIAH = lireEntierAuClavier(sc);
+		switch(choixNiveauIAH) {
+		case 1:
+			joueur2 = new IAAlphaBeta('J', 2, 5, 1);
+			break;
+			
+		case 2:
+			joueur2 = new IAMinimax('J', 2, 5);
+			break;
+			
+		case 3:
+			joueur2 = new IAAlphaBeta('J', 2, 5, 2);
+			break;
 		}
-		else { // Cas joueur humain joue contre l'IA MiniMax
-			if (niveau == 1) {
-				IAMiniMax joueur2 = new IAMiniMax();
-//			}else if (niveau == 2) {
-//				IAMonteCarlo joueur2 = new IAMonteCarlo();
-//			}else if (niveau == 3) {
-//				IAQLearning joueur2 = new IAQLearning();
-//			}else if (niveau == 4) {
-//				IAalphaBeta joueur2 = new IAalphaBeta();
-//			}
-//		}
-		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
-		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
+		
 	}
-	 */
 	
+	public static void choixNiveauIAIA(Scanner sc) {
+		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
+		System.out.println("1, 2, ou 3 ? ");
+		int choixNiveauIAIA = sc.nextInt();
+		
+		
+		switch(choixNiveauIAIA) {
+		case 1:
+			joueur1 = new IAAlphaBeta('R', 2, 5, 1);
+			joueur2 = new IAAlphaBeta('J', 2, 5, 1);
+			break;
+			
+		case 2:
+			joueur1 = new IAMinimax('R', 2, 8);
+			joueur2 = new IAMinimax('J', 2, 8);
+			break;
+		case 3:
+			joueur1 = new IAAlphaBeta('R', 2, 5, 2);
+			joueur2 = new IAAlphaBeta('J', 2, 5, 2);
+			break;
+		}
+	}
+	
+	public static void jeuHumainHumain(Scanner scanner, Plateau plateau) throws PuissanceException {
+		
+		boolean place = false;
+		while(!place) {
+			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			int col = lireEntierAuClavier(scanner);
+			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+				place=true;
+				plateau.placerJeton(col-1, nbTour%2==1 ? joueur1 : joueur2);
+				
+			}else {
+				System.out.println("Numéro de la colonne incorrect, réitérez");
+			}
+		
+		}
+		System.out.println(plateau.getGagnant());
+	}
+	
+	public static void jeuIAHumain(Scanner scanner, Plateau plateau) throws PuissanceException{
+		if  (nbTour%2==0) { 
+			boolean place2 = false;
+			while(!place2) {
+				System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+				int col = lireEntierAuClavier(scanner);
+				if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+					place2=true;
+					plateau.placerJeton(col-1, joueur1 );
+					
+				}else {
+					System.out.println("Numéro de la colonne incorrect, réitérez");
+				}
+			
+			}
+			
+			}
+				else {
+					boolean place2 = false;
+					while(!place2) {
+						int col = joueur2.trouverPlacement(plateau);
+						if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+							place2=true;
+							plateau.placerJeton(col, joueur2 );
+							
+						}
+					
+					}			
+			}
+	}
+	
+	public static void jeuIAIA(Plateau plateau) throws PuissanceException {
+		if  (nbTour%2==1) { 
+			boolean place3 = false;
+			while(!place3) {
+				System.out.println("Joueur 1 est entrain de jouer" );
+				int col = joueur1.trouverPlacement(plateau);
+				if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+					place3=true;
+					plateau.placerJeton(col, joueur1 );					
+				}			
+			}
+
+		}else {
+			boolean place4 = false;
+			while(!place4) {
+				System.out.println("Joueur 2 est entrain de jouer" );
+				int col = joueur2.trouverPlacement(plateau);
+				if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+					place4=true;
+					plateau.placerJeton(col, joueur2 );
+					
+				}
+			
+			}			
+			}
+	}
 
 	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
 		Scanner scanner = new Scanner(System.in);
-		//System.out.println("Quel mode voulez-vous choisir ?");
 		int mode = modeJeu(scanner);
-		//System.out.println("Joueur 1, voulez-vous commencer la partie ? y/n");
-		//Scanner sc = new Scanner(System.in);
-		//String rep = sc.nextLine();
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
 		Plateau plateau = new Plateau(joueur1, joueur2) ;
-		//plateau.affichePlateau();
+		plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
-			System.out.println("Tour n°" + nbTour);
-			//System.out.println(mode);
-			int col;
+			System.out.println("Tour n°" + nbTour);	
 			
 			try {
 				switch (mode) {
 				case 1:	
-					
-					//choixPerso(sc,1, 0);// humain contre humain est par défaut de niveau 1
-					plateau.affichePlateau();
-					boolean place = false;
-					while(!place) {
-						System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-						col = scanner.nextInt();
-						if((col > 0 && col <= 7) && plateau.isCoupValid(col-1)) {
-							place=true;
-							plateau.placerJeton(col-1, nbTour%2==1 ? joueur1 : joueur2);
-							
-						}else {
-							System.out.println("Numéro de la colonne incorrect, réitérez");
-						}
-					
-					}
-					System.out.println(plateau.getGagnant());
+					jeuHumainHumain(scanner, plateau);
 					break;
 					
 				case 2:
-					
-					if  (nbTour%2==0) { 
-//					System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-//					col = scanner.nextInt();
-//					plateau.placerJeton(col, joueur1 );
-					boolean place2 = false;
-					while(!place2) {
-						System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-						col = scanner.nextInt();
-						if((col > 0 && col <= 7) && plateau.isCoupValid(col-1)) {
-							place2=true;
-							plateau.placerJeton(col-1, joueur1 );
-							
-						}else {
-							System.out.println("Numéro de la colonne incorrect, réitérez");
-						}
-					
-					}
-					
-					}
-						else {
-							System.out.println("hello");
-							boolean place2 = false;
-							while(!place2) {
-								//System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-								col = joueur2.trouverPlacement(plateau);
-								if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
-									place2=true;
-									plateau.placerJeton(col, joueur2 );
-									
-								}
-							
-							}
-							
-							
-					//plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
-					System.out.println("hel");
-					
-					}
+					jeuIAHumain(scanner, plateau);					
 					break;	
 					
 					
 				case 3:
-					if  (nbTour%2==1) { 
-						boolean place3 = false;
-						while(!place3) {
-							System.out.println("Joueur 1 est entrain de jouer" );
-							System.out.println("hello1");
-							col = joueur1.trouverPlacement(plateau);
-							System.out.println("hello2");
-							//System.out.println(col);
-							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
-								place3=true;
-								//System.out.println(place3);
-								plateau.placerJeton(col, joueur1 );
-								
-							}
-						
-						}
-						//System.out.println("Joueur 1 est entrain de jouer" );
-						//plateau.placerJeton(joueur1.trouverPlacement(plateau)+1,joueur1);
-					}else {
-						boolean place4 = false;
-						while(!place4) {
-							System.out.println("Joueur 2 est entrain de jouer" );
-							col = joueur2.trouverPlacement(plateau);
-							System.out.println(col);
-							if((col >= 0 && col < 7) && plateau.isCoupValid(col)) {
-								place4=true;
-								System.out.println("hello2");
-								plateau.placerJeton(col, joueur2 );
-								System.out.println("hello4");
-								
-							}
-						
-						}
-						//System.out.println("Joueur 2 est entrain de jouer" );
-						//plateau.placerJeton(joueur2.trouverPlacement(plateau)+1,joueur2);
-						
-						}
+					jeuIAIA( plateau);
 					break;	
 			}
 				
 			} catch (PuissanceException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
 				System.out.println(e.getMessage());
 			}
 			plateau.affichePlateau();
 			nbTour++;			
 		}
 		System.out.println("Le joueur ayant la couleur " + plateau.getGagnant() + " a gagné la partie !");	
-//		if(nbTour%2==0) {
-//			System.out.println("Joueur1 ayant la couleur " + joueur1.getCouleur() + " a gagné la partie !");
-//		}
-//		else {
-//			System.out.println("Joueur2 ayant la couleur " + joueur2.getCouleur() + " a gagné la partie !");
-//		}
-//		
 	}	
+	
+	
 }

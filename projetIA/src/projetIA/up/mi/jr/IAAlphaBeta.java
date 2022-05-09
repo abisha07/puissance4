@@ -47,6 +47,10 @@ public class IAAlphaBeta extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) {
+		int colonneAJouer = 1;
+		if (plateau.estVide()) {
+			return 3;
+		}
 		ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
 		
 		// On initialise les résultat avec la première colonne jouable pour éviter
@@ -64,6 +68,20 @@ public class IAAlphaBeta extends Joueur{
 				if(plateau.grilleJeu[0][i -1] == '.'){
 					//DEEP COPY
 					Plateau copieJeu = plateau.copieGrille();
+					if(plateau.aGagne(plateau.joueur, 3 )) {
+						
+						boolean trouveContreAttaque = false;
+						int colonne = 0;
+						while(! trouveContreAttaque && colonne < 7) {
+							copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+							if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+								trouveContreAttaque = true;
+								return colonne;
+							}					
+							copieJeu.supprimePlacement(colonne);
+							colonne++;
+						}
+					}
 							
 					copieJeu.placerJeton(i, this);
 					
@@ -83,6 +101,7 @@ public class IAAlphaBeta extends Joueur{
 		
 		int numeroDeColonneAJouer = (int) (Math.random() * colonnesAJouer.size());
 		return colonnesAJouer.get(numeroDeColonneAJouer);
+	
 	}
 	
 	/**

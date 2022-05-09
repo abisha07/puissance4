@@ -3,16 +3,13 @@ package projetIA.up.mi.jr;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 /**
  * Represente une IA qui implémente MiniMax
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
  *
  */
 public class IAMinimax extends Joueur{
-	/**
-	 * Représente le niveau de l'IA
-	 */
-	private int niveau;
 	
 	/**
 	 * Représente la profondeur d'évaluation	
@@ -31,10 +28,9 @@ public class IAMinimax extends Joueur{
 	 * @param profondeur représente la profondeur d'évaluation
 	 * @param niveau représente le niveau de l'IA
 	 */
-	public IAMinimax(char couleurJeton, int numJoueur, int profondeur, int niveau) {
+	public IAMinimax(char couleurJeton, int numJoueur, int profondeur) {
 		super(couleurJeton, numJoueur);
 		this.profondeur = profondeur;
-		this.niveau = niveau;
 		heuristique = new Heuristique();
 		
 	}
@@ -44,37 +40,50 @@ public class IAMinimax extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-		
-		int colonneAJouer;
-		if (plateau.estCoupValide(4)) {
-			colonneAJouer = 4;
-		}else {
-			colonneAJouer = 1;
-		}
-		double valeurDeJeu = heuristique.getMinScore();
-
-		for(int i=1; i<= 6; i++) {
-			if(plateau.grilleJeu[0][i -1] == '.'){
-				//DEEP COPY
-				Plateau copieJeu = plateau.copieGrille();
-				try {
-					copieJeu.placerJeton(i, this);
-					double valeurDeJeuCourante = minmax( copieJeu);
-					if (valeurDeJeuCourante >= valeurDeJeu) {
-						valeurDeJeu = valeurDeJeuCourante;
-						colonneAJouer = i;
-					}
-				} catch (PuissanceException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				}
+			
+			int colonneAJouer;
+			if (plateau.estVide()) {
+				return 3;
+			}else {
+				colonneAJouer = 1;
 			}
-		
-		return colonneAJouer;
-	}
+			double valeurDeJeu = heuristique.getMinScore();
 	
+			for(int i=1; i<= 6; i++) {
+				if(plateau.grilleJeu[0][i -1] == '.'){
+					//DEEP COPY
+					Plateau copieJeu = plateau.copieGrille();
+					if(plateau.aGagne(plateau.joueur, 3 )) {
+						
+						boolean trouveContreAttaque = false;
+						int colonne = 0;
+						while(! trouveContreAttaque && colonne < 7) {
+							copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+							if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+								trouveContreAttaque = true;
+								return colonne;
+							}					
+							copieJeu.supprimePlacement(colonne);
+							colonne++;
+						}
+					}
+					try {
+						copieJeu.placerJeton(i, this);
+						double valeurDeJeuCourante = minmax( copieJeu);
+						if (valeurDeJeuCourante >= valeurDeJeu) {
+							valeurDeJeu = valeurDeJeuCourante;
+							colonneAJouer = i;
+						}
+					} catch (PuissanceException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					}
+				}
+			
+			return colonneAJouer;
+		}
 	
 	/**
 	 * Renvoie le résultat de Min de l'algorithme MiniMax
@@ -83,28 +92,30 @@ public class IAMinimax extends Joueur{
 	 * @return le résultat de Min de l'algorithme MiniMax
 	 */
 	public double min(Plateau plateau, int profondeur) throws PuissanceException {
+	
 
-		if(profondeur != 0){
-			
+		if(profondeur != 0){			
 			double valeurDeJeu = heuristique.getMaxScore();
 			for(int i=1; i <= 6; i++){
 				
 					if(plateau.grilleJeu[0][i -1] == '.'){
 						//DEEP COPY
 						Plateau copieJeu = plateau.copieGrille();
+						
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
 							copieJeu.placerJeton(i, copieJeu.joueur);
 						}
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
 					}
 			
-			}
+			
+					}
 			return valeurDeJeu;
 		}else{
 			return heuristique.evaluation(plateau);  
+
 		}
 	}
-	
 	
 	/**
 	 * Renvoie le résultat de Max de l'algorithme MiniMax
