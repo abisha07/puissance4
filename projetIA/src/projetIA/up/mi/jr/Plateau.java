@@ -156,7 +156,7 @@ public class Plateau {
 				setColor(line, column, joueur.getCouleur());
 				joueur.derniereColonne = column;
 			}
-			if(hasWon(joueur)){		
+			if(hasWon(joueur, 4)){		
 				gagnant = joueur.getCouleur();
 				//affichePlateau();
 				//System.out.println(joueur.toString() + " a gagné la partie !");
@@ -170,12 +170,12 @@ public class Plateau {
 	
 
 	/** Retourne vrai si le joueur passe en parametre a gagner */
-	public boolean hasWon(Joueur joueur) {
+	public boolean hasWon(Joueur joueur, int nbAlignement) {
 		boolean res = false;
 		for (int line = 0; line < 6 && !res; line++) {
 			for (int column = 0; column < 7 && !res; column++) {
 				if (getColor(line, column) == joueur.getCouleur()) {
-					res = (chaine_max(line, column, joueur.getCouleur()) >= 4);
+					res = (chaine_max(line, column, joueur.getCouleur()) >= nbAlignement);
 				}
 			}
 		}

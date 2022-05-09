@@ -96,6 +96,10 @@ public class Partie {
 			
 	}
 	
+//	public void choixNiveauIAHumain(int choixNiveau) {
+//		
+//	}
+	
 	/**
 	 * Méthode pour définir les couleurs des jetons des joueurs 
 	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 

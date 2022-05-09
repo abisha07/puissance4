@@ -90,8 +90,8 @@ public class IAMinimax2 extends Joueur{
 			} 
 		
 			Plateau copieJeu = new Plateau(copieGrille, plateau.joueurSuivant, plateau.joueur);
-
-			if(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()) == 3 ) {
+			System.out.println(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()));
+			if(plateau.hasWon(plateau.joueur, 3 )) {
 
 				boolean trouveContreAttaque = false;
 				int colonne = 0;
@@ -99,9 +99,15 @@ public class IAMinimax2 extends Joueur{
 
 				while(! trouveContreAttaque && colonne < 7) {
 					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-
-					if (copieJeu.chaine_max(ligne, colonne, copieJeu.joueurSuivant.getCouleur()) == 4) {
+					System.out.println("********************");
+					copieJeu.affichePlateau();
+					System.out.println("********************");
+					System.out.println(colonne);
+					System.out.println(copieJeu.chaine_max(ligne, colonne, copieJeu.joueurSuivant.getCouleur()));
+					if (copieJeu.hasWon(copieJeu.joueurSuivant, 4)) {
+						System.out.println("salut");
 						trouveContreAttaque = true;
+						System.out.println(colonne);
 						return colonne;
 					}					
 					copieJeu.supprimePlacement(colonne);
