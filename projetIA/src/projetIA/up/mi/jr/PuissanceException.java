@@ -1,5 +1,10 @@
 package projetIA.up.mi.jr;
 
+/**
+ * Classe qui gère les erreurs dans le jeu Puissance 4
+ * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
+ *
+ */
 public class PuissanceException extends Exception {
 	
 	

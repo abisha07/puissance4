@@ -90,32 +90,32 @@ public class IAMinimax2 extends Joueur{
 			} 
 		
 			Plateau copieJeu = new Plateau(copieGrille, plateau.joueurSuivant, plateau.joueur);
-			System.out.println(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()));
-			if(plateau.hasWon(plateau.joueur, 3 )) {
+			//System.out.println(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()));
+//			if(plateau.hasWon(plateau.joueur, 3 )) {
+//
+//				boolean trouveContreAttaque = false;
+//				int colonne = 0;
+//				int ligne = copieJeu.getLineValid(colonne);
+//
+//				while(! trouveContreAttaque && colonne < 7) {
+//					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+//					System.out.println("********************");
+//					copieJeu.affichePlateau();
+//					System.out.println("********************");
+//					System.out.println(colonne);
+//					System.out.println(copieJeu.chaine_max(ligne, colonne, copieJeu.joueurSuivant.getCouleur()));
+//					if (copieJeu.hasWon(copieJeu.joueurSuivant, 4)) {
+//						System.out.println("salut");
+//						trouveContreAttaque = true;
+//						System.out.println(colonne);
+//						return colonne;
+//					}					
+//					copieJeu.supprimePlacement(colonne);
+//					colonne++;
+//					
+//				}
 
-				boolean trouveContreAttaque = false;
-				int colonne = 0;
-				int ligne = copieJeu.getLineValid(colonne);
-
-				while(! trouveContreAttaque && colonne < 7) {
-					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-					System.out.println("********************");
-					copieJeu.affichePlateau();
-					System.out.println("********************");
-					System.out.println(colonne);
-					System.out.println(copieJeu.chaine_max(ligne, colonne, copieJeu.joueurSuivant.getCouleur()));
-					if (copieJeu.hasWon(copieJeu.joueurSuivant, 4)) {
-						System.out.println("salut");
-						trouveContreAttaque = true;
-						System.out.println(colonne);
-						return colonne;
-					}					
-					copieJeu.supprimePlacement(colonne);
-					colonne++;
-					
-				}
-
-			}
+//			}
 
 			Collections.shuffle(listCoup);
 		
@@ -168,7 +168,7 @@ public class IAMinimax2 extends Joueur{
 				}
 				return valeurDeJeu;
 			}else{
-				return heuristique.noteGrille(plateau);  
+				return heuristique.evaluation(plateau);  
 			}
 		}
 		
@@ -196,7 +196,7 @@ public class IAMinimax2 extends Joueur{
 				}
 				return valeurDeJeu;
 			}else{
-				return heuristique.noteGrille(plateau);  
+				return heuristique.evaluation(plateau);  
 			}
 		}
 

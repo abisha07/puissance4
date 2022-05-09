@@ -12,11 +12,21 @@ public abstract class Joueur {
 	 */
 	private char couleur;
 	
+	/**
+	 * Un joueur est défini par un numéro de passage
+	 */
 	private int numJoueur;
 	
+	/**
+	 * Un joueur est défini par le numéro de la dernière colonne jouée
+	 */
 	public int derniereColonne;
 	
-	
+	/**
+	 * Constructeur
+	 * @param couleur Couleur du jeton du joueur
+	 * @param numJoueur Numéro de passage du joueur
+	 */
 	public Joueur(char couleur, int numJoueur) {
 		this.couleur=couleur;
 		this.numJoueur = numJoueur;
@@ -30,17 +40,18 @@ public abstract class Joueur {
 		return couleur;
 	}
 	
-	
+	/**
+	 * Getteur renvoyant le numéro de passage du joueur 
+	 * @return le numéro de passage du joueur 
+	 */
 	public int getNumJoueur() {
 		return numJoueur;
 	}
-
-	
 	
 	
 	/**
-	 * Renvoie sous forme de liste d'Integer les coordonnées du jeton à placer dans la grille 
-	 * @return liste d'Interger représentant les coordonnées du jeton à placer 
+	 * Renvoie le numéro de la colonne dans laquelle le jeton est à placer dans la grille 
+	 * @return le numéro de la colonne dans laquelle le jeton est à placer dans la grille
 	 * @throws PuissanceException 
 	 */
 	public abstract int trouverPlacement(Plateau plateau) throws PuissanceException;
