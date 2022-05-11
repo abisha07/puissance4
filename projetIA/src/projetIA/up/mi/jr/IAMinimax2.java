@@ -67,29 +67,29 @@ public class IAMinimax2 extends Joueur{
 		
 		@Override
 		public int trouverPlacement(Plateau plateau) throws PuissanceException {
-			int colonneAJouer;
-			if (plateau.isEmpty()) {
-				return 3;
-			}else {
-				colonneAJouer = 1;
-			}
-
-			ArrayList<Integer> listCoup = new ArrayList<Integer>();
-			for(int i = 0; i < 7; i++){
-				if (plateau.isCoupValid(i)) {
-					listCoup.add(i);
-				}
-			}
-
-			int colonneS = plateau.joueur.derniereColonne;
-			int ligneS = plateau.getLineValid(colonneS)+1;
-			
-			char [][] copieGrille = new char[6][7];
-			for (int t=0;t<copieGrille.length;t++) {
-				copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-			} 
-		
-			Plateau copieJeu = new Plateau(copieGrille, plateau.joueurSuivant, plateau.joueur);
+			int colonneAJouer=1;
+//			if (plateau.isEmpty()) {
+//				return 3;
+//			}else {
+//				colonneAJouer = 1;
+//			}
+//
+//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
+//			for(int i = 0; i < 7; i++){
+//				if (plateau.isCoupValid(i)) {
+//					listCoup.add(i);
+//				}
+//			}
+//
+//			int colonneS = plateau.joueur.derniereColonne;
+//			int ligneS = plateau.getLineValid(colonneS)+1;
+//			
+//			char [][] copieGrille = new char[6][7];
+//			for (int t=0;t<copieGrille.length;t++) {
+//				copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+//			} 
+//		
+//			Plateau copieJeu = new Plateau(copieGrille, plateau.joueurSuivant, plateau.joueur);
 			//System.out.println(plateau.chaine_max(ligneS, colonneS, plateau.joueur.getCouleur()));
 //			if(plateau.hasWon(plateau.joueur, 3 )) {
 //
@@ -116,100 +116,101 @@ public class IAMinimax2 extends Joueur{
 //				}
 
 //			}
-
-			Collections.shuffle(listCoup);
-		
-			double valeurDeJeu = heuristique.getMinScore();
-			for(int i=1; i<=7; i++) { // Attention g modif indice 
-				if (listCoup.contains(i)) {
-					
-					
-				if(plateau.grilleJeu[0][i-1] == '.'){
-					for (int t=0;t<copieGrille.length;t++) {
-						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-					} 
-					
-						copieJeu.placerJeton(i, this);
-
-						double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
-						if (valeurDeJeuCourante >= valeurDeJeu) {
-							valeurDeJeu = valeurDeJeuCourante;
-							colonneAJouer = i;
-						}
-					}
-			}	
-			}	
+//
+//			Collections.shuffle(listCoup);
+//		
+//			double valeurDeJeu = heuristique.getMinScore();
+//			for(int i=1; i<=7; i++) { // Attention g modif indice 
+//				if (listCoup.contains(i)) {
+//					
+//					
+//				if(plateau.grilleJeu[0][i-1] == '.'){
+//					for (int t=0;t<copieGrille.length;t++) {
+//						copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+//					} 
+//					
+//						copieJeu.placerJeton(i, this);
+//
+//						double valeurDeJeuCourante = minmax( copieJeu,  this, profondeur);
+//						if (valeurDeJeuCourante >= valeurDeJeu) {
+//							valeurDeJeu = valeurDeJeuCourante;
+//							colonneAJouer = i;
+//						}
+//					}
+//			}	
+//			}	
 			return colonneAJouer;
 			
 		}
-
-		
-		public double min(Plateau plateau, int profondeur) throws PuissanceException {
-
-			if(profondeur != 0){
-				
-				double valeurDeJeu = heuristique.getMaxScore();
-				for(int i=1; i <= 6; i++){
-					
-						if(plateau.grilleJeu[0][i -1] == '.'){
-							//DEEP COPY
-							char [][] copieGrille = new char[6][7];
-							for (int t=0;t<copieGrille.length;t++) {
-								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-							} 
-								
-							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
-								copieJeu.placerJeton(i, copieJeu.joueur);
-							}
-							valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
-						}
-				
-				}
-				return valeurDeJeu;
-			}else{
-				return heuristique.evaluation(plateau);  
-			}
-		}
-		
-		public double max(Plateau plateau, int profondeur) throws PuissanceException {
-			
-			if(profondeur != 0){
-				
-				double valeurDeJeu = heuristique.getMinScore();
-				for(int i=1; i <= 6; i++){
-					
-						if(plateau.grilleJeu[0][i -1] == '.'){
-							//DEEP COPY
-							char [][] copieGrille = new char[6][7];
-							for (int t=0;t<copieGrille.length;t++) {
-								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-							} 
-								
-							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
-								copieJeu.placerJeton(i, copieJeu.joueur);
-							}
-							valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
-						}
-				
-				}
-				return valeurDeJeu;
-			}else{
-				return heuristique.evaluation(plateau);  
-			}
-		}
-
-		
-		
-		public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
-			return min(plateau, profondeur);
-			
-		}
-
-		public String toString() {
-			return "Le joueur " + this.getNumJoueur();
-		}
-		
-		
 }
+//
+//		
+//		public double min(Plateau plateau, int profondeur) throws PuissanceException {
+//
+//			if(profondeur != 0){
+//				
+//				double valeurDeJeu = heuristique.getMaxScore();
+//				for(int i=1; i <= 6; i++){
+//					
+//						if(plateau.grilleJeu[0][i -1] == '.'){
+//							//DEEP COPY
+//							char [][] copieGrille = new char[6][7];
+//							for (int t=0;t<copieGrille.length;t++) {
+//								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+//							} 
+//								
+//							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+//							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+//								copieJeu.placerJeton(i, copieJeu.joueur);
+//							}
+//							valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
+//						}
+//				
+//				}
+//				return valeurDeJeu;
+//			}else{
+//				return heuristique.evaluation(plateau);  
+//			}
+//		}
+//		
+//		public double max(Plateau plateau, int profondeur) throws PuissanceException {
+//			
+//			if(profondeur != 0){
+//				
+//				double valeurDeJeu = heuristique.getMinScore();
+//				for(int i=1; i <= 6; i++){
+//					
+//						if(plateau.grilleJeu[0][i -1] == '.'){
+//							//DEEP COPY
+//							char [][] copieGrille = new char[6][7];
+//							for (int t=0;t<copieGrille.length;t++) {
+//								copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
+//							} 
+//								
+//							Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
+//							if (copieJeu.isCoupValid(i) && copieJeu.getLineValid(i) !=-1) {
+//								copieJeu.placerJeton(i, copieJeu.joueur);
+//							}
+//							valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
+//						}
+//				
+//				}
+//				return valeurDeJeu;
+//			}else{
+//				return heuristique.evaluation(plateau);  
+//			}
+//		}
+//
+//		
+//		
+//		public double minmax(Plateau plateau, Joueur joueur, int profondeur) throws PuissanceException {
+//			return min(plateau, profondeur);
+//			
+//		}
+//
+//		public String toString() {
+//			return "Le joueur " + this.getNumJoueur();
+//		}
+//		
+//		
+//}

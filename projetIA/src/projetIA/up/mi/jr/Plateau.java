@@ -44,6 +44,12 @@ public class Plateau {
 		this.joueurSuivant = joueurSuivant;		
 	}
 	
+	public void  setJoueur(Joueur jCourant,Joueur jSuivant) {
+		this.joueur = jCourant;
+		this.joueurSuivant = jSuivant;		
+		
+	}
+	
 	/**
 	 * Constructeur
 	 * @param grille tableau de type char représentant la grille du puissance 4

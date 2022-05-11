@@ -40,21 +40,34 @@ public class IAMinimax extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-			
+		
+			// plan stratégie choisie par nous ???
 			int colonneAJouer;
 			if (plateau.estVide()) {
 				return 3;
 			}else {
 				colonneAJouer = 1;
 			}
+			
+			// On initialise les résultat avec la première colonne jouable pour éviter
+			// que l'IA ne selectionne une colonne non jouable par défaut
+			ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
+			
+			
+			for(int i = 1; i <= 6; i++){
+					if(plateau.getLigneValide(i) != -1){
+						listeCoupValide.add(i);
+					}
+				} 
+			
+			
 			double valeurDeJeu = heuristique.getMinScore();
 	
-			for(int i=1; i<= 6; i++) {
+			for(int i : listeCoupValide) {
 				if(plateau.grilleJeu[0][i -1] == '.'){
 					//DEEP COPY
 					Plateau copieJeu = plateau.copieGrille();
 					if(plateau.aGagne(plateau.joueur, 3 )) {
-						
 						boolean trouveContreAttaque = false;
 						int colonne = 0;
 						while(! trouveContreAttaque && colonne < 7) {
@@ -101,7 +114,6 @@ public class IAMinimax extends Joueur{
 					if(plateau.grilleJeu[0][i -1] == '.'){
 						//DEEP COPY
 						Plateau copieJeu = plateau.copieGrille();
-						
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
 							copieJeu.placerJeton(i, copieJeu.joueur);
 						}
@@ -113,6 +125,7 @@ public class IAMinimax extends Joueur{
 			return valeurDeJeu;
 		}else{
 			return heuristique.evaluation(plateau);  
+			
 
 		}
 	}

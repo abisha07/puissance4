@@ -35,7 +35,7 @@ public class TestPuissance4 {
 		JoueurHumain joueur1 = new JoueurHumain('J', 1);
 		JoueurHumain joueur2 = new JoueurHumain('R', 2);
 		Plateau plateau = new Plateau(grilleJeu, joueur1, joueur2 );
-		int ligne = plateau.getLineValid(0);
+		int ligne = plateau.getLigneValide(0);
 		//System.out.println(ligne+1);
 		System.out.println(grilleJeu[ligne+1][0]);
 		
@@ -43,7 +43,7 @@ public class TestPuissance4 {
 		
 		System.out.println(grilleJeu[ligne+1][0]);
 		plateau.affichePlateau();
-		System.out.println(plateau.isEmpty());
+		System.out.println(plateau.estVide());
 		//System.out.println(plateau.resultatAlignementDeJeton('J', 1 ,0, 0,1));
 		//System.out.println(plateau.chercheAlignementDeJeton('J',2, 1, 0, 1));
 	}

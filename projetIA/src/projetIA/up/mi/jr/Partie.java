@@ -108,16 +108,16 @@ public class Partie {
 		
 		switch(choixNiveauIAIA) {
 		case 1:
-			joueur1 = new IAAlphaBeta('R', 2, 5, 1);
+			joueur1 = new IAAlphaBeta('R', 1, 5, 1);
 			joueur2 = new IAAlphaBeta('J', 2, 5, 1);
 			break;
 			
 		case 2:
-			joueur1 = new IAMinimax('R', 2, 8);
-			joueur2 = new IAMinimax('J', 2, 8);
+			joueur1 = new IAMinimax('R', 1, 5);
+			joueur2 = new IAMinimax('J', 2, 5);
 			break;
 		case 3:
-			joueur1 = new IAAlphaBeta('R', 2, 5, 2);
+			joueur1 = new IAAlphaBeta('R', 1, 5, 2);
 			joueur2 = new IAAlphaBeta('J', 2, 5, 2);
 			break;
 		}
@@ -159,9 +159,13 @@ public class Partie {
 			
 			}
 				else {
+					plateau.setJoueur(joueur2, joueur1);
 					boolean place2 = false;
 					while(!place2) {
+						System.out.println(joueur2 + "est entrain de joueur");
 						int col = joueur2.trouverPlacement(plateau);
+						System.out.println("Joueur JOu" );
+						System.out.println(col);
 						if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
 							place2=true;
 							plateau.placerJeton(col, joueur2 );
@@ -198,6 +202,27 @@ public class Partie {
 			}			
 			}
 	}
+	
+	public static void jeuIA(Plateau plateau) throws PuissanceException{
+		Joueur joueur;
+		if  (nbTour%2==1) {
+			joueur= plateau.joueur;
+		}else{
+			joueur = plateau.joueurSuivant;
+		}
+		boolean place = false;
+		while(!place) {
+			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + " est entrain de jouer");
+			int col = joueur.trouverPlacement(plateau);
+			if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+				place=true;
+				plateau.placerJeton(col, joueur );					
+			}	
+			
+		}
+	}
+	
+	
 
 	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
