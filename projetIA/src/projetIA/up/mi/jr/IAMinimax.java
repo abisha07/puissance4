@@ -82,7 +82,7 @@ public class IAMinimax extends Joueur{
 					}
 					try {
 						copieJeu.placerJeton(i, this);
-						double valeurDeJeuCourante = minmax( copieJeu);
+						double valeurDeJeuCourante = minmax(copieJeu);
 						if (valeurDeJeuCourante >= valeurDeJeu) {
 							valeurDeJeu = valeurDeJeuCourante;
 							colonneAJouer = i;
@@ -155,6 +155,9 @@ public class IAMinimax extends Joueur{
 			}
 			return valeurDeJeu;
 		}else{
+			System.out.println(heuristique.evaluation(plateau) + "********");
+//			System.out.println(plateau.joueur + "jCourant");
+//			System.out.println(plateau.joueurSuivant + "jSuivant");
 			return heuristique.evaluation(plateau);  
 		}
 	}
