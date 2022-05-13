@@ -117,8 +117,8 @@ public class Partie {
 			joueur2 = new IAMinimax('J', 2, 5);
 			break;
 		case 3:
-			joueur1 = new IAAlphaBeta('R', 1, 5, 2);
-			joueur2 = new IAAlphaBeta('J', 2, 5, 2);
+			joueur1 = new IAAlphaBeta('R', 1, 7, 2);
+			joueur2 = new IAAlphaBeta('J', 2, 7, 2);
 			break;
 		}
 	}
@@ -162,10 +162,7 @@ public class Partie {
 					plateau.setJoueur(joueur2, joueur1);
 					boolean place2 = false;
 					while(!place2) {
-						System.out.println(joueur2 + "est entrain de joueur");
 						int col = joueur2.trouverPlacement(plateau);
-						System.out.println("Joueur JOu" );
-						System.out.println(col);
 						if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
 							place2=true;
 							plateau.placerJeton(col, joueur2 );

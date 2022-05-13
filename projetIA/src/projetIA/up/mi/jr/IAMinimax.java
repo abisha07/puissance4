@@ -60,7 +60,6 @@ public class IAMinimax extends Joueur{
 			
 			double valeurDeJeu = heuristique.getMinScore();
 			
-			System.out.println(listeCoupValide);
 			// on parcours la liste pour choisir un coup parmi ceux valide
 			for(int i : listeCoupValide) {
 				
@@ -69,7 +68,7 @@ public class IAMinimax extends Joueur{
 
 				//Contre attaque
 				if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
-					System.out.println("entre");
+		
 					boolean trouveContreAttaque = false;
 					int colonne = 0;
 					while(! trouveContreAttaque && colonne < 7) {

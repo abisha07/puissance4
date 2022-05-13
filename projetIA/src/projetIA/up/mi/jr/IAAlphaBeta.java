@@ -71,7 +71,6 @@ public class IAAlphaBeta extends Joueur{
 
 			//Contre attaque
 			if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
-				System.out.println("entre");
 				boolean trouveContreAttaque = false;
 				int colonne = 0;
 				while(! trouveContreAttaque && colonne < 7) {
