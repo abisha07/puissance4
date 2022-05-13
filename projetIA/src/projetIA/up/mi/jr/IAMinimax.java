@@ -49,50 +49,58 @@ public class IAMinimax extends Joueur{
 				colonneAJouer = 1;
 			}
 			
-			// On initialise les résultat avec la première colonne jouable pour éviter
-			// que l'IA ne selectionne une colonne non jouable par défaut
+			
+			// On cherche la liste des coups valides
 			ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
 			
 			
-			for(int i = 1; i <= 6; i++){
+			for(int i = 0; i <= 6; i++){
 					if(plateau.getLigneValide(i) != -1){
 						listeCoupValide.add(i);
 					}
 				} 
 			
-			
 			double valeurDeJeu = heuristique.getMinScore();
-	
+			
+			System.out.println(listeCoupValide);
+			// on parcours la liste pour choisir un coup parmi ceux valide
 			for(int i : listeCoupValide) {
-				if(plateau.grilleJeu[0][i -1] == '.'){
-					//DEEP COPY
-					Plateau copieJeu = plateau.copieGrille();
-					if(plateau.aGagne(plateau.joueur, 3 )) {
-						boolean trouveContreAttaque = false;
-						int colonne = 0;
-						while(! trouveContreAttaque && colonne < 7) {
-							copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-							if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
-								trouveContreAttaque = true;
-								return colonne;
-							}					
-							copieJeu.supprimePlacement(colonne);
-							colonne++;
-						}
+				
+				//DEEP COPY
+				Plateau copieJeu = plateau.copieGrille();
+				
+				//Contre attaque
+				if(plateau.aGagne(plateau.joueur, 3 )) {
+					boolean trouveContreAttaque = false;
+					int colonne = 0;
+					while(! trouveContreAttaque && colonne < 7) {
+						copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+						if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+							trouveContreAttaque = true;
+							return colonne;
+						}					
+						copieJeu.supprimePlacement(colonne);
+						colonne++;
 					}
-					try {
-						copieJeu.placerJeton(i, this);
-						double valeurDeJeuCourante = minmax(copieJeu);
-						if (valeurDeJeuCourante >= valeurDeJeu) {
-							valeurDeJeu = valeurDeJeuCourante;
-							colonneAJouer = i;
-						}
-					} catch (PuissanceException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				}
 					
+				// on cherche le coup qui maximise minmax	
+				
+				try {
+					copieJeu.placerJeton(i, this);
+					double valeurDeJeuCourante = minmax(copieJeu);
+					System.out.println("valeurCourant " + valeurDeJeuCourante);
+					System.out.println("valeurJeu " +valeurDeJeu);
+					if (valeurDeJeuCourante >= valeurDeJeu) {
+						System.out.println("oui");
+						valeurDeJeu = valeurDeJeuCourante;
+						colonneAJouer = i;
 					}
+				} catch (PuissanceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
 				}
 			
 			return colonneAJouer;
@@ -155,7 +163,7 @@ public class IAMinimax extends Joueur{
 			}
 			return valeurDeJeu;
 		}else{
-			System.out.println(heuristique.evaluation(plateau) + "********");
+//			System.out.println(heuristique.evaluation(plateau) + "********");
 //			System.out.println(plateau.joueur + "jCourant");
 //			System.out.println(plateau.joueurSuivant + "jSuivant");
 			return heuristique.evaluation(plateau);  

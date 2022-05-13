@@ -137,15 +137,17 @@ public class Heuristique {
 	 * @return Une valeur d'heuristique
 	 */
 	public int evaluation(Plateau plateau) {
-		if(plateau.aGagne(plateau.joueurSuivant, 3)){
-			//System.out.println("Min");
-			return MIN_SCORE;
-		}
 		
-		if(plateau.aGagne(plateau.joueur, 3)){
-			//System.out.println("Max");
-			return MAX_SCORE;
-		}
+//		if(plateau.aGagne(plateau.joueurSuivant, 3)){
+//			//System.out.println("Min");
+//			return MIN_SCORE;
+//		}
+//		
+//		if(plateau.aGagne(plateau.joueur, 3)){
+//			//System.out.println("Max");
+//			return MAX_SCORE;
+//		}
+		
 		int res = 0;
 		int color;
 		for (int line = 0; line < 6; line++) {
