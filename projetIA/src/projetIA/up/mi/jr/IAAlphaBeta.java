@@ -66,6 +66,8 @@ public class IAAlphaBeta extends Joueur{
 		
 		double valeurDeJeu = heuristique.getMinScore();
 		
+		ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
+		
 		for(int i : listeCoupValide) {
 			
 			//DEEP COPY
@@ -88,7 +90,7 @@ public class IAAlphaBeta extends Joueur{
 			}
 			
 			copieJeu.placerJeton(i, this);
-			ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
+			
 			
 			double valeurDeJeuCourante = alphabeta(copieJeu, this);
 			if (valeurDeJeuCourante == valeurDeJeu){
@@ -98,50 +100,10 @@ public class IAAlphaBeta extends Joueur{
 				valeurDeJeu = valeurDeJeuCourante;
 				colonnesAJouer.add(i);
 			}
-		
-		
-					
-		
-		
-
-
-		//double valeurDeJeu = heuristique.getMinScore();
-		for(int i=1; i <= 6; i++){
-			try {
-				if(plateau.grilleJeu[0][i -1] == '.'){
-					//DEEP COPY
-					Plateau copieJeu = plateau.copieGrille();
-					if(plateau.aGagne(plateau.joueur, 3 )) {
-						
-						boolean trouveContreAttaque = false;
-						int colonne = 0;
-						while(! trouveContreAttaque && colonne < 7) {
-							copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-							if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
-								trouveContreAttaque = true;
-								return colonne;
-							}					
-							copieJeu.supprimePlacement(colonne);
-							colonne++;
-						}
-					}
-							
-					copieJeu.placerJeton(i, this);
-					
-					double valeurDeJeuCourante = alphabeta(copieJeu, this);
-					if (valeurDeJeuCourante == valeurDeJeu){
-						colonnesAJouer.add(i);
-					}else if(valeurDeJeuCourante > valeurDeJeu){
-						colonnesAJouer.clear();
-						valeurDeJeu = valeurDeJeuCourante;
-						colonnesAJouer.add(i);
-					}
-				}
-			} catch (PuissanceException e) {
-				e.printStackTrace();
-			}
 		}
 		
+		
+		//Choisir au hasard parmi les coups 
 		int numeroDeColonneAJouer = (int) (Math.random() * colonnesAJouer.size());
 		return colonnesAJouer.get(numeroDeColonneAJouer);
 	
