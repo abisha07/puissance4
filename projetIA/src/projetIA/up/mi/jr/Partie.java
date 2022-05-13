@@ -127,6 +127,7 @@ public class Partie {
 		
 		boolean place = false;
 		while(!place) {
+//			int col = plateau.joueur.trouverPlacement(plateau);
 			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 			int col = lireEntierAuClavier(scanner);
 			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
@@ -143,6 +144,7 @@ public class Partie {
 	
 	public static void jeuIAHumain(Scanner scanner, Plateau plateau) throws PuissanceException{
 		if  (nbTour%2==0) { 
+			plateau.setJoueur(joueur1, joueur2);
 			boolean place2 = false;
 			while(!place2) {
 				System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
@@ -175,6 +177,7 @@ public class Partie {
 	
 	public static void jeuIAIA(Plateau plateau) throws PuissanceException {
 		if  (nbTour%2==1) { 
+			plateau.setJoueur(joueur1, joueur2);
 			boolean place3 = false;
 			while(!place3) {
 				System.out.println("Joueur 1 est entrain de jouer" );
@@ -186,6 +189,7 @@ public class Partie {
 			}
 
 		}else {
+			plateau.setJoueur(joueur2, joueur1);
 			boolean place4 = false;
 			while(!place4) {
 				System.out.println("Joueur 2 est entrain de jouer" );

@@ -60,20 +60,21 @@ public class IAMinimax extends Joueur{
 			
 			double valeurDeJeu = heuristique.getMinScore();
 			
+			ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
+			
 			// on parcours la liste pour choisir un coup parmi ceux valide
 			for(int i : listeCoupValide) {
 				
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
-
 				//Contre attaque
 				if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
-		
 					boolean trouveContreAttaque = false;
 					int colonne = 0;
 					while(! trouveContreAttaque && colonne < 7) {
 						copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
 						if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+
 							trouveContreAttaque = true;
 							return colonne;
 						}					
@@ -84,20 +85,27 @@ public class IAMinimax extends Joueur{
 					
 				// on cherche le coup qui maximise minmax	
 				
-				try {
+				
 					copieJeu.placerJeton(i, this);
 					double valeurDeJeuCourante = minmax(copieJeu);
-					if (valeurDeJeuCourante >= valeurDeJeu) {
+//					if (valeurDeJeuCourante >= valeurDeJeu) {
+//						valeurDeJeu = valeurDeJeuCourante;
+//						colonneAJouer = i;
+//					}
+					if (valeurDeJeuCourante == valeurDeJeu){
+						colonnesAJouer.add(i);
+					}else if(valeurDeJeuCourante > valeurDeJeu){
+						colonnesAJouer.clear();
 						valeurDeJeu = valeurDeJeuCourante;
-						colonneAJouer = i;
-					}
-				} catch (PuissanceException e) {
-					e.printStackTrace();
-				}
+						colonnesAJouer.add(i);
+					}	
 					
 				}
+//			return colonneAJouer;
 			
-			return colonneAJouer;
+			//Choisir au hasard parmi les coups 
+			int numeroDeColonneAJouer = (int) (Math.random() * colonnesAJouer.size());
+			return colonnesAJouer.get(numeroDeColonneAJouer);
 		}
 	
 	/**
