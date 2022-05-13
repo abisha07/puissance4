@@ -44,25 +44,68 @@ public class IAAlphaBeta extends Joueur{
 	
 	/**
 	 * Renvoie le numéro de la colonne dans laquelle le jeton est à placer dans la grille 
+	 * @throws PuissanceException 
 	 */
 	@Override
-	public int trouverPlacement(Plateau plateau) {
+	public int trouverPlacement(Plateau plateau) throws PuissanceException {
 		int colonneAJouer = 1;
 		if (plateau.estVide()) {
 			return 3;
 		}
-		ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
 		
-		// On initialise les résultat avec la première colonne jouable pour éviter
-		// que l'IA ne selectionne une colonne non jouable par défaut
-		for(int i = 1; i <= 6; i++){
-				if(plateau.grilleJeu[0][i -1] == '.'){
-					colonnesAJouer.add(i);
-					break;
+		
+		// On cherche la liste des coups valides
+		ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
+		
+		
+		for(int i = 0; i <= 6; i++){
+				if(plateau.getLigneValide(i) != -1){
+					listeCoupValide.add(i);
 				}
 			} 
-
+		
 		double valeurDeJeu = heuristique.getMinScore();
+		
+		for(int i : listeCoupValide) {
+			
+			//DEEP COPY
+			Plateau copieJeu = plateau.copieGrille();
+
+			//Contre attaque
+			if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
+				System.out.println("entre");
+				boolean trouveContreAttaque = false;
+				int colonne = 0;
+				while(! trouveContreAttaque && colonne < 7) {
+					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
+					if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+						trouveContreAttaque = true;
+						return colonne;
+					}					
+					copieJeu.supprimePlacement(colonne);
+					colonne++;
+				}
+			}
+			
+			copieJeu.placerJeton(i, this);
+			ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
+			
+			double valeurDeJeuCourante = alphabeta(copieJeu, this);
+			if (valeurDeJeuCourante == valeurDeJeu){
+				colonnesAJouer.add(i);
+			}else if(valeurDeJeuCourante > valeurDeJeu){
+				colonnesAJouer.clear();
+				valeurDeJeu = valeurDeJeuCourante;
+				colonnesAJouer.add(i);
+			}
+		
+		
+					
+		
+		
+
+
+		//double valeurDeJeu = heuristique.getMinScore();
 		for(int i=1; i <= 6; i++){
 			try {
 				if(plateau.grilleJeu[0][i -1] == '.'){
