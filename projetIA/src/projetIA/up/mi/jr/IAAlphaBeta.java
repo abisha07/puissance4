@@ -1,7 +1,6 @@
 package projetIA.up.mi.jr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represente une IA qui implémente AlphaBeta
@@ -25,8 +24,6 @@ public class IAAlphaBeta extends Joueur{
 	 */
 	private int niveau;
 	
-	//TODO //A enlever
-	private int coup;
 	
 	/**
 	 * Constructeur d'une IA AlphaBeta
@@ -48,7 +45,6 @@ public class IAAlphaBeta extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-		int colonneAJouer = 1;
 		if (plateau.estVide()) {
 			return 3;
 		}
@@ -217,147 +213,4 @@ public class IAAlphaBeta extends Joueur{
 		return "Le joueur " + this.getNumJoueur();
 	}
 	
-	
-	
-	//TODO A enlever
-//	private int ab_min(Plateau plateau, int alpha, int beta, int depth) throws PuissanceException {
-//			
-//			// p_courant.joueur == -1
-//			if (plateau.aGagne(plateau.joueur, 4)) {
-//				return Integer.MAX_VALUE;
-//			} else if (depth == 0) {
-//				return heuristique.evaluation(plateau);
-//			}
-//			
-//			// p_child servira comme support pour tester tout les coups possibles
-//			char [][] copieGrille = new char[6][7];
-//			for (int t=0;t<copieGrille.length;t++) {
-//				copieGrille[t] = Arrays.copyOf(plateau.grilleJeu[t], plateau.grilleJeu[t].length);
-//			} 
-//			Plateau copieJeu = new Plateau(copieGrille, plateau.joueur, plateau.joueurSuivant);
-//			// Creation de la liste des coups possibles
-//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
-//			for(int i = 0; i < 7; i++){
-//				if (copieJeu.isCoupValid(i)) {
-//					listCoup.add(i);
-//				}
-//			}
-//			int value;
-//			
-//			// Boucle de parcourt de tout les enfants
-//			for (int coup : listCoup) {
-//				copieJeu.placerJeton(coup, copieJeu.joueur);
-//				
-//				value = ab_max(copieJeu, alpha, beta, depth-1);
-//				
-//				copieJeu.supprimePlacement(coup);
-//				//copieJeu.getBack(line, coup);
-//				
-//				if (value < beta) {
-//					beta = value;
-//					if (alpha > beta) {
-//						return beta;
-//					}
-//				}
-//			}
-//			
-//			return beta;
-//		}
-//		
-//		/** Algorithme Alpha Beta MaxMin 
-//		 * @throws PuissanceException */
-//		private int ab_max(Plateau p_courant, int alpha, int beta, int depth) throws PuissanceException {
-//			
-//			// p_courant.joueur == 1
-//			if (p_courant.hasWon(p_courant.joueur, 4)) {
-//				return Integer.MIN_VALUE;
-//			} else if (depth == 0) {
-//				return heuristique.evaluation(p_courant);
-//			}
-//			
-//			// p_child servira comme support pour tester tout les coups possibles
-//			char [][] copieGrille = new char[6][7];
-//			for (int t=0;t<copieGrille.length;t++) {
-//				copieGrille[t] = Arrays.copyOf(p_courant.grilleJeu[t], p_courant.grilleJeu[t].length);
-//			} 
-//			Plateau p_child = new Plateau(copieGrille, p_courant.joueur, p_courant.joueurSuivant);
-//			// Creation de la liste des coups possibles
-//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
-//			for(int i = 0; i < 7; i++){
-//				if (p_child.isCoupValid(i)) {
-//					listCoup.add(i);
-//				}
-//			}
-//			int value;
-//			
-//			for (int coup : listCoup) {
-//				p_child.placerJeton(coup, p_child.joueur);
-//				
-//				value = ab_min(p_child, alpha, beta, depth-1);
-//				
-//				p_child.supprimePlacement(coup);
-//				
-//				if (value > alpha) {
-//					alpha = value;
-//					if (alpha > beta) {
-//						return alpha;
-//					}
-//				}
-//			}
-//			
-//			return alpha;
-//		}
-//		
-//		
-//		private void jouerAlphaBeta(Plateau p, int level) throws PuissanceException {
-//			int value, value_min = Integer.MAX_VALUE;
-//			
-//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
-//			for(int i = 0; i < 7; i++){
-//				if (p.isCoupValid(i)) {
-//					listCoup.add(i);
-//				}
-//			}
-//			
-//			for (int coup : listCoup) {
-//				int line = p.placerJeton(coup, p.joueurSuivant);
-//				
-//				value = ab_max(p, Integer.MIN_VALUE, Integer.MAX_VALUE, level-1);
-//				
-//				p.supprimePlacement(coup);
-//				
-//				if (value <= value_min) {
-//					value_min = value;
-//					this.coup = coup;
-//				}
-//			}
-//		}
-//		
-//		/** Meilleur coup des blancs 
-//		 * @throws PuissanceException */
-//		private void jouerBetaAlpha(Plateau p, int level) throws PuissanceException {
-//			int value, value_max = Integer.MIN_VALUE;
-//			
-//			ArrayList<Integer> listCoup = new ArrayList<Integer>();
-//			for(int i = 0; i < 7; i++){
-//				if (p.isCoupValid(i)) {
-//					listCoup.add(i);
-//				}
-//			}
-//			
-//			for (int coup : listCoup) {
-//				int line = p.placerJeton(coup, p.joueur);
-//				
-//				value = ab_min(p, Integer.MIN_VALUE, Integer.MAX_VALUE, level-1);
-//				
-//				p.supprimePlacement(coup);
-//				
-//				if (value >= value_max) {
-//					value_max = value;
-//					this.coup = coup;
-//				}
-//			}
-//		}
-//
-//		
 }
