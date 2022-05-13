@@ -40,8 +40,6 @@ public class IAMinimax extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-		
-			// plan stratégie choisie par nous ???
 			int colonneAJouer;
 			if (plateau.estVide()) {
 				return 3;
@@ -68,9 +66,10 @@ public class IAMinimax extends Joueur{
 				
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
-				
+
 				//Contre attaque
-				if(plateau.aGagne(plateau.joueur, 3 )) {
+				if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
+					System.out.println("entre");
 					boolean trouveContreAttaque = false;
 					int colonne = 0;
 					while(! trouveContreAttaque && colonne < 7) {
@@ -89,15 +88,11 @@ public class IAMinimax extends Joueur{
 				try {
 					copieJeu.placerJeton(i, this);
 					double valeurDeJeuCourante = minmax(copieJeu);
-					System.out.println("valeurCourant " + valeurDeJeuCourante);
-					System.out.println("valeurJeu " +valeurDeJeu);
 					if (valeurDeJeuCourante >= valeurDeJeu) {
-						System.out.println("oui");
 						valeurDeJeu = valeurDeJeuCourante;
 						colonneAJouer = i;
 					}
 				} catch (PuissanceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 					
@@ -163,9 +158,6 @@ public class IAMinimax extends Joueur{
 			}
 			return valeurDeJeu;
 		}else{
-//			System.out.println(heuristique.evaluation(plateau) + "********");
-//			System.out.println(plateau.joueur + "jCourant");
-//			System.out.println(plateau.joueurSuivant + "jSuivant");
 			return heuristique.evaluation(plateau);  
 		}
 	}

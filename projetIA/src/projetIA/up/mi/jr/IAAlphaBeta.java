@@ -204,6 +204,14 @@ public class IAAlphaBeta extends Joueur{
 	
 	}
 	
+	/**
+	 * Redéfinition de la méthode toString
+	 */
+	@Override
+	public String toString() {
+		return "Le joueur " + this.getNumJoueur();
+	}
+	
 	
 	
 	//TODO A enlever
