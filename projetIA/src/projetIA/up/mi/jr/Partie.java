@@ -123,94 +123,23 @@ public class Partie {
 		}
 	}
 	
-	public static void jeuHumainHumain(Scanner scanner, Plateau plateau) throws PuissanceException {
-		
+	public static void jeuHumain(Scanner scanner, Plateau plateau, Joueur joueur ) throws PuissanceException {
 		boolean place = false;
 		while(!place) {
-//			int col = plateau.joueur.trouverPlacement(plateau);
-			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			System.out.println("Joueur" + joueur.getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 			int col = lireEntierAuClavier(scanner);
 			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
 				place=true;
-				plateau.placerJeton(col-1, nbTour%2==1 ? joueur1 : joueur2);
+				plateau.placerJeton(col-1, joueur );
 				
 			}else {
 				System.out.println("Numéro de la colonne incorrect, réitérez");
 			}
 		
 		}
-		System.out.println(plateau.getGagnant());
 	}
 	
-	public static void jeuIAHumain(Scanner scanner, Plateau plateau) throws PuissanceException{
-		if  (nbTour%2==0) { 
-			plateau.setJoueur(joueur1, joueur2);
-			boolean place2 = false;
-			while(!place2) {
-				System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
-				int col = lireEntierAuClavier(scanner);
-				if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
-					place2=true;
-					plateau.placerJeton(col-1, joueur1 );
-					
-				}else {
-					System.out.println("Numéro de la colonne incorrect, réitérez");
-				}
-			
-			}
-			
-			}
-				else {
-					plateau.setJoueur(joueur2, joueur1);
-					boolean place2 = false;
-					while(!place2) {
-						int col = joueur2.trouverPlacement(plateau);
-						if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
-							place2=true;
-							plateau.placerJeton(col, joueur2 );
-							
-						}
-					
-					}			
-			}
-	}
-	
-	public static void jeuIAIA(Plateau plateau) throws PuissanceException {
-		if  (nbTour%2==1) { 
-			plateau.setJoueur(joueur1, joueur2);
-			boolean place3 = false;
-			while(!place3) {
-				System.out.println("Joueur 1 est entrain de jouer" );
-				int col = joueur1.trouverPlacement(plateau);
-				if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
-					place3=true;
-					plateau.placerJeton(col, joueur1 );					
-				}			
-			}
-
-		}else {
-			plateau.setJoueur(joueur2, joueur1);
-			boolean place4 = false;
-			while(!place4) {
-				System.out.println("Joueur 2 est entrain de jouer" );
-				int col = joueur2.trouverPlacement(plateau);
-				if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
-					place4=true;
-					plateau.placerJeton(col, joueur2 );
-					
-				}
-			
-			}			
-			}
-	}
-	
-	public static void jeuIA(Plateau plateau) throws PuissanceException{
-		Joueur joueur;
-		if  (nbTour%2==1) {
-			joueur= plateau.joueur;
-		}else{
-			joueur = plateau.joueurSuivant;
-		}
+	public static void jeuIA(Plateau plateau, Joueur joueur) throws PuissanceException{
 		boolean place = false;
 		while(!place) {
 			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + " est entrain de jouer");
@@ -234,21 +163,32 @@ public class Partie {
 		Plateau plateau = new Plateau(joueur1, joueur2) ;
 		plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
-			System.out.println("Tour n°" + nbTour);	
+			System.out.println("Tour n°" + nbTour);
+			Joueur joueur;
+			if  (nbTour%2==1) {
+				joueur= joueur1;
+				plateau.setJoueur(joueur1, joueur2);
+			}else{
+				joueur = joueur2;
+				plateau.setJoueur(joueur2, joueur1);
+			}
 			
 			try {
 				switch (mode) {
 				case 1:	
-					jeuHumainHumain(scanner, plateau);
+					jeuHumain(scanner, plateau, joueur);
 					break;
 					
 				case 2:
-					jeuIAHumain(scanner, plateau);					
+					if  (nbTour%2==1) {
+						jeuHumain(scanner,plateau,joueur);
+					}else{
+						jeuIA(plateau,joueur);
+					}				
 					break;	
-					
-					
+				
 				case 3:
-					jeuIAIA( plateau);
+					jeuIA(plateau,joueur);
 					break;	
 			}
 				
@@ -258,8 +198,99 @@ public class Partie {
 			plateau.affichePlateau();
 			nbTour++;			
 		}
-		System.out.println("Le joueur ayant la couleur " + plateau.getGagnant() + " a gagné la partie !");	
+		if (plateau.estPlein()) {
+			System.out.println(" Egalité ");	
+		}else {
+			System.out.println("Le joueur ayant la couleur " + plateau.getGagnant() + " a gagné la partie !");	
+		}
+		
 	}	
 	
+	
+	
+//	public static void jeuHumainHumain(Scanner scanner, Plateau plateau, Joueur joueur) throws PuissanceException {
+//	
+//	boolean place = false;
+//	while(!place) {
+////		int col = plateau.joueur.trouverPlacement(plateau);
+//		System.out.println("Joueur" + joueur.getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+//		int col = lireEntierAuClavier(scanner);
+//		if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+//			place=true;
+////			plateau.placerJeton(col-1, nbTour%2==1 ? joueur1 : joueur2);
+//			plateau.placerJeton(col-1, joueur);
+//			
+//		}else {
+//			System.out.println("Numéro de la colonne incorrect, réitérez");
+//		}
+//	
+//	}
+//	System.out.println(plateau.getGagnant());
+//}
+//	public static void jeuIAHumain(Scanner scanner, Plateau plateau, Joueur joueur) throws PuissanceException{
+//	if  (nbTour%2==1) { 
+//		plateau.setJoueur(joueur1, joueur2);
+//		boolean place2 = false;
+//		while(!place2) {
+//			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+//			int col = lireEntierAuClavier(scanner);
+//			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+//				place2=true;
+//				plateau.placerJeton(col-1, joueur1 );
+//				
+//			}else {
+//				System.out.println("Numéro de la colonne incorrect, réitérez");
+//			}
+//		
+//		}
+//		
+//		jeuHumain(scanner,plateau,joueur);
+//		
+//		}
+//			else {
+//				plateau.setJoueur(joueur2, joueur1);
+//				boolean place2 = false;
+//				while(!place2) {
+//					int col = joueur2.trouverPlacement(plateau);
+//					if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+//						place2=true;
+//						plateau.placerJeton(col, joueur2 );
+//						
+//					}
+//				
+//				}	
+//				jeuIA(plateau,joueur);
+//		}
+//}	
+//	public static void jeuIAIA(Plateau plateau) throws PuissanceException {
+//	if  (nbTour%2==1) { 
+//		plateau.setJoueur(joueur1, joueur2);
+//		boolean place3 = false;
+//		while(!place3) {
+//			System.out.println("Joueur 1 est entrain de jouer" );
+//			int col = joueur1.trouverPlacement(plateau);
+//			if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+//				place3=true;
+//				plateau.placerJeton(col, joueur1 );					
+//			}			
+//		}
+//
+//	}else {
+////		plateau.setJoueur(joueur2, joueur1);
+////		boolean place4 = false;
+////		while(!place4) {
+////			System.out.println("Joueur 2 est entrain de jouer" );
+////			int col = joueur2.trouverPlacement(plateau);
+////			if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
+////				place4=true;
+////				plateau.placerJeton(col, joueur2 );
+////				
+////			}
+////		
+////		}	
+//		jeuIA(plateau,joueur2);
+//		
+//		}
+//}
 	
 }
