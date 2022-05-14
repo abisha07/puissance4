@@ -70,12 +70,12 @@ public class IAAlphaBeta extends Joueur{
 			Plateau copieJeu = plateau.copieGrille();
 
 			//Contre attaque
-			if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
+			if(plateau.aGagne(plateau.getJoueurSuivant(), 3 )) {
 				boolean trouveContreAttaque = false;
 				int colonne = 0;
 				while(! trouveContreAttaque && colonne < 7) {
-					copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-					if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
+					copieJeu.placerJeton(colonne, copieJeu.getJoueurSuivant());
+					if (copieJeu.aGagne(copieJeu.getJoueurSuivant(), 4)) {
 						trouveContreAttaque = true;
 						return colonne;
 					}					
@@ -134,7 +134,7 @@ public class IAAlphaBeta extends Joueur{
 						//DEEP COPY
 						Plateau copieJeu = plateau.copieGrille();
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
-							copieJeu.placerJeton(i, copieJeu.joueur);
+							copieJeu.placerJeton(i, copieJeu.getJoueurCourant());
 						}
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, joueur, profondeur-1, alpha, beta));
 						
@@ -178,7 +178,7 @@ public class IAAlphaBeta extends Joueur{
 						//DEEP COPY
 						Plateau copieJeu = plateau.copieGrille();
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
-							copieJeu.placerJeton(i, copieJeu.joueur);
+							copieJeu.placerJeton(i, copieJeu.getJoueurCourant());
 						}
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu, joueur, profondeur-1, alpha, beta));
 		

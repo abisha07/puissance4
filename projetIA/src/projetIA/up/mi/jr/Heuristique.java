@@ -138,32 +138,42 @@ public class Heuristique {
 	 */
 	public int evaluation(Plateau plateau) {
 		
-//		if(plateau.aGagne(plateau.joueurSuivant, 3)){
+//		if(plateau.aGagne(plateau.joueurSuivant, 4)){
 //			//System.out.println("Min");
 //			return MIN_SCORE;
 //		}
 //		
-//		if(plateau.aGagne(plateau.joueur, 3)){
+//		if(plateau.aGagne(plateau.joueur, 4)){
 //			//System.out.println("Max");
 //			return MAX_SCORE;
 //		}
-		
+//		
 		int res = 0;
 		int color;
 		for (int line = 0; line < 6; line++) {
 			for (int column = 0; column < 7; column++) {
+//				System.out.println("**********");
+//				plateau.affichePlateau();
+//				System.out.println("**********");
 				if (plateau.getCouleur(line, column) == '.') { //Cas où la case est vide
 					color = 0;
-				}else if(plateau.getCouleur(line, column) == plateau.joueur.getCouleur()) { //Cas où la case est prise par le joueur courant
+				}else if(plateau.getCouleur(line, column) == plateau.getJoueurCourant().getCouleur()) { //Cas où la case est prise par le joueur courant
+					//System.out.println("IIIIIIIIIIIIIIIIIIIIII");
 					color = 1;
 				}else { //Cas où la case est prise par le joueur suivant
+					//System.out.println("00000000000000");
 					color = -1;
 				}
 				if (color != 0) {  //Cas où la case n'est pas vide
-					res += color * plateau.chaine_max(line, column, plateau.joueur.getCouleur());
+					res += color * plateau.chaine_max(line, column, plateau.getJoueurCourant().getCouleur());
 				}
 			}
 		}
+//		System.out.println("**********");
+//		plateau.affichePlateau();
+//		System.out.println("**********");
+//		System.out.println("Joueur courant : " + plateau.getJoueurCourant());
+//		System.out.println("evaluation : " + res);
 		return res;
 	}
 

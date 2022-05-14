@@ -22,17 +22,19 @@ public class Plateau {
 	/**
 	 * joueur est un objet de Joueur, qui représente le joueur courant
 	 */
-	public Joueur joueur;
+	private Joueur joueur;
 	
 	/**
 	 * joueur est un objet de Joueur, qui représente le joueur suivant
 	 */
-	public Joueur joueurSuivant;
+	private Joueur joueurSuivant;
+	
+	private int nbTour;
 	
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonnes et 6 lignes 
 	 */
-	public Plateau(Joueur joueur, Joueur joueurSuivant) {
+	public Plateau(Joueur joueur, Joueur joueurSuivant, int nbTour) {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -41,14 +43,15 @@ public class Plateau {
 			}
 		}
 		this.joueur = joueur;
-		this.joueurSuivant = joueurSuivant;		
+		this.joueurSuivant = joueurSuivant;	
+		this.nbTour=nbTour;
 	}
 	
-	public void  setJoueur(Joueur jCourant,Joueur jSuivant) {
-		this.joueur = jCourant;
-		this.joueurSuivant = jSuivant;		
-		
-	}
+//	public void  setJoueur(Joueur jCourant,Joueur jSuivant) {
+//		this.joueur = jCourant;
+//		this.joueurSuivant = jSuivant;		
+//		
+//	}
 	
 	/**
 	 * Constructeur
@@ -56,10 +59,11 @@ public class Plateau {
 	 * @param joueur représente le joueur courant
 	 * @param joueurSuivant représente le joueur suivant
 	 */
-	public Plateau(char[][] grille, Joueur joueur, Joueur joueurSuivant) {
+	public Plateau(char[][] grille, Joueur joueur, Joueur joueurSuivant , int nbTour) {
 		grilleJeu = grille;
 		this.joueur = joueur;
 		this.joueurSuivant = joueurSuivant;
+		this.nbTour=nbTour;
 	}
 	
 	/**
@@ -69,6 +73,48 @@ public class Plateau {
 	public char getGagnant() {
 		return gagnant;
 	}
+	
+	/**
+	 * Getteur qui renvoie le joueur courant
+	 * @return le joueur courant
+	 */
+	public Joueur getJoueurCourant() {
+		if  (nbTour%2==1) {
+			return joueur;
+		}else{
+			return joueurSuivant;
+		}
+		
+	}
+	
+	/**
+	 * Getteur qui renvoie le joueur suivant
+	 * @return le joueur suivant
+	 */
+	public Joueur getJoueurSuivant() {
+		if  (nbTour%2==1) {
+			return joueurSuivant;
+		}else{
+			return joueur;
+		}
+		
+	}
+	
+	/**
+	 * Getteur qui renvoie le nombre de tour
+	 * @return le nombre de tour
+	 */
+	public int getNbTour() {
+		return nbTour;
+	}
+	
+	/**
+	 * setteur qui change le nombre de tour
+	 */
+	public void setNbTour(int nbT) {
+		nbTour=nbT;
+	}
+	
 	
 	
 	/**
@@ -80,7 +126,7 @@ public class Plateau {
 		for (int t=0;t<copieGrille.length;t++) {
 			copieGrille[t] = Arrays.copyOf(this.grilleJeu[t], this.grilleJeu[t].length);
 		} 
-		Plateau copieJeu = new Plateau(copieGrille, this.joueur, this.joueurSuivant);
+		Plateau copieJeu = new Plateau(copieGrille, this.joueur, this.joueurSuivant, this.nbTour);
 
 		return copieJeu;
 	}
@@ -127,8 +173,6 @@ public class Plateau {
 	 */
 	public int getLigneValide(int colonne) throws PuissanceException {
 		if (!estCoupValide(colonne)) {
-			//System.out.println("exception");
-			//throw new PuissanceException("la colonne est déja pleine");
 			return -1;
 		}
 		int ligne = 5;
@@ -184,6 +228,7 @@ public class Plateau {
 		ligne = getLigneValide(colonne);
 		if(ligne != -1) {
 			setCouleur(ligne, colonne, joueur.getCouleur());
+			nbTour++;
 			joueur.derniereColonne = colonne;
 		}
 		if(aGagne(joueur, 4)){		
@@ -249,6 +294,7 @@ public class Plateau {
 	public void supprimePlacement(int colonne) throws PuissanceException {
 		int ligne = getLigneValide(colonne);
 		grilleJeu[ligne+1][colonne] = '.';	
+		nbTour--;
 	}
 	
 }

@@ -34,7 +34,7 @@ public class TestPuissance4 {
 //		System.out.println("***********");
 	JoueurHumain joueur1 = new JoueurHumain('J', 1);
 	JoueurHumain joueur2 = new JoueurHumain('R', 2);
-	Plateau plateau = new Plateau(joueur1, joueur2 );
+	Plateau plateau = new Plateau(joueur1, joueur2, 1);
 	plateau.affichePlateau();
 	Heuristique h = new Heuristique();
 	System.out.println(h.evaluation(plateau));

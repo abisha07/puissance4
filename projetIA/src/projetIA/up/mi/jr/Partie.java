@@ -17,6 +17,7 @@ public class Partie {
 	 * Objet de type Joueur représentant le second joueur 
 	 */
 	private static Joueur joueur2;
+	
 	private static int nbTour=1;
 	
 	/**
@@ -123,14 +124,14 @@ public class Partie {
 		}
 	}
 	
-	public static void jeuHumain(Scanner scanner, Plateau plateau, Joueur joueur ) throws PuissanceException {
+	public static void jeuHumain(Scanner scanner, Plateau plateau ) throws PuissanceException {
 		boolean place = false;
 		while(!place) {
-			System.out.println("Joueur" + joueur.getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			System.out.println("Joueur" + plateau.getJoueurCourant().getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
 			int col = lireEntierAuClavier(scanner);
 			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
 				place=true;
-				plateau.placerJeton(col-1, joueur );
+				plateau.placerJeton(col-1, plateau.getJoueurCourant() );
 				
 			}else {
 				System.out.println("Numéro de la colonne incorrect, réitérez");
@@ -139,14 +140,14 @@ public class Partie {
 		}
 	}
 	
-	public static void jeuIA(Plateau plateau, Joueur joueur) throws PuissanceException{
+	public static void jeuIA(Plateau plateau) throws PuissanceException{
 		boolean place = false;
 		while(!place) {
 			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + " est entrain de jouer");
-			int col = joueur.trouverPlacement(plateau);
+			int col = plateau.getJoueurCourant().trouverPlacement(plateau);
 			if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
 				place=true;
-				plateau.placerJeton(col, joueur );					
+				plateau.placerJeton(col, plateau.getJoueurCourant() );					
 			}	
 			
 		}
@@ -160,35 +161,28 @@ public class Partie {
 		int mode = modeJeu(scanner);
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
-		Plateau plateau = new Plateau(joueur1, joueur2) ;
+		Plateau plateau = new Plateau(joueur1, joueur2,nbTour) ;
 		plateau.affichePlateau();
-		while(plateau.getGagnant() == ' ' && nbTour < 6*7) {
-			System.out.println("Tour n°" + nbTour);
-			Joueur joueur;
-			if  (nbTour%2==1) {
-				joueur= joueur1;
-				plateau.setJoueur(joueur1, joueur2);
-			}else{
-				joueur = joueur2;
-				plateau.setJoueur(joueur2, joueur1);
-			}
+		while(plateau.getGagnant() == ' ' && !plateau.estPlein()) {
+			
+			System.out.println("Tour n°" + plateau.getNbTour());
 			
 			try {
 				switch (mode) {
 				case 1:	
-					jeuHumain(scanner, plateau, joueur);
+					jeuHumain(scanner, plateau);
 					break;
 					
 				case 2:
-					if  (nbTour%2==1) {
-						jeuHumain(scanner,plateau,joueur);
+					if  (plateau.getNbTour()%2==1) {
+						jeuHumain(scanner,plateau);
 					}else{
-						jeuIA(plateau,joueur);
+						jeuIA(plateau);
 					}				
 					break;	
 				
 				case 3:
-					jeuIA(plateau,joueur);
+					jeuIA(plateau);
 					break;	
 			}
 				
