@@ -28,7 +28,7 @@ public class Plateau {
 	 * joueur est un objet de Joueur, qui représente le joueur suivant
 	 */
 	private Joueur joueurSuivant;
-	
+	//TODO	
 	private int nbTour;
 	
 	/**

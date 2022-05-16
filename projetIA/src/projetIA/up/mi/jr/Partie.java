@@ -18,7 +18,9 @@ public class Partie {
 	 */
 	private static Joueur joueur2;
 	
+	//TODO
 	private static int nbTour=1;
+	
 	
 	/**
 	 * Lit un entier au clavier
@@ -41,6 +43,7 @@ public class Partie {
 		}
 		return nb;
 	}
+	
 	
 	/**
 	 * Méthode pour définir le mode de Jeu (parmi 3)
@@ -80,6 +83,7 @@ public class Partie {
 			
 	}
 	
+	//TODO
 	public static void choixNiveauIAHumain(Scanner sc) {
 		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
 		System.out.println("1, 2, ou 3 ? ");
@@ -101,6 +105,7 @@ public class Partie {
 		
 	}
 	
+	//TODO
 	public static void choixNiveauIAIA(Scanner sc) {
 		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
 		System.out.println("1, 2, ou 3 ? ");
@@ -124,6 +129,8 @@ public class Partie {
 		}
 	}
 	
+	
+	//TODO
 	public static void jeuHumain(Scanner scanner, Plateau plateau ) throws PuissanceException {
 		boolean place = false;
 		while(!place) {
@@ -140,6 +147,8 @@ public class Partie {
 		}
 	}
 	
+	
+	//TODO
 	public static void jeuIA(Plateau plateau) throws PuissanceException{
 		boolean place = false;
 		while(!place) {
