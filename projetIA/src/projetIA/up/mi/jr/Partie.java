@@ -201,6 +201,15 @@ public class Partie {
 				System.out.println(e.getMessage());
 			}
 			plateau.affichePlateau();
+//			int[][] p = Heuristique.poids_cases();
+//			   System.out.println("****************** ");
+//				for(int i=0; i<6; i++) {
+//					for(int j = 0; j<7; j++) {
+//						System.out.print(" | " + p[i][j]);
+//					}
+//					System.out.println(" | ");
+//				}
+//				System.out.println("****************** ");
 			nbTour++;			
 		}
 		if (plateau.estPlein()) {
