@@ -250,8 +250,11 @@ public class Heuristique {
 	    		k++;
 	    	}
 	    }
+	 
 	    return poidsCase;
 	}	
+	
+	
 
 
 }

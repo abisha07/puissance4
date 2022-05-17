@@ -89,6 +89,7 @@ public class IAMinimax extends Joueur{
 				
 					copieJeu.placerJeton(i, this);
 					double valeurDeJeuCourante = minmax(copieJeu);
+					System.out.println("**********" + valeurDeJeuCourante);
 					if (valeurDeJeuCourante == valeurDeJeu){
 						colonnesAJouer.add(i);
 					}else if(valeurDeJeuCourante > valeurDeJeu){
@@ -96,6 +97,7 @@ public class IAMinimax extends Joueur{
 						valeurDeJeu = valeurDeJeuCourante;
 						colonnesAJouer.add(i);
 					}	
+					System.out.println(colonnesAJouer + "**********" );
 					
 				}
 //			return colonneAJouer;
@@ -117,7 +119,7 @@ public class IAMinimax extends Joueur{
 	 */
 	public double min(Plateau plateau, int profondeur) throws PuissanceException {
 		
-//		if(plateau.aGagne(plateau.getJoueurCourant(), 4)){
+//		if(plateau.aGagne(plateau.getJoueurCourant(), 3)){
 //			System.out.println("**********");
 //			plateau.affichePlateau();
 //			System.out.println("**********");
@@ -158,7 +160,7 @@ public class IAMinimax extends Joueur{
 	 */
 	public double max(Plateau plateau, int profondeur) throws PuissanceException {
 		
-//		if(plateau.aGagne(plateau.getJoueurSuivant(), 4)){
+//		if(plateau.aGagne(plateau.getJoueurSuivant(), 3)){
 //			System.out.println("**********");
 //			plateau.affichePlateau();
 //			System.out.println("**********");
