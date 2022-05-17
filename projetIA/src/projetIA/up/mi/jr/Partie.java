@@ -152,7 +152,8 @@ public class Partie {
 	public static void jeuIA(Plateau plateau) throws PuissanceException{
 		boolean place = false;
 		while(!place) {
-			System.out.println("Joueur" + (nbTour%2==1 ? 1:2) + " est entrain de jouer");
+			//System.out.println("joueur Courant : " + plateau.getJoueurCourant());
+			System.out.println("Joueur " + plateau.getJoueurCourant().getNumJoueur() + " est entrain de jouer");
 			int col = plateau.getJoueurCourant().trouverPlacement(plateau);
 			if((col >= 0 && col < 7) && plateau.estCoupValide(col)) {
 				place=true;
@@ -170,7 +171,7 @@ public class Partie {
 		int mode = modeJeu(scanner);
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
-		Plateau plateau = new Plateau(joueur1, joueur2,nbTour) ;
+		Plateau plateau = new Plateau(joueur2, joueur1,nbTour) ;
 		plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && !plateau.estPlein()) {
 			
@@ -184,9 +185,10 @@ public class Partie {
 					
 				case 2:
 					if  (plateau.getNbTour()%2==1) {
-						jeuHumain(scanner,plateau);
-					}else{
 						jeuIA(plateau);
+					}else{
+						jeuHumain(scanner,plateau);
+						
 					}				
 					break;	
 				

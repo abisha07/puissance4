@@ -190,7 +190,7 @@ public class Heuristique {
 					res -= poids_cases()[line][column];
 				}
 			}
-		}
+		}		
 		return res;
 	}
 
