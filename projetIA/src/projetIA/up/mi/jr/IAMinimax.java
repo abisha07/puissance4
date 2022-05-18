@@ -3,7 +3,6 @@ package projetIA.up.mi.jr;
 import java.util.ArrayList;
 
 
-
 /**
  * Represente une IA qui implémente MiniMax
  * @author Abisha Jeyavel, Lalarianiaina Ramanantoanina 
@@ -39,15 +38,8 @@ public class IAMinimax extends Joueur{
 	/**
 	 * Renvoie le numéro de la colonne dans laquelle le jeton est à placer dans la grille 
 	 */
-	@Override
-	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-		//pas obligé si on joue sur la 7 il trouve le milieu
-		
-//			if (plateau.estVide()) {
-//				return 3;
-//			}
-			
-			
+	//@Override
+	public int trouverPlacement(Plateau plateau) throws PuissanceException {			
 			// On cherche la liste des coups valides
 			ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
 			
@@ -68,39 +60,38 @@ public class IAMinimax extends Joueur{
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
 				
-				//Contre attaque
-//				if(plateau.aGagne(plateau.joueurSuivant, 3 )) {
-//					boolean trouveContreAttaque = false;
-//					int colonne = 0;
-//					while(! trouveContreAttaque && colonne < 7) {
-//						copieJeu.placerJeton(colonne, copieJeu.joueurSuivant);
-//						if (copieJeu.aGagne(copieJeu.joueurSuivant, 4)) {
-//
-//							trouveContreAttaque = true;
-//							return colonne;
-//						}					
-//						copieJeu.supprimePlacement(colonne);
-//						colonne++;
-//					}
-//				}
-					
-				// on cherche le coup qui maximise minmax	
 				
-				
+					if (heuristique.coupGagnant(plateau) != 0) {
+						//valeurDeJeuCourante = heuristique.getMaxScore();
+						return heuristique.coupGagnant(plateau);
+						
+						
+					}if(heuristique.coupPerdant(plateau) != 0) {
+						//valeurDeJeuCourante = heuristique.getMaxScore();
+						return heuristique.coupPerdant(plateau);
+					}
+						//valeurDeJeuCourante = heuristique.getMaxScore();
+
 					copieJeu.placerJeton(i, this);
-					double valeurDeJeuCourante = minmax(copieJeu);
-					System.out.println("**********" + valeurDeJeuCourante);
+			
+					//double valeurDeJeuCourante;
+					
+					
+					double valeurDeJeuCourante = minmax(copieJeu, profondeur);
+					
+					
+					
 					if (valeurDeJeuCourante == valeurDeJeu){
 						colonnesAJouer.add(i);
-					}else if(valeurDeJeuCourante > valeurDeJeu){
+					}else if(valeurDeJeuCourante >= valeurDeJeu){
+						
 						colonnesAJouer.clear();
 						valeurDeJeu = valeurDeJeuCourante;
 						colonnesAJouer.add(i);
+
 					}	
-					System.out.println(colonnesAJouer + "**********" );
 					
 				}
-//			return colonneAJouer;
 			
 			//Choisir au hasard parmi les coups 
 			int numeroDeColonneAJouer = (int) (Math.random() * colonnesAJouer.size());
@@ -118,16 +109,6 @@ public class IAMinimax extends Joueur{
 	 * @return le résultat de Min de l'algorithme MiniMax
 	 */
 	public double min(Plateau plateau, int profondeur) throws PuissanceException {
-		
-//		if(plateau.aGagne(plateau.getJoueurCourant(), 3)){
-//			System.out.println("**********");
-//			plateau.affichePlateau();
-//			System.out.println("**********");
-//			System.out.println("Joueur courant : " + plateau.getJoueurCourant());
-//			System.out.println("evaluation : "+ heuristique.getMaxScore() );
-//			return heuristique.getMaxScore();
-//		}
-
 		if(profondeur != 0){			
 			double valeurDeJeu = heuristique.getMaxScore();
 			for(int i=1; i <= 6; i++){
@@ -136,7 +117,8 @@ public class IAMinimax extends Joueur{
 						//DEEP COPY
 						Plateau copieJeu = plateau.copieGrille();
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
-							copieJeu.placerJeton(i, copieJeu.getJoueurCourant()); //Ici changement jCourant à jSuivant ??
+							copieJeu.placerJeton(i, copieJeu.getJoueurCourant()); 
+
 						}
 						valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
 					}
@@ -145,7 +127,6 @@ public class IAMinimax extends Joueur{
 					}
 			return valeurDeJeu;
 		}else{
-			//return Math.abs(heuristique.evaluation(plateau));
 			return heuristique.evaluation(plateau); 
 			
 
@@ -158,17 +139,7 @@ public class IAMinimax extends Joueur{
 	 * @param profondeur représente la profondeur d'évaluation
 	 * @return le résultat de Max de l'algorithme MiniMax
 	 */
-	public double max(Plateau plateau, int profondeur) throws PuissanceException {
-		
-//		if(plateau.aGagne(plateau.getJoueurSuivant(), 3)){
-//			System.out.println("**********");
-//			plateau.affichePlateau();
-//			System.out.println("**********");
-//			System.out.println("Joueur courant : " + plateau.getJoueurCourant());
-//			System.out.println("evaluation : "+ heuristique.getMinScore() );
-//		return heuristique.getMinScore();
-//	}
-		
+	public double max(Plateau plateau, int profondeur) throws PuissanceException {	
 		if(profondeur != 0){
 			
 			double valeurDeJeu = heuristique.getMinScore();
@@ -179,6 +150,7 @@ public class IAMinimax extends Joueur{
 						Plateau copieJeu = plateau.copieGrille();
 						if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
 							copieJeu.placerJeton(i, copieJeu.getJoueurCourant());
+
 						}
 						valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
 					}
@@ -186,7 +158,9 @@ public class IAMinimax extends Joueur{
 			}
 			return valeurDeJeu;
 		}else{
-			//return Math.abs(heuristique.evaluation(plateau));
+//			if(heuristique.coupGagnant(plateau) || heuristique.coupPerdant(plateau)) {
+//				return heuristique.getMaxScore();
+//			}
 			return heuristique.evaluation(plateau);  
 			
 		}
@@ -198,7 +172,7 @@ public class IAMinimax extends Joueur{
 	 * @return le résultat de l'algorithme MiniMax
 	 * @throws PuissanceException
 	 */
-	public double minmax(Plateau plateau) throws PuissanceException {
+	public double minmax(Plateau plateau, int profondeur) throws PuissanceException {
 		return min(plateau, profondeur);
 		
 	}
@@ -210,79 +184,5 @@ public class IAMinimax extends Joueur{
 	public String toString() {
 		return "Le joueur " + this.getNumJoueur();
 	}
-	
-	
-	
-	// NEW VERSION 
-//	@Override
-//	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-//		int colonneAJouer = 1;
-//		double valeurDeJeu = heuristique.getMinScore();
-//		for(int i=1; i < 6; i++){
-//				if(plateau.grilleJeu[0][i] == '.'){
-//					Plateau copieJeu = plateau.copieGrille();
-//					copieJeu.placerJeton(i, copieJeu.getJoueurCourant());
-//					double valeurDeJeuCourante = minmax(copieJeu, profondeur);
-//					if (valeurDeJeuCourante >= valeurDeJeu){
-//						valeurDeJeu = valeurDeJeuCourante;
-//						colonneAJouer = i;
-//					}
-//				}
-//
-//		}
-//		return colonneAJouer;
-//	}
-//	
-//	public double minmax(Plateau plateau, int profondeur) throws PuissanceException {
-//		return min(plateau, profondeur);
-//		
-//	}
-//	
-//	public double min(Plateau plateau, int profondeur) throws PuissanceException {
-//			if(profondeur != 0){			
-//				double valeurDeJeu = heuristique.getMaxScore();
-//				for(int i=1; i <=6; i++){
-//					
-//						if(plateau.grilleJeu[0][i-1] == '.'){ 
-//							//DEEP COPY
-//							Plateau copieJeu = plateau.copieGrille();
-//							if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
-//								copieJeu.placerJeton(i, copieJeu.getJoueurSuivant());
-//							}
-//							valeurDeJeu = Math.min(valeurDeJeu, this.max(copieJeu, profondeur-1));
-//						}
-//				
-//				
-//						}
-//				return valeurDeJeu;
-//			}else{
-//				return heuristique.evaluation(plateau); 
-//				
-//	
-//			}
-//		}
-//	
-//	public double max(Plateau plateau, int profondeur) throws PuissanceException {
-//			if(profondeur != 0){
-//				
-//				double valeurDeJeu = heuristique.getMinScore();
-//				for(int i=1; i <= 6; i++){
-//					
-//						if(plateau.grilleJeu[0][i-1] == '.'){
-//							//DEEP COPY
-//							Plateau copieJeu = plateau.copieGrille();
-//							if (copieJeu.estCoupValide(i) && copieJeu.getLigneValide(i) !=-1) {
-//								copieJeu.placerJeton(i, copieJeu.getJoueurCourant());
-//							}
-//							valeurDeJeu = Math.max(valeurDeJeu, this.min(copieJeu,  profondeur-1));
-//						}
-//				
-//				}
-//				return valeurDeJeu;
-//			}else{
-//				return heuristique.evaluation(plateau);  
-//				
-//			}
-//		}
-//
+
 }

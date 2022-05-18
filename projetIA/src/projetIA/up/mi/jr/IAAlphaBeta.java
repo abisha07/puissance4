@@ -45,10 +45,6 @@ public class IAAlphaBeta extends Joueur{
 	 */
 	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {
-		if (plateau.estVide()) {
-			return 3;
-		}
-		
 		
 		// On cherche la liste des coups valides
 		ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
@@ -69,19 +65,14 @@ public class IAAlphaBeta extends Joueur{
 			//DEEP COPY
 			Plateau copieJeu = plateau.copieGrille();
 
-			//Contre attaque
-			if(plateau.aGagne(plateau.getJoueurSuivant(), 3 )) {
-				boolean trouveContreAttaque = false;
-				int colonne = 0;
-				while(! trouveContreAttaque && colonne < 7) {
-					copieJeu.placerJeton(colonne, copieJeu.getJoueurSuivant());
-					if (copieJeu.aGagne(copieJeu.getJoueurSuivant(), 4)) {
-						trouveContreAttaque = true;
-						return colonne;
-					}					
-					copieJeu.supprimePlacement(colonne);
-					colonne++;
-				}
+			if (heuristique.coupGagnant(plateau) != 0) {
+				//valeurDeJeuCourante = heuristique.getMaxScore();
+				return heuristique.coupGagnant(plateau);
+				
+				
+			}if(heuristique.coupPerdant(plateau) != 0) {
+				//valeurDeJeuCourante = heuristique.getMaxScore();
+				return heuristique.coupPerdant(plateau);
 			}
 			
 			copieJeu.placerJeton(i, this);
@@ -109,8 +100,9 @@ public class IAAlphaBeta extends Joueur{
 	 * @param plateau représente le plateau de jeu courant
 	 * @param joueur représente le joueur courant
 	 * @return le résultat de l'algorithme AlphaBeta
+	 * @throws PuissanceException 
 	 */
-	private double alphabeta(Plateau plateau, Joueur joueur){
+	private double alphabeta(Plateau plateau, Joueur joueur) throws PuissanceException{
 		double alpha = heuristique.getMinScore();
 		double beta= heuristique.getMaxScore();
 		return this.min(plateau, joueur, profondeur, alpha, beta);
@@ -124,8 +116,9 @@ public class IAAlphaBeta extends Joueur{
 	 * @param alpha représente la valeur de alpha
 	 * @param beta représente la valeur de beta
 	 * @return le résultat de Min de l'algorithme AlphaBeta
+	 * @throws PuissanceException 
 	 */
-	private double min(Plateau plateau, Joueur joueur,int profondeur, double alpha, double beta){
+	private double min(Plateau plateau, Joueur joueur,int profondeur, double alpha, double beta) throws PuissanceException{
 		if(profondeur != 0){
 			double valeurDeJeu = heuristique.getMaxScore();
 			for(int i=1; i <= 6 ; i++){
@@ -168,8 +161,9 @@ public class IAAlphaBeta extends Joueur{
 	 * @param alpha représente la valeur de alpha
 	 * @param beta représente la valeur de beta
 	 * @return le résultat de Max de l'algorithme AlphaBeta
+	 * @throws PuissanceException 
 	 */
-	private double max(Plateau plateau, Joueur joueur, int profondeur, double alpha, double beta){
+	private double max(Plateau plateau, Joueur joueur, int profondeur, double alpha, double beta) throws PuissanceException{
 		if(profondeur != 0){
 			double valeurDeJeu = heuristique.getMinScore();
 			for(int i=1; i <= 6; i++){

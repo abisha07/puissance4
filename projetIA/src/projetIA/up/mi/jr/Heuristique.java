@@ -47,153 +47,133 @@ public class Heuristique {
 	}
 	
 
-//	public double noteGrille2(Plateau plateau) throws PuissanceException {
-//			
-//			
-//			
-//	
-//		int colonne = plateau.joueur.derniereColonne;
-//		int ligne = plateau.getLineValid(colonne)+1;
-//		
-//		int colonneS = plateau.joueurSuivant.derniereColonne;
-//		int ligneS = plateau.getLineValid(colonneS)+1;
-////		char couleurJoueurSuivant;
-////		if (joueur.getCouleur() == 'R') {
-////			couleurJoueurSuivant = 'J';
-////		}else {
-////			couleurJoueurSuivant = 'R';
-////		}
-//		
-//		if(plateau.chaine_max(ligneS, colonneS, plateau.joueurSuivant.getCouleur()) >= 4){
-//			return MIN_SCORE;
-//		}
-//		
-//		if(plateau.chaine_max(ligne, colonne, plateau.joueur.getCouleur()) >= 4){
-//			return MAX_SCORE;
-//		}
-//			
-//			double resultat = 0;
-//			
-//			for(int i = 1; i <= 6; i++){
-//				for(int j = 1; j <= 7; j++){
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j,0, 1) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, 1) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, 0) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 1, -1) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, 0, -1) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, -1, -1) ;
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j, -1, 0) ; 
-//					resultat +=plateau.resultatAlignementDeJeton(plateau.joueur.getCouleur(), i, j,-1, 1) ;
-//					
-//				}
-//			}
-//	
-//			return resultat;
-//		}
-	
-//	/**
-//	 * Heuristique évaluant toute la grille de Jeu
-//	 * @param plateau Objet correspondant à l'état de jeu actuel
-//	 * @return Une valeur d'heuristique
-//	 * @throws PuissanceException
-//	 */
-//	public double noteGrille(Plateau plateau) throws PuissanceException {
-//			int colonne = plateau.joueur.derniereColonne; // Récupère la position du dernier jeton placé par le premier joueur
-//			int ligne = plateau.getLineValid(colonne)+1;		
-//			
-//			if(plateau.hasWon(plateau.joueurSuivant, 3)){
-//				//System.out.println("Min");
-//				return MIN_SCORE;
-//			}
-//			
-//			if(plateau.hasWon(plateau.joueur, 3)){
-//				//System.out.println("Max");
-//				return MAX_SCORE;
-//			}
-//			
-//			
-//			int score = plateau.chaine_max(ligne, colonne, plateau.joueur.getCouleur());
-//			int score2Jetons = 0;
-//			int score3Jetons = 0;
-//			int score4Jetons = 0;
-//			switch (score) {
-//			case 2:	
-//				score2Jetons = score;
-//				
-//				break;
-//				
-//			case 3:
-//				score3Jetons = 3*score;
-//				break;
-//			
-//			case 4:
-//				score4Jetons = 9*score;
-//				break;
-//			}			
-//			return score2Jetons + score3Jetons + score4Jetons;
-//		}
-	
-	
 	/**
 	 * Heuristique évaluant toute la grille de Jeu
 	 * @param plateau Objet correspondant à l'état de jeu actuel
 	 * @return Une valeur d'heuristique
+	 * @throws PuissanceException 
 	 */
-	public int evaluationbis(Plateau plateau) {
+	public int evaluation(Plateau plateau) throws PuissanceException {
+//		ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
+//		
+//		
+//		for(int i = 0; i <= 6; i++){
+//				if(plateau.getLigneValide(i) != -1){
+//					listeCoupValide.add(i);
+//				}
+//			} 
+//		
+//		for(int i : listeCoupValide) {
+//			//System.out.println("listeCoupValide " + listeCoupValide);
+//			
+//			//DEEP COPY
+//			Plateau copieJeu = plateau.copieGrille();
+//				if(plateau.aGagne(plateau.getJoueur(), 3 )) {
+//					System.out.println("on a coup Gagnant");
+//					boolean trouveCoupGagnant = false;
+//					int colonne = 0;
+//					while(! trouveCoupGagnant && colonne < 7) {
+//						copieJeu.placerJeton(colonne, copieJeu.getJoueur());
+//						if (copieJeu.aGagne(copieJeu.getJoueur(), 4)) {
+//
+//							trouveCoupGagnant = true;
+//							return MAX_SCORE;
+//							//return colonne;
+//						}					
+//						copieJeu.supprimePlacement(colonne);
+//						colonne++;
+//						
+//					}
+//					
+//				}
+//				
+//				//Contre attaque
+//				
+//				if(plateau.aGagne(plateau.getJoueurAdverse(), 3 )) {
+//					System.out.println("on contre attaque");
+//					boolean trouveContreAttaque = false;
+//					int colonne = 0;
+//					while(! trouveContreAttaque && colonne < 7) {
+//						copieJeu.placerJeton(colonne, copieJeu.getJoueurAdverse());
+//						if (copieJeu.aGagne(copieJeu.getJoueurAdverse(), 4)) {
+//							trouveContreAttaque = true;
+//							return MAX_SCORE;
+//							//return colonne;
+//						}					
+//						copieJeu.supprimePlacement(colonne);
+//						colonne++;
+//						
+//					}
+//				}
+//		}
 		
-//		if(plateau.aGagne(plateau.getJoueurSuivant() , 4)){
-//			//System.out.println("Min");
-//			return MIN_SCORE;
-//		}
-//		
-//		if(plateau.aGagne(plateau.getJoueurCourant(), 4)){
-//			//System.out.println("Max");
-//			return MAX_SCORE;
-//		}
-//		
-		int res = 0;
-		int color = 0;
-		for (int line = 0; line < 6; line++) {
-			for (int column = 0; column < 7; column++) {
-//				System.out.println("**********");
-//				plateau.affichePlateau();
-//				System.out.println("**********");
-				if (plateau.getCouleur(line, column) == '.') { //Cas où la case est vide
-					color = 0;
-				}else if(plateau.getCouleur(line, column) == plateau.getJoueurCourant().getCouleur()) { //Cas où la case est prise par le joueur courant
-					//System.out.println("IIIIIIIIIIIIIIIIIIIIII");
-					color = 1;
-				}else if(plateau.getCouleur(line, column) == plateau.getJoueurSuivant().getCouleur()) { //Cas où la case est prise par le joueur suivant
-					//System.out.println("00000000000000");
-					color = -1;
-				}
-				if (color != 0) {  //Cas où la case n'est pas vide
-					res += color * plateau.chaine_max(line, column, plateau.getJoueurCourant().getCouleur());
-				}
-			}
-		}
-//		System.out.println("**********");
-//		plateau.affichePlateau();
-//		System.out.println("**********");
-//		System.out.println("Joueur courant : " + plateau.getJoueurCourant());
-//		System.out.println("evaluation : " + res);
-		return res;
-	}
-	
-	public int evaluation(Plateau plateau) {
 		int res = 0;
 		for (int line = 0; line < 6; line++) {
 			for (int column = 0; column < 7; column++) {
-				if(plateau.getCouleur(line, column) == plateau.getJoueurCourant().getCouleur()) { //Cas où la case est prise par le joueur courant
+				if(plateau.getCouleur(line, column) == plateau.getJoueurCourant().getCouleur()) { //Cas où la case est prise par le joueur Max
 					res += poids_cases()[line][column];
-				}else if(plateau.getCouleur(line, column) == plateau.getJoueurSuivant().getCouleur()) { //Cas où la case est prise par le joueur suivant
+				}else if(plateau.getCouleur(line, column) == plateau.getJoueurSuivant().getCouleur()) { //Cas où la case est prise par le joueur Min
 					res -= poids_cases()[line][column];
 				}
 			}
-		}		
+		}
 		return res;
 	}
+	
+	
+	
+	public int coupGagnant(Plateau plateau) throws PuissanceException {
+		Plateau copieJeu = plateau.copieGrille();
+		//System.out.println("gagnant " +copieJeu.getJoueur().getCouleur());
+		if(plateau.aGagne(plateau.getJoueur(), 3 )) {
+			//System.out.println("on a coup Gagnant");
+			boolean trouveCoupGagnant = false;
+			int colonne = 0;
+			while(! trouveCoupGagnant && colonne < 7) {
+				copieJeu.placerJeton(colonne, copieJeu.getJoueur());
+				if (copieJeu.aGagne(copieJeu.getJoueur(), 4)) {
 
+					trouveCoupGagnant = true;
+					//return true;
+					return colonne;
+				}					
+				copieJeu.supprimePlacement(colonne);
+				colonne++;
+				
+			}
+			
+		}
+		return 0;
+	}
+	
+	
+	public int coupPerdant(Plateau plateau) throws PuissanceException { //contre attaque
+		Plateau copieJeu = plateau.copieGrille();
+		//System.out.println("perdant " +copieJeu.getJoueurAdverse().getCouleur());
+		if(plateau.aGagne(plateau.getJoueurAdverse(), 3 )) {
+			//System.out.println("on contre attaque");
+			boolean trouveContreAttaque = false;
+			int colonne = 0;
+			while(! trouveContreAttaque && colonne < 7) {
+				copieJeu.placerJeton(colonne, copieJeu.getJoueurAdverse());
+				if (copieJeu.aGagne(copieJeu.getJoueurAdverse(), 4)) {
+					trouveContreAttaque = true;
+					//return true;
+					return colonne;
+				}					
+				copieJeu.supprimePlacement(colonne);
+				colonne++;
+				
+			}
+		}
+		return 0;
+		
+	}
+
+	/**
+	 * Fontion calculant le poids des cases pour une grille classique de Puissance 4
+	 * @return
+	 */
 	public static int[][] poids_cases() {
 	    //Calcule le poids des cases en fonction de la dimension de la grille et du nombre de pions à aligner pour gagner"""
 	    //[3,4,5,7,5,4,3,4,6,8,10,8,6,4,5,8,11,13,11,8,5,5,8,11,13,11,8,5,4,6,8,10,8,6,4,3,4,5,7,5,4,3] pour une grille 7x6 avec 4 pions à aligner"""

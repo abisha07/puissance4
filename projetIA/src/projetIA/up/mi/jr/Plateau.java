@@ -100,6 +100,15 @@ public class Plateau {
 		
 	}
 	
+	public Joueur getJoueur() {
+		return joueur;
+	}
+	
+	public Joueur getJoueurAdverse() {
+		return joueurSuivant;
+	}
+	
+	
 	/**
 	 * Getteur qui renvoie le nombre de tour
 	 * @return le nombre de tour
@@ -298,3 +307,4 @@ public class Plateau {
 	}
 	
 }
+
