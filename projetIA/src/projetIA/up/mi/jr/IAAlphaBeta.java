@@ -65,20 +65,15 @@ public class IAAlphaBeta extends Joueur{
 			//DEEP COPY
 			Plateau copieJeu = plateau.copieGrille();
 			
-//			System.out.println(" jcourant ab" +copieJeu.getJoueurCourant().getCouleur());
-//			System.out.println(" jsuivant ab" +copieJeu.getJoueurSuivant().getCouleur());
-//			System.out.println(" j ab" +copieJeu.getJoueur().getCouleur());
-//			System.out.println(" jadverse ab" +copieJeu.getJoueurAdverse().getCouleur());
+
 
 			if (heuristique.coupGagnant(copieJeu, i) ) {
-				System.out.println("coupGagnant ab" + i);
-				//valeurDeJeuCourante = heuristique.getMaxScore();
+				//System.out.println("coupGagnant ab" + i);
 				return i;
 				
 				
 			}if(heuristique.coupPerdant(copieJeu, i) ) {
-				System.out.println("coupPerdant ab" + i);
-				//valeurDeJeuCourante = heuristique.getMaxScore();
+				//System.out.println("coupPerdant ab" + i);
 				return i;
 			}
 			

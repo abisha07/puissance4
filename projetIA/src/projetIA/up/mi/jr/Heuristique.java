@@ -53,60 +53,7 @@ public class Heuristique {
 	 * @return Une valeur d'heuristique
 	 * @throws PuissanceException 
 	 */
-	public int evaluation(Plateau plateau) throws PuissanceException {
-//		ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
-//		
-//		
-//		for(int i = 0; i <= 6; i++){
-//				if(plateau.getLigneValide(i) != -1){
-//					listeCoupValide.add(i);
-//				}
-//			} 
-//		
-//		for(int i : listeCoupValide) {
-//			//System.out.println("listeCoupValide " + listeCoupValide);
-//			
-//			//DEEP COPY
-//			Plateau copieJeu = plateau.copieGrille();
-//				if(plateau.aGagne(plateau.getJoueur(), 3 )) {
-//					System.out.println("on a coup Gagnant");
-//					boolean trouveCoupGagnant = false;
-//					int colonne = 0;
-//					while(! trouveCoupGagnant && colonne < 7) {
-//						copieJeu.placerJeton(colonne, copieJeu.getJoueur());
-//						if (copieJeu.aGagne(copieJeu.getJoueur(), 4)) {
-//
-//							trouveCoupGagnant = true;
-//							return MAX_SCORE;
-//							//return colonne;
-//						}					
-//						copieJeu.supprimePlacement(colonne);
-//						colonne++;
-//						
-//					}
-//					
-//				}
-//				
-//				//Contre attaque
-//				
-//				if(plateau.aGagne(plateau.getJoueurAdverse(), 3 )) {
-//					System.out.println("on contre attaque");
-//					boolean trouveContreAttaque = false;
-//					int colonne = 0;
-//					while(! trouveContreAttaque && colonne < 7) {
-//						copieJeu.placerJeton(colonne, copieJeu.getJoueurAdverse());
-//						if (copieJeu.aGagne(copieJeu.getJoueurAdverse(), 4)) {
-//							trouveContreAttaque = true;
-//							return MAX_SCORE;
-//							//return colonne;
-//						}					
-//						copieJeu.supprimePlacement(colonne);
-//						colonne++;
-//						
-//					}
-//				}
-//		}
-		
+	public int evaluation(Plateau plateau) throws PuissanceException {		
 		int res = 0;
 		for (int line = 0; line < 6; line++) {
 			for (int column = 0; column < 7; column++) {
@@ -123,51 +70,31 @@ public class Heuristique {
 	
 	
 	public boolean coupGagnant(Plateau copieJeu, int colonne) throws PuissanceException {
-		//Plateau copieJeu = plateau.copieGrille();
-		//System.out.println("gagnant " +copieJeu.getJoueurCourant().getCouleur());
 		if(copieJeu.aGagne(copieJeu.getJoueurCourant(), 3 )) {
-			//System.out.println("on a coup Gagnant");
-			//boolean trouveCoupGagnant = false;
-			//int colonne = 0;
-			//while(! trouveCoupGagnant && colonne < 7) {
 				copieJeu.placerJeton(colonne, copieJeu.getJoueurCourant());
 				if (copieJeu.aGagne(copieJeu.getJoueurSuivant(), 4)) {
-
-					//trouveCoupGagnant = true;
-					//return true;
 					copieJeu.supprimePlacement(colonne);
 					return true;
 				}					
 				copieJeu.supprimePlacement(colonne);
-				//colonne++;
 				
 			}
 			
-		//}
 		return false;
 	}
 	
 	
 	public boolean coupPerdant(Plateau copieJeu, int colonne) throws PuissanceException { //contre attaque
-		//Plateau copieJeu = plateau.copieGrille();
-	//System.out.println("perdant " +copieJeu.getJoueurSuivant().getCouleur());
 		if(copieJeu.aGagne(copieJeu.getJoueurSuivant(), 3 )) {
-			//System.out.println("on contre attaque");
-			//boolean trouveContreAttaque = false;
-			//int colonne = 0;
-			//while(! trouveContreAttaque && colonne < 7) {
 			copieJeu.placerJeton(colonne, copieJeu.getJoueurSuivant());
 				if (copieJeu.aGagne(copieJeu.getJoueurCourant(), 4)) {
-					//trouveContreAttaque = true;
 					copieJeu.supprimePlacement(colonne);
 					return true;
-					//return colonne;
 				}					
 				copieJeu.supprimePlacement(colonne);
 				colonne++;
 				
 			}
-		//}
 		return false;
 		
 	}

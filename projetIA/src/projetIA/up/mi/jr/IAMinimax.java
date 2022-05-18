@@ -38,7 +38,7 @@ public class IAMinimax extends Joueur{
 	/**
 	 * Renvoie le numéro de la colonne dans laquelle le jeton est à placer dans la grille 
 	 */
-	//@Override
+	@Override
 	public int trouverPlacement(Plateau plateau) throws PuissanceException {			
 			// On cherche la liste des coups valides
 			ArrayList<Integer> listeCoupValide = new ArrayList<Integer>();
@@ -60,28 +60,17 @@ public class IAMinimax extends Joueur{
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
 				
-//				System.out.println(" jcourant minmax" +copieJeu.getJoueurCourant().getCouleur());
-//				System.out.println(" jsuivant minmax" +copieJeu.getJoueurSuivant().getCouleur());
-//				System.out.println(" j minmax" +copieJeu.getJoueur().getCouleur());
-//				System.out.println(" jadverse minmax" +copieJeu.getJoueurAdverse().getCouleur());
 					if (heuristique.coupGagnant(copieJeu, i)) {
-						//valeurDeJeuCourante = heuristique.getMaxScore();
-						System.out.println("coupGagnant minmax" + i);
+						//System.out.println("coupGagnant minmax" + i);
 						return i;
 						
 						
 					}if(heuristique.coupPerdant(copieJeu, i)) {
-						//valeurDeJeuCourante = heuristique.getMaxScore();
-						System.out.println("coupPerdant minmax" + i);
+						//System.out.println("coupPerdant minmax" + i);
 						return i;
 					}
-						//valeurDeJeuCourante = heuristique.getMaxScore();
 
 					copieJeu.placerJeton(i, this);
-			
-					//double valeurDeJeuCourante;
-					
-					
 					double valeurDeJeuCourante = minmax(copieJeu, profondeur);
 					
 					
