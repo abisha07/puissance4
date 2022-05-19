@@ -22,19 +22,19 @@ public class Plateau {
 	/**
 	 * joueur est un objet de Joueur, qui représente le joueur courant
 	 */
-	private Joueur joueur;
+	private Joueur joueur1;
 	
 	/**
 	 * joueur est un objet de Joueur, qui représente le joueur suivant
 	 */
-	private Joueur joueurSuivant;
+	private Joueur joueur2;
 	//TODO	
 	private int nbTour;
 	
 	/**
 	 * Constructeur qui initialise la grille avec 7 colonnes et 6 lignes 
 	 */
-	public Plateau(Joueur joueur, Joueur joueurSuivant, int nbTour) {
+	public Plateau(Joueur joueur1, Joueur joueur2, int nbTour) {
 		grilleJeu = new char[6][7];
 		//initialisation de la grille avec des points
 		for(int i=0; i<6; i++) {
@@ -42,8 +42,8 @@ public class Plateau {
 				grilleJeu[i][j] = '.';
 			}
 		}
-		this.joueur = joueur;
-		this.joueurSuivant = joueurSuivant;	
+		this.joueur1 = joueur1;
+		this.joueur2 = joueur2;	
 		this.nbTour=nbTour;
 	}
 	
@@ -59,10 +59,10 @@ public class Plateau {
 	 * @param joueur représente le joueur courant
 	 * @param joueurSuivant représente le joueur suivant
 	 */
-	public Plateau(char[][] grille, Joueur joueur, Joueur joueurSuivant , int nbTour) {
+	public Plateau(char[][] grille, Joueur joueur1, Joueur joueur2 , int nbTour) {
 		grilleJeu = grille;
-		this.joueur = joueur;
-		this.joueurSuivant = joueurSuivant;
+		this.joueur1 = joueur1;
+		this.joueur2 = joueur2;
 		this.nbTour=nbTour;
 	}
 	
@@ -80,9 +80,9 @@ public class Plateau {
 	 */
 	public Joueur getJoueurCourant() {
 		if  (nbTour%2==1) {
-			return joueur;
+			return joueur1;
 		}else{
-			return joueurSuivant;
+			return joueur2;
 		}
 		
 	}
@@ -93,19 +93,19 @@ public class Plateau {
 	 */
 	public Joueur getJoueurSuivant() {
 		if  (nbTour%2==1) {
-			return joueurSuivant;
+			return joueur2;
 		}else{
-			return joueur;
+			return joueur1;
 		}
 		
 	}
 	
-	public Joueur getJoueur() {
-		return joueur;
+	public Joueur getJoueur1() {
+		return joueur1;
 	}
 	
-	public Joueur getJoueurAdverse() {
-		return joueurSuivant;
+	public Joueur getJoueur2() {
+		return joueur2;
 	}
 	
 	
@@ -135,7 +135,7 @@ public class Plateau {
 		for (int t=0;t<copieGrille.length;t++) {
 			copieGrille[t] = Arrays.copyOf(this.grilleJeu[t], this.grilleJeu[t].length);
 		} 
-		Plateau copieJeu = new Plateau(copieGrille, this.joueur, this.joueurSuivant, this.nbTour);
+		Plateau copieJeu = new Plateau(copieGrille, this.joueur1, this.joueur2, this.nbTour);
 
 		return copieJeu;
 	}

@@ -60,20 +60,33 @@ public class IAMinimax extends Joueur{
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
 				
-					if (heuristique.coupGagnant(copieJeu, i)) {
-						//System.out.println("coupGagnant minmax" + i);
-						return i;
+//					if (heuristique.coupGagnant(copieJeu, i)) {
+//						//System.out.println("coupGagnant minmax" + i);
+//						return i;
+//						
+//						
+//					}if(heuristique.coupPerdant(copieJeu, i)) {
+//						//System.out.println("coupPerdant minmax" + i);
+//						return i;
+//					}
+				
+					double valeurDeJeuCourante;
+					if( heuristique.coupGagnant(copieJeu, i) || heuristique.coupPerdant(copieJeu, i)) {
+						if (heuristique.coupGagnant(copieJeu, i)) {
+						System.out.println("coupGagnant minmax" + i);
+					
 						
 						
 					}if(heuristique.coupPerdant(copieJeu, i)) {
-						//System.out.println("coupPerdant minmax" + i);
-						return i;
+						System.out.println("coupPerdant minmax" + i);
+						
 					}
-
-					copieJeu.placerJeton(i, this);
-					double valeurDeJeuCourante = minmax(copieJeu, profondeur);
-					
-					
+				
+						 valeurDeJeuCourante = heuristique.getMaxScore();
+					}else {
+						copieJeu.placerJeton(i, this);
+						valeurDeJeuCourante = minmax(copieJeu, profondeur);
+					}
 					
 					if (valeurDeJeuCourante == valeurDeJeu){
 						colonnesAJouer.add(i);

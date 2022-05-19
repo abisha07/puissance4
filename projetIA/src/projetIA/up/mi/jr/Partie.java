@@ -59,8 +59,8 @@ public class Partie {
 		System.out.println("3 IA contre une IA");
 		choix = lireEntierAuClavier(sc);
 		if ((choix < 1) || (choix > 3)) {
-			System.err.println("Le choix " + choix + " n'est pas valide.");
-			System.exit(1);
+			System.err.println("Le choix " + choix + " n'est pas valide,réitérez .");
+			//System.exit(1);
 		}		
 		switch (choix) {
 		case 1:
@@ -88,6 +88,10 @@ public class Partie {
 		System.out.println("1, 2, ou 3 ? ");
 		joueur2 = new JoueurHumain('R',1);
 		int choixNiveauIAH = lireEntierAuClavier(sc);
+		if ((choixNiveauIAH  < 1) || (choixNiveauIAH  > 3)) {
+			System.err.println("Le choix " + choixNiveauIAH  + " n'est pas valide,réitérez .");
+			//System.exit(1);
+		}
 		switch(choixNiveauIAH) {
 		case 1:
 			joueur1 = new IAAlphaBeta('J', 2, 5, 1);
@@ -109,8 +113,10 @@ public class Partie {
 		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
 		System.out.println("1, 2, ou 3 ? ");
 		int choixNiveauIAIA = lireEntierAuClavier(sc);
-		
-		
+		if ((choixNiveauIAIA  < 1) || (choixNiveauIAIA  > 3)) {
+			System.err.println("Le choix " + choixNiveauIAIA  + " n'est pas valide,réitérez .");
+			//System.exit(1);
+		}
 		switch(choixNiveauIAIA) {
 		case 1:
 			joueur1 = new IAAlphaBeta('R', 1, 5, 1);
@@ -118,6 +124,7 @@ public class Partie {
 			break;
 			
 		case 2:
+			// R qui gange pk ???
 			joueur1 = new IAMinimax('R', 1, 5);
 			joueur2 = new IAAlphaBeta('J', 2, 7, 2);
 			//joueur2 = new IAMinimax('J', 2, 5);
@@ -134,15 +141,23 @@ public class Partie {
 	public static void jeuHumain(Scanner scanner, Plateau plateau ) throws PuissanceException {
 		boolean place = false;
 		while(!place) {
-			System.out.println("Joueur " + plateau.getJoueurCourant().getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton que vous voulez placer" );
+			System.out.println("Joueur " + plateau.getJoueurCourant().getNumJoueur() + ", veuillez entrer le numéro de la colonne du jeton entre 1 et 7 que vous voulez placer" );
 			int col = lireEntierAuClavier(scanner);
-			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+			if(!(col > 0 && col <= 7)) {
+				System.err.println("Numéro de la colonne incorrect, le numéro doit être compris entre 1 et 7, réitérez");
+			}else if (!plateau.estCoupValide(col-1)) {
+				System.err.println("Numéro de la colonne incorrect, la colonne est pleine, réitérez");
+			}else {
 				place=true;
 				plateau.placerJeton(col-1, plateau.getJoueurCourant() );
-				
-			}else {
-				System.out.println("Numéro de la colonne incorrect, réitérez");
 			}
+//			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
+//				place=true;
+//				plateau.placerJeton(col-1, plateau.getJoueurCourant() );
+//				
+//			}else {
+//				System.out.println("Numéro de la colonne incorrect, réitérez");
+//			}
 		
 		}
 	}
@@ -170,6 +185,8 @@ public class Partie {
 		int mode = modeJeu(scanner);
 		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
 		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
+		
+		// Ajouter le choix de qui commence en premier !!!!!
 		Plateau plateau = new Plateau(joueur1, joueur2,nbTour) ;
 		plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && !plateau.estPlein()) {
