@@ -68,7 +68,13 @@ public class Heuristique {
 	}
 	
 	
-	
+	/**
+	 * Renvoie vrai si le joueur a trouvé un coup gagnant
+	 * @param copieJeu Objet correspondant à l'état de jeu actuel
+	 * @param colonne numero de la colonne
+	 * @return vrai si le joueur a trouvé un coup gagnant et faux sinon
+	 * @throws PuissanceException
+	 */
 	public boolean coupGagnant(Plateau copieJeu, int colonne) throws PuissanceException {
 		if(copieJeu.aGagne(copieJeu.getJoueurCourant(), 3 )) {
 				copieJeu.placerJeton(colonne, copieJeu.getJoueurCourant());
@@ -83,7 +89,13 @@ public class Heuristique {
 		return false;
 	}
 	
-	
+	/**
+	 * Renvoie vrai si le joueur a trouvé un coup perdant
+	 * @param copieJeu Objet correspondant à l'état de jeu actuel
+	 * @param colonne numero de la colonne
+	 * @return vrai si le joueur a trouvé un coup perdant et faux sinon
+	 * @throws PuissanceException
+	 */
 	public boolean coupPerdant(Plateau copieJeu, int colonne) throws PuissanceException { //contre attaque
 		if(copieJeu.aGagne(copieJeu.getJoueurSuivant(), 3 )) {
 			copieJeu.placerJeton(colonne, copieJeu.getJoueurSuivant());
@@ -104,7 +116,6 @@ public class Heuristique {
 	 * @return
 	 */
 	public static int[][] poids_cases() {
-	    //Calcule le poids des cases en fonction de la dimension de la grille et du nombre de pions à aligner pour gagner"""
 	    //[3,4,5,7,5,4,3,4,6,8,10,8,6,4,5,8,11,13,11,8,5,5,8,11,13,11,8,5,4,6,8,10,8,6,4,3,4,5,7,5,4,3] pour une grille 7x6 avec 4 pions à aligner"""
 		ArrayList <Integer> poids = new ArrayList<Integer>();
 		for(int i= 0; i<42; i++) {
@@ -162,8 +173,5 @@ public class Heuristique {
 	 
 	    return poidsCase;
 	}	
-	
-	
-
 
 }

@@ -18,7 +18,9 @@ public class Partie {
 	 */
 	private static Joueur joueur2;
 	
-	//TODO
+	/**
+	 * Représente le nombre de tour 
+	 */
 	private static int nbTour=1;
 	
 	
@@ -26,7 +28,6 @@ public class Partie {
 	 * Lit un entier au clavier
 	 * 
 	 * @param sc      le scanner dans lequel lire l'entier
-	 * @param message le message a afficher avant la lecture
 	 * @return l'entier lu
 	 */
 	private static int lireEntierAuClavier(Scanner sc) {
@@ -47,7 +48,8 @@ public class Partie {
 	
 	/**
 	 * Méthode pour définir le mode de Jeu (parmi 3)
-	 * @param sc le Scanner pour récupérer le choix de l'utilisateur 
+	 * @param sc le Scanner pour récupérer le choix de l'utilisateur
+	 * @return le choix du joueur pour le mode de jeu 
 	 */
 	public static int modeJeu(Scanner sc) {
 		int choix;
@@ -82,40 +84,45 @@ public class Partie {
 			
 	}
 	
-	//TODO
+	/**
+	 * Fonction pour demander au jouer le choix de niveau de l'IA (Humain contre IA)
+	 * @param sc le Scanner pour récupérer le choix de l'utilisateur
+	 */
 	public static void choixNiveauIAHumain(Scanner sc) {
 		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
 		System.out.println("1, 2, ou 3 ? ");
-		joueur2 = new JoueurHumain('R',1);
+		
+		joueur1 = new JoueurHumain('R',1);
 		int choixNiveauIAH = lireEntierAuClavier(sc);
 		if ((choixNiveauIAH  < 1) || (choixNiveauIAH  > 3)) {
 			System.err.println("Le choix " + choixNiveauIAH  + " n'est pas valide,réitérez .");
-			//System.exit(1);
 		}
 		switch(choixNiveauIAH) {
 		case 1:
-			joueur1 = new IAAlphaBeta('J', 2, 5, 1);
+			joueur2 = new IAAlphaBeta('J', 2, 5, 1);
 			break;
 			
 		case 2:
-			joueur1 = new IAMinimax('J', 2, 5);
+			joueur2 = new IAMinimax('J', 2, 5);
 			break;
 			
 		case 3:
-			joueur1 = new IAAlphaBeta('J', 2, 5, 2);
+			joueur2 = new IAAlphaBeta('J', 2, 7, 2);
 			break;
 		}
 		
 	}
 	
-	//TODO
+	/**
+	 * Fonction pour demander au jouer le choix de niveau de l'IA (IA contre IA)
+	 * @param sc le Scanner pour récupérer le choix de l'utilisateur
+	 */
 	public static void choixNiveauIAIA(Scanner sc) {
 		System.out.println("Il existe 3 niveaux de difficulté, lequel voulez-vous ?");
 		System.out.println("1, 2, ou 3 ? ");
 		int choixNiveauIAIA = lireEntierAuClavier(sc);
 		if ((choixNiveauIAIA  < 1) || (choixNiveauIAIA  > 3)) {
 			System.err.println("Le choix " + choixNiveauIAIA  + " n'est pas valide,réitérez .");
-			//System.exit(1);
 		}
 		switch(choixNiveauIAIA) {
 		case 1:
@@ -124,10 +131,8 @@ public class Partie {
 			break;
 			
 		case 2:
-			// R qui gange pk ???
 			joueur1 = new IAMinimax('R', 1, 5);
 			joueur2 = new IAAlphaBeta('J', 2, 7, 2);
-			//joueur2 = new IAMinimax('J', 2, 5);
 			break;
 		case 3:
 			joueur1 = new IAAlphaBeta('R', 1, 7, 2);
@@ -137,7 +142,12 @@ public class Partie {
 	}
 	
 	
-	//TODO
+	/**
+	 * Fonction qui permet au joueur humain de choisir sa colonne et de placer le jeton
+	 * @param scanner le Scanner pour récupérer le choix de l'utilisateur
+	 * @param plateau  Objet correspondant à l'état de jeu actuel
+	 * @throws PuissanceException
+	 */
 	public static void jeuHumain(Scanner scanner, Plateau plateau ) throws PuissanceException {
 		boolean place = false;
 		while(!place) {
@@ -151,19 +161,15 @@ public class Partie {
 				place=true;
 				plateau.placerJeton(col-1, plateau.getJoueurCourant() );
 			}
-//			if((col > 0 && col <= 7) && plateau.estCoupValide(col-1)) {
-//				place=true;
-//				plateau.placerJeton(col-1, plateau.getJoueurCourant() );
-//				
-//			}else {
-//				System.out.println("Numéro de la colonne incorrect, réitérez");
-//			}
-		
 		}
 	}
 	
 	
-	//TODO
+	/**
+	 * Fonction qui permet à l'IA de placer son jeton
+	 * @param plateau Objet correspondant à l'état de jeu actuel
+	 * @throws PuissanceException
+	 */
 	public static void jeuIA(Plateau plateau) throws PuissanceException{
 		boolean place = false;
 		while(!place) {
@@ -178,16 +184,32 @@ public class Partie {
 	}
 	
 	
-
+	/**
+	 * Main qui lance une partie de jeu de Puissance 4
+	 * @param args
+	 */
 	public static void main(String [] args){
 		System.out.println("Bienvenue dans le jeu Puissance 4");
 		Scanner scanner = new Scanner(System.in);
 		int mode = modeJeu(scanner);
-		System.out.println("Joueur 1 a choisi la couleur " + joueur1.getCouleur() );
-		System.out.println("Joueur 2 a choisi la couleur " + joueur2.getCouleur() );
 		
-		// Ajouter le choix de qui commence en premier !!!!!
-		Plateau plateau = new Plateau(joueur1, joueur2,nbTour) ;
+		System.out.println("Tapez 1 si vous voulez jouer en premier ");
+		System.out.println("Tapez 2 si vous voulez que l'IA joue en premier ");
+		int ordre = lireEntierAuClavier(scanner);
+		if ((ordre  < 1) || (ordre  > 2)) {
+			System.err.println("Le choix d'ordre" + ordre   + " n'est pas valide,réitérez .");
+		}
+		Plateau plateau = null;
+		switch(ordre) {
+		case 1:
+			plateau = new Plateau(joueur1, joueur2,nbTour) ;
+			break;
+			
+		case 2:
+			plateau = new Plateau(joueur2, joueur1,nbTour) ;
+			break;
+		}
+		
 		plateau.affichePlateau();
 		while(plateau.getGagnant() == ' ' && !plateau.estPlein()) {
 			
@@ -200,13 +222,23 @@ public class Partie {
 					break;
 					
 				case 2:
-					if  (plateau.getNbTour()%2==1) {
-						jeuIA(plateau);
-					}else{
-						jeuHumain(scanner,plateau);
-						
-					}				
-					break;	
+					if(ordre == 1) {
+						if  (plateau.getNbTour()%2==1) {
+							jeuHumain(scanner,plateau);
+						}else{
+							jeuIA(plateau);
+							
+						}	
+					}else {
+						if  (plateau.getNbTour()%2==1) {
+							jeuIA(plateau);
+						}else{
+							
+							jeuHumain(scanner,plateau);
+							
+						}	
+					}
+					break;
 				
 				case 3:
 					jeuIA(plateau);

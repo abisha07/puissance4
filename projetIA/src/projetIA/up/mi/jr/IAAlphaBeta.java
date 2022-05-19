@@ -65,22 +65,15 @@ public class IAAlphaBeta extends Joueur{
 			//DEEP COPY
 			Plateau copieJeu = plateau.copieGrille();
 			
-
-
-			if (heuristique.coupGagnant(copieJeu, i) ) {
-				//System.out.println("coupGagnant ab" + i);
-				return i;
-				
-				
-			}if(heuristique.coupPerdant(copieJeu, i) ) {
-				//System.out.println("coupPerdant ab" + i);
-				return i;
+			double valeurDeJeuCourante;
+			if( heuristique.coupGagnant(copieJeu, i) || heuristique.coupPerdant(copieJeu, i)) {
+				 valeurDeJeuCourante = heuristique.getMaxScore();
+			}else {
+				copieJeu.placerJeton(i, this);
+				valeurDeJeuCourante = alphabeta(copieJeu, this);
 			}
 			
-			copieJeu.placerJeton(i, this);
 			
-			
-			double valeurDeJeuCourante = alphabeta(copieJeu, this);
 			if (valeurDeJeuCourante == valeurDeJeu){
 				colonnesAJouer.add(i);
 			}else if(valeurDeJeuCourante > valeurDeJeu){

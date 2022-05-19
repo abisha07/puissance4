@@ -20,15 +20,18 @@ public class Plateau {
 	private char gagnant= ' ';
 	
 	/**
-	 * joueur est un objet de Joueur, qui représente le joueur courant
+	 * joueur est un objet de Joueur, qui représente le premier joueur 
 	 */
 	private Joueur joueur1;
 	
 	/**
-	 * joueur est un objet de Joueur, qui représente le joueur suivant
+	 * joueur est un objet de Joueur, qui représente le second joueur 
 	 */
 	private Joueur joueur2;
-	//TODO	
+	
+	/**
+	 * Représente le nombre de tour 
+	 */
 	private int nbTour;
 	
 	/**
@@ -47,17 +50,14 @@ public class Plateau {
 		this.nbTour=nbTour;
 	}
 	
-//	public void  setJoueur(Joueur jCourant,Joueur jSuivant) {
-//		this.joueur = jCourant;
-//		this.joueurSuivant = jSuivant;		
-//		
-//	}
+
 	
 	/**
 	 * Constructeur
 	 * @param grille tableau de type char représentant la grille du puissance 4
-	 * @param joueur représente le joueur courant
-	 * @param joueurSuivant représente le joueur suivant
+	 * @param joueur1 représente le premier joueur 
+	 * @param joueur2 représente le second joueur 
+	 * @param nbTour représente le nombre de tour
 	 */
 	public Plateau(char[][] grille, Joueur joueur1, Joueur joueur2 , int nbTour) {
 		grilleJeu = grille;
@@ -100,15 +100,6 @@ public class Plateau {
 		
 	}
 	
-	public Joueur getJoueur1() {
-		return joueur1;
-	}
-	
-	public Joueur getJoueur2() {
-		return joueur2;
-	}
-	
-	
 	/**
 	 * Getteur qui renvoie le nombre de tour
 	 * @return le nombre de tour
@@ -116,14 +107,6 @@ public class Plateau {
 	public int getNbTour() {
 		return nbTour;
 	}
-	
-	/**
-	 * setteur qui change le nombre de tour
-	 */
-	public void setNbTour(int nbT) {
-		nbTour=nbT;
-	}
-	
 	
 	
 	/**
@@ -142,7 +125,7 @@ public class Plateau {
 	
 	
 	/**
-	 * Méthode pour créer un plateau de jeu vide (graphiquement)
+	 * Méthode pour afficher un plateau de jeu (graphiquement)
 	 */
 	public void affichePlateau() {
 		for(int i=0; i<6; i++) {
@@ -154,20 +137,33 @@ public class Plateau {
 	}
 	
 	
-	/** Retourne vrai si la cellule pointee n'est pas en dehors du plateau */
+	
+	/**
+	 * Retourne vrai si la cellule pointee n'est pas en dehors du plateau
+	 * @param ligne numéro de la ligne
+	 * @param colonne numéro de la colonne
+	 * @return vrai si la cellule pointee n'est pas en dehors du plateau et faux sinon
+	 */
 	public boolean valide(int ligne, int colonne) {
 		return (ligne >= 0 && ligne < 6 && colonne >= 0 && colonne < 7);
 	}
 	
 	
-	/** Retourne la couleur de la cellule pointee */
+	/**
+	 * Retourne la couleur de la cellule pointee 
+	 * @param ligne numéro de la ligne
+	 * @param colonne numéro de la colonne
+	 * @return la couleur du jeton situé dans la case donnée en paramètre
+	 */
 	public char getCouleur(int ligne, int colonne) {
 		return grilleJeu[ligne][colonne];
 	}
 	
 	/** 
 	 * Retourne vrai si le coup passe en parametre est jouable 
+	 * @param colonne numéro de la colonne
 	 * @throws PuissanceException 
+	 * @return vrai si le coup passe en parametre est jouable et faux sinon
 	 */
 	public boolean estCoupValide(int colonne) throws PuissanceException {
 		if(!(colonne >= 0 && colonne < 7)) {
@@ -178,7 +174,9 @@ public class Plateau {
 	
 	/** 
 	 * Retourne la derniere ligne vide la colonne, -1 si la colonne est pleine 
+	 * @param colonne numéro de la colonne
 	 * @throws PuissanceException 
+	 * @return dernière ligne vide associé à la colonne donnée en paramètre
 	 */
 	public int getLigneValide(int colonne) throws PuissanceException {
 		if (!estCoupValide(colonne)) {
@@ -191,7 +189,9 @@ public class Plateau {
 		return ligne;
 	}
 	
-	/** Retourne vrai si le plateau de jeu est complet */
+	/** Retourne vrai si le plateau de jeu est complet 
+	 * @return vrai si le plateau de jeu est complet et faux sinon
+	 */
 	public boolean estPlein() {
 		boolean flag = true;
 		int colonne = 0;
@@ -202,7 +202,9 @@ public class Plateau {
 		return flag;
 	}
 	
-	/** Retourne vrai si le plateau de jeu est vide */
+	/** Retourne vrai si le plateau de jeu est vide 
+	 * @return  vrai si le plateau de jeu est vide  et faux sinon
+	 */
 	public boolean estVide() {
 		boolean flag = true;
 		int colonne = 0;
@@ -214,18 +216,14 @@ public class Plateau {
 	}
 	
 	
-	/** Set la couleur de la cellule pointee */
+	/**
+	 * Change la couleur de la cellule pointee 
+	 * @param ligne numéro de la ligne
+	 * @param colonne numéro de la colonne
+	 * @param couleur couleur du jeton à placer dans la case
+	 */
 	public void setCouleur(int ligne, int colonne, char couleur) {
 		grilleJeu[ligne][colonne] = couleur;
-	}
-
-	/** Nettoie le plateau de jeu */
-	public void vider() {
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 7; j++) {
-				setCouleur(i, j, '.');
-			}
-		}
 	}
 	
 	
@@ -238,7 +236,6 @@ public class Plateau {
 		if(ligne != -1) {
 			setCouleur(ligne, colonne, joueur.getCouleur());
 			nbTour++;
-			joueur.derniereColonne = colonne;
 		}
 		if(aGagne(joueur, 4)){		
 			gagnant = joueur.getCouleur();
@@ -247,9 +244,24 @@ public class Plateau {
 		
 	}
 	
+	/**
+	 * Supprime le placement d'un jeton
+	 * @param colonne numéro de la colonne
+	 * @throws PuissanceException
+	 */
+	public void supprimePlacement(int colonne) throws PuissanceException {
+		int ligne = getLigneValide(colonne);
+		grilleJeu[ligne+1][colonne] = '.';	
+		nbTour--;
+	}
 	
 
-	/** Retourne vrai si le joueur passe en parametre a gagner */
+	/**
+	 * Retourne vrai si le joueur passe en parametre a gagner
+	 * @param joueur Objet de type joueur
+	 * @param nbAlignement nbAlignement à vérifier pour ce joueur
+	 * @return vrai si le joueur passe en parametre a gagner et faux sinon
+	 */
 	public boolean aGagne(Joueur joueur, int nbAlignement) {
 		boolean res = false;
 		for (int ligne = 0; ligne < 6 && !res; ligne++) {
@@ -262,9 +274,16 @@ public class Plateau {
 		return res;
 	}
 	
-	/**methode qui renvoie la chaine maximum du jeton donne en parametre */
+
+	/**
+	 * Methode qui renvoie la chaine maximum du jeton donne en parametre 
+	 * @param ligne numéro de la ligne
+	 * @param colonne numéro de la colonne
+	 * @param joueur_jeton couleur du jeton qu'on veut connaitre la chaine maximum
+	 * @return la chaine maximum du jeton donne en parametre 
+	 */
 	public int chaine_max(int ligne, int colonne, char joueur_jeton) {
-   		// Recupere le joueur qui a joue le dernier jeton
+   		// Cas où la couleur du jeton est vide, on a alignement de 0
    		if (joueur_jeton == '.') {
    			return 0;
    		}
@@ -300,11 +319,6 @@ public class Plateau {
    	}
 	
 	
-	public void supprimePlacement(int colonne) throws PuissanceException {
-		int ligne = getLigneValide(colonne);
-		grilleJeu[ligne+1][colonne] = '.';	
-		nbTour--;
-	}
 	
 }
 

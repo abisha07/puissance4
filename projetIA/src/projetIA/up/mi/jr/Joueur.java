@@ -18,11 +18,6 @@ public abstract class Joueur {
 	private int numJoueur;
 	
 	/**
-	 * Un joueur est défini par le numéro de la dernière colonne jouée
-	 */
-	public int derniereColonne;
-	
-	/**
 	 * Constructeur
 	 * @param couleur Couleur du jeton du joueur
 	 * @param numJoueur Numéro de passage du joueur

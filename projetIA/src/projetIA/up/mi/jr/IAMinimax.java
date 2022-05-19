@@ -60,28 +60,8 @@ public class IAMinimax extends Joueur{
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
 				
-//					if (heuristique.coupGagnant(copieJeu, i)) {
-//						//System.out.println("coupGagnant minmax" + i);
-//						return i;
-//						
-//						
-//					}if(heuristique.coupPerdant(copieJeu, i)) {
-//						//System.out.println("coupPerdant minmax" + i);
-//						return i;
-//					}
-				
 					double valeurDeJeuCourante;
 					if( heuristique.coupGagnant(copieJeu, i) || heuristique.coupPerdant(copieJeu, i)) {
-						if (heuristique.coupGagnant(copieJeu, i)) {
-						System.out.println("coupGagnant minmax" + i);
-					
-						
-						
-					}if(heuristique.coupPerdant(copieJeu, i)) {
-						System.out.println("coupPerdant minmax" + i);
-						
-					}
-				
 						 valeurDeJeuCourante = heuristique.getMaxScore();
 					}else {
 						copieJeu.placerJeton(i, this);
@@ -165,9 +145,6 @@ public class IAMinimax extends Joueur{
 			}
 			return valeurDeJeu;
 		}else{
-//			if(heuristique.coupGagnant(plateau) || heuristique.coupPerdant(plateau)) {
-//				return heuristique.getMaxScore();
-//			}
 			return heuristique.evaluation(plateau);  
 			
 		}
@@ -176,6 +153,7 @@ public class IAMinimax extends Joueur{
 	/**
 	 * Renvoie le résultat de l'algorithme MiniMax
 	 * @param plateau représente le plateau de jeu courant
+	 * @param profondeur représente la profondeur d'évaluation
 	 * @return le résultat de l'algorithme MiniMax
 	 * @throws PuissanceException
 	 */
