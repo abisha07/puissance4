@@ -99,6 +99,7 @@ public class Partie {
 		}
 		switch(choixNiveauIAH) {
 		case 1:
+			//heuristique random
 			joueur2 = new IAAlphaBeta('J', 2, 5, 1);
 			break;
 			

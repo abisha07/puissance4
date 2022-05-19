@@ -54,15 +54,30 @@ public class IAMinimax extends Joueur{
 			
 			ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
 			
+			if(plateau.getCouleur(5, 3) == '.') {
+                return 3;
+            }else if(plateau.getNbTour() == 2) {
+                return 4;
+            }
+			
 			// on parcours la liste pour choisir un coup parmi ceux valide
 			for(int i : listeCoupValide) {
 				
 				//DEEP COPY
 				Plateau copieJeu = plateau.copieGrille();
 				
-					double valeurDeJeuCourante;
+					double valeurDeJeuCourante=minmax(copieJeu, profondeur);
+					
 					if( heuristique.coupGagnant(copieJeu, i) || heuristique.coupPerdant(copieJeu, i)) {
-						 valeurDeJeuCourante = heuristique.getMaxScore();
+						if(heuristique.coupGagnant(copieJeu, i)) {
+							valeurDeJeuCourante = heuristique.getMaxScore();
+							return i;
+						}
+						if(heuristique.coupPerdant(copieJeu, i)) {
+							valeurDeJeuCourante = heuristique.getMaxScore();
+							return i;
+						}
+						
 					}else {
 						copieJeu.placerJeton(i, this);
 						valeurDeJeuCourante = minmax(copieJeu, profondeur);

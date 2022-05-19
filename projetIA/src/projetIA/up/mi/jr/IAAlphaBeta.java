@@ -60,14 +60,28 @@ public class IAAlphaBeta extends Joueur{
 		
 		ArrayList<Integer> colonnesAJouer = new ArrayList<Integer>();
 		
+		if(plateau.getCouleur(5, 3) == '.') {
+            return 3;
+        }else if(plateau.getNbTour() == 2) {
+            return 4;
+        }
+		
 		for(int i : listeCoupValide) {
 			
 			//DEEP COPY
 			Plateau copieJeu = plateau.copieGrille();
 			
-			double valeurDeJeuCourante;
+			double valeurDeJeuCourante = alphabeta(copieJeu, this);
 			if( heuristique.coupGagnant(copieJeu, i) || heuristique.coupPerdant(copieJeu, i)) {
-				 valeurDeJeuCourante = heuristique.getMaxScore();
+				if(heuristique.coupGagnant(copieJeu, i)) {
+					valeurDeJeuCourante = heuristique.getMaxScore();
+					return i;
+				}
+				if(heuristique.coupPerdant(copieJeu, i)) {
+					valeurDeJeuCourante = heuristique.getMaxScore();
+					return i;
+				}
+				
 			}else {
 				copieJeu.placerJeton(i, this);
 				valeurDeJeuCourante = alphabeta(copieJeu, this);

@@ -76,15 +76,12 @@ public class Heuristique {
 	 * @throws PuissanceException
 	 */
 	public boolean coupGagnant(Plateau copieJeu, int colonne) throws PuissanceException {
-		if(copieJeu.aGagne(copieJeu.getJoueurCourant(), 3 )) {
 				copieJeu.placerJeton(colonne, copieJeu.getJoueurCourant());
 				if (copieJeu.aGagne(copieJeu.getJoueurSuivant(), 4)) {
 					copieJeu.supprimePlacement(colonne);
 					return true;
 				}					
 				copieJeu.supprimePlacement(colonne);
-				
-			}
 			
 		return false;
 	}
@@ -97,16 +94,13 @@ public class Heuristique {
 	 * @throws PuissanceException
 	 */
 	public boolean coupPerdant(Plateau copieJeu, int colonne) throws PuissanceException { //contre attaque
-		if(copieJeu.aGagne(copieJeu.getJoueurSuivant(), 3 )) {
+	
 			copieJeu.placerJeton(colonne, copieJeu.getJoueurSuivant());
 				if (copieJeu.aGagne(copieJeu.getJoueurCourant(), 4)) {
 					copieJeu.supprimePlacement(colonne);
 					return true;
 				}					
-				copieJeu.supprimePlacement(colonne);
-				colonne++;
-				
-			}
+				copieJeu.supprimePlacement(colonne);		
 		return false;
 		
 	}
@@ -172,6 +166,42 @@ public class Heuristique {
 	    }
 	 
 	    return poidsCase;
-	}	
+	}
+	
+
+	
+	/**
+	 * Heuristique évaluant toute la grille de Jeu
+	 * @param plateau Objet correspondant à l'état de jeu actuel
+	 * @return Une valeur d'heuristique
+	 */
+	 
+	public int evaluationbis(Plateau plateau) {
+        int res = 0;
+        for (int line = 0; line < 6; line++) {
+            for (int column = 0; column < 7; column++) {
+                    if(plateau.chaine_max(line, column, plateau.getJoueurCourant().getCouleur()) == 1) {
+                        res+= 1;
+                    }
+                    if(plateau.chaine_max(line, column, plateau.getJoueurCourant().getCouleur()) == 2) {
+                        res+= 3;
+                    }
+                    if(plateau.chaine_max(line, column, plateau.getJoueurCourant().getCouleur()) == 3) {
+                        res+= 9;
+                    }
+                    if(plateau.chaine_max(line, column, plateau.getJoueurSuivant().getCouleur()) == 1) {
+                        res -= 1;
+                    }
+                    if(plateau.chaine_max(line, column, plateau.getJoueurSuivant().getCouleur()) == 3) {
+                        res -= 9;
+                    }
+                    if(plateau.chaine_max(line, column, plateau.getJoueurSuivant().getCouleur()) == 2) {
+                        res -= 3;
+                    }
+            }
+
+        }
+        return res;
+    }
 
 }
